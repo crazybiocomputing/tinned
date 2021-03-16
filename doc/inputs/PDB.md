@@ -1,14 +1,14 @@
 # Image Node.
 
-The Image node injects any image format that is supported by Blender.
+The Image node injects any 3D structure format that is supported by tinned: `pdb`, `cif`, `xyz`, etc.
 
 __TODO: Add a picture of node__
 
-## Inputs
+## 1. Inputs
 
 This node has no input sockets.
 
-## Properties
+## 2. Properties
 
 ### Image
 
@@ -16,7 +16,7 @@ Selection of different types of media. For controls see Data-Block Menu. For the
 
 > Note: More options can be set in the Sidebar region.
 
-## Outputs
+## 3. Outputs
 
 The first two sockets are the minimum.
 
