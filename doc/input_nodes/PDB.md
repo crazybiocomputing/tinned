@@ -1,6 +1,6 @@
-# Image Node.
+# PDB Node.
 
-The Image node injects any 3D structure format that is supported by tinned: `pdb`, `cif`, `xyz`, etc.
+The PDB node injects any 3D structure format that is supported by tinned: `pdb`, `cif`, `xyz`, etc.
 
 //__TODO: Add a picture of node__//
 
@@ -14,7 +14,7 @@ This node has no input sockets.
 
 Selection of different types of media. For controls see Data-Block Menu. For the options see Image Settings.
 
-> Note: More options can be set in the Sidebar region.
+> **Note**: More options can be set in the Sidebar region.
 
 ## 3. Outputs
 
@@ -30,4 +30,4 @@ The first two sockets are the minimum.
 
     Z depth layer.
 
-> Note: Multi-Layer Format. When a multi-layer file format, like `EXR`, is loaded, each layer is made available as a socket.
+> **Note**: Multi-Layer Format. When a multi-layer file format, like `EXR`, is loaded, each layer is made available as a socket.
