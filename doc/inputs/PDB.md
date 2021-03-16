@@ -2,7 +2,7 @@
 
 The Image node injects any 3D structure format that is supported by tinned: `pdb`, `cif`, `xyz`, etc.
 
-__TODO: Add a picture of node__
+//__TODO: Add a picture of node__//
 
 ## 1. Inputs
 
