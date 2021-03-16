@@ -1,2 +1,2 @@
-# tinned
-Tiny Node Editor
+# Tinned
+**Tin**y **N**ode **Ed**itor
