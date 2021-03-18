@@ -1,42 +1,42 @@
 # Structural Bioinformatics Nodes for Viewing Tool
 
-## Input Nodes
+## 1. Input Nodes
 
 - PDBZ
 - XYZ
 
-## Nodes
+## 2. Nodes
 
-### Atom Selection
+### 2.1. Atom Selection
 
 - ID
 - Properties
 - Within
 - Filter
 
-### Color
+### 2.2. Color
 
 - RGB Color
 - Color Mode
 
-### Rendering
+### 2.3. Rendering
 
 - Render
 - View ?
 
-### Tools
+### 2.4. Tools
 
 - Phipsi
 - FASTA
 - Ramachandran
 - Kabsch
 
-### System
+### 2.5. System
 
 - Monitor
 - Function
 
-## Output Nodes
+## 3. Output Nodes
 
 - Render
 - View ?
