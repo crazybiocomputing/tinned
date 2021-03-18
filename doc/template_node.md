@@ -1,14 +1,16 @@
 # Node Name
 
-<< Screenshot of the node >>
-<<Legend>>
+| Screenshot of the node |
+|------------------------|
+|Legend|
 
 _Description as short as possible_
 
 ## Inputs
 
 ### Input Name
-    _Description
+
+_Description_
 
 ## Properties
 
