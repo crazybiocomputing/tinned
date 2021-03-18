@@ -2,7 +2,7 @@
 
 ## 1. Input Nodes
 
-- PDBZ
+- PDB
 - XYZ
 
 ## 2. Nodes
