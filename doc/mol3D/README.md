@@ -12,7 +12,7 @@
 - ID
 - Properties
 - Within
-- Filter
+- Filter/Restrict?
 
 ### 2.2. Color
 
