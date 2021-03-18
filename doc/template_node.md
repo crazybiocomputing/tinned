@@ -19,8 +19,8 @@ _Description_
 
 _Description_
 
-- Choice #1 - _Description_
-- Choice #2 - _Description_
+- Item #1 - _Description_
+- Item #2 - _Description_
     
 ### Property Name
 
