@@ -1,10 +1,11 @@
 # Node Name
 
+_Description as short as possible_
+
 | Screenshot of the node |
 |------------------------|
 |Legend|
 
-_Description as short as possible_
 
 ## Inputs
 
