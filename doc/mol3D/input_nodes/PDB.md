@@ -31,3 +31,10 @@ The first two sockets are the minimum.
     Z depth layer.
 
 > **Note**: Multi-Layer Format. When a multi-layer file format, like `EXR`, is loaded, each layer is made available as a socket.
+> 
+## 4. Example
+
+|Screenshot|
+|----------|
+|Legend|
+
