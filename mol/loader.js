@@ -40,7 +40,7 @@ export default class Loader extends Observer {
    */
   createMarkup(node_id,metadata) {
     const template_ui = {
-      "id": "TINNED_OPEN_RASTER",
+      "id": "TINNED_OPEN_MOL",
       "class": "loader",
       "description": "Image...",
       "rows": [
