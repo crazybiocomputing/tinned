@@ -24,6 +24,10 @@
 
 'use strict';
 
+/**
+ * @param {dom} element - HTML parent element
+ * @param {array} titles - [{id:<string>,description: <string>,tags: [<string>, ...]},...]
+ */
 export const searchBox = (element,titles) => {
 
 }
