@@ -24,18 +24,19 @@
 
 'use strict';
 
-import {Socket} from './socket.js';
-
-/*
-   * Create an input socket
-   *
+/**
+   * Widget 
    * @author Jean-Christophe Taveau
    */
-const input_socket = (id,row,metadata,action_func) => {
-  // Create Input Socket
+const selectlayer = (id,row,metadata,action_func) => {
   let container = document.createElement('div');
-  container.className = 'input';
-  let socket = new Socket(id,'input',row.name);
-  container.appendChild(socket.button);
+  container.className = "flex-cell select-container";
+  let select = document.createElement('select');
+  select.id = `selectlayer_${id}`;
+  let options = row.selectlayer.reduce( (html,item,index) => html + `<option value="${index}">${item}</option>`,'');
+  select.innerHTML = options;
+  select.addEventListener("change",displayLayer);
+  
+  container.appendChild(select);
   return container;
 }

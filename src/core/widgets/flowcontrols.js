@@ -24,18 +24,23 @@
 
 'use strict';
 
-import {Socket} from './socket.js';
-
-/*
-   * Create an input socket
-   *
+/**
+   * Widget 
    * @author Jean-Christophe Taveau
    */
-const input_socket = (id,row,metadata,action_func) => {
-  // Create Input Socket
-  let container = document.createElement('div');
-  container.className = 'input';
-  let socket = new Socket(id,'input',row.name);
-  container.appendChild(socket.button);
-  return container;
+const flowcontrols = (id,row,metadata,action_func) => {
+  let buttons = row.flowcontrols;
+  let controls = document.createElement('div');
+  controls.className = 'flowcontrols';
+
+  [...buttons].forEach ( (b,index) => {
+    let button = WidgetFactory.button(id,row);
+    button.id = `${b || 'unknown'}__AT__${id}`;
+    button.classList.add("square");
+    button.classList.add(b);
+    button.innerHTML = `<i class="fa fa-${b}"></i>`;
+    controls.appendChild(button);
+  });
+
+  return controls;
 }

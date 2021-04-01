@@ -24,18 +24,18 @@
 
 'use strict';
 
-import {Socket} from './socket.js';
-
 /*
-   * Create an input socket
-   *
-   * @author Jean-Christophe Taveau
-   */
-const input_socket = (id,row,metadata,action_func) => {
-  // Create Input Socket
-  let container = document.createElement('div');
-  container.className = 'input';
-  let socket = new Socket(id,'input',row.name);
-  container.appendChild(socket.button);
-  return container;
+ * Tiny Web Components: GUI Node + Engine 
+ */
+import Loader from './loader.js';
+import Maths from './maths.js';
+import Monitor from './monitor.js';
+import NumberComponent from './number.js';
+
+
+export {
+  Loader,
+  Maths,
+  Monitor,
+  NumberComponent
 }

@@ -31,11 +31,13 @@ import {Socket} from './socket.js';
    *
    * @author Jean-Christophe Taveau
    */
-const input_socket = (id,row,metadata,action_func) => {
-  // Create Input Socket
+const output_socket = (id,row,metadata,action_func) => {
+
+  // Create Output Socket
   let container = document.createElement('div');
-  container.className = 'input';
-  let socket = new Socket(id,'input',row.name);
+  container.className = 'output';
+  let socket = new Socket(id,'output',row.name);
   container.appendChild(socket.button);
+
   return container;
 }

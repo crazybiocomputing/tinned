@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with TINNED.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with TWIN.  If not, see <http://www.gnu.org/licenses/>.
  *
  *
  * Authors:
@@ -24,18 +24,29 @@
 
 'use strict';
 
-import {Socket} from './socket.js';
-
-/*
-   * Create an input socket
-   *
+/**
+   * Widget 
    * @author Jean-Christophe Taveau
    */
-const input_socket = (id,row,metadata,action_func) => {
-  // Create Input Socket
-  let container = document.createElement('div');
-  container.className = 'input';
-  let socket = new Socket(id,'input',row.name);
-  container.appendChild(socket.button);
-  return container;
+const button = (id,template_row,metadata,action_func) => {
+  let e = document.createElement('a');
+  e.id = `${template_row.name || 'unknown'}__AT__${id}`;
+  e.className = 'button';
+  if (template_row.icon) {
+    let i = document.createElement('i');
+    i.className = `fa fa-${template_row.icon}`;
+    i.ariaHidden = true;
+    e.appendChild(i);
+  }
+  else {
+    e.innerHTML = template_row.button;
+  }
+  e.setAttribute('href','#');
+  e.title = template_row.title || 'No Tooltip';
+
+  if ( template_row.display) {
+    e.style.display = template_row.display;
+  }
+  e.addEventListener('click',action_func);
+  return e;
 }

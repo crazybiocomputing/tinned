@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with TWIN.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with TINNED.  If not, see <http://www.gnu.org/licenses/>.
  *
  *
  * Authors:
@@ -23,6 +23,9 @@
  */
 
 'use strict';
+
+import {Node} from '../src/core/node.js';
+import {Observer} from '../src/core/observer.js';
 
 /*
  * Load a structure (pdb, cif, xyz)
@@ -67,7 +70,7 @@ export default class Loader extends Observer {
   
   async run(state) {
     // Step #1: Find the input(s) or node variable.s
-    let arg_names = TWIN.graph.getNode(node_id).getArguments();
+    let arg_names = TINNED.graph.getNode(node_id).getArguments();
     // `load` is a Producer ... no input
     let filename = arg_names.find( a => a.includes('__AT__') );
     let out = `raster__FROM__${node_id}`;
@@ -80,12 +83,12 @@ export default class Loader extends Observer {
     // console.log(raster.width,raster.height);
     args[out] = raster; // new TWImage(raster,0,0,canvas.width,canvas.height);
     // Dispatch to other nodes according to edges
-    return TWIN.graph.dispatch(out,args);
+    return TINNED.graph.dispatch(out,args);
   }
 
- update() {
- 
- }
+  update() {
+    // TODO
+  }
   
   
   load(file) {

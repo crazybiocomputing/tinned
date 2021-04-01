@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with TWIN.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with TINNED.  If not, see <http://www.gnu.org/licenses/>.
  *
  *
  * Authors:
@@ -43,7 +43,7 @@ const numerical = (id,template_row,metadata,action_func) => {
   input.setAttribute('maxlength',40);
   // input.setAttribute('size',10);
   input.setAttribute('value',metadata[template_row.name] || template_row.state);
-  TWIN.args[input.id] = metadata[template_row.name] || template_row.state;
+  TINNED.args[input.id] = metadata[template_row.name] || template_row.state;
   input.addEventListener('input',(event)=> {
     let value = event.srcElement.value;
     event.srcElement.value = /^\d*\.?\d*$/.test(event.srcElement.value) ? value : value.slice(0,-1);
@@ -51,9 +51,9 @@ const numerical = (id,template_row,metadata,action_func) => {
   });
   input.addEventListener('blur',(event) => {
     console.info(`Add the ${event.srcElement.value} in queue`);
-    TWIN.args[input.id] = +event.srcElement.value;
+    TINNED.args[input.id] = +event.srcElement.value;
     // Update 
-    TWIN.graph.update(id); 
+    TINNED.graph.update(id); 
   });
 
   // TODO Add event onchanged

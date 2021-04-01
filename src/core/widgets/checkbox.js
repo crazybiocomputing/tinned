@@ -24,18 +24,20 @@
 
 'use strict';
 
-import {Socket} from './socket.js';
-
-/*
-   * Create an input socket
-   *
+/**
+   * Widget 
    * @author Jean-Christophe Taveau
    */
-const input_socket = (id,row,metadata,action_func) => {
-  // Create Input Socket
-  let container = document.createElement('div');
-  container.className = 'input';
-  let socket = new Socket(id,'input',row.name);
-  container.appendChild(socket.button);
-  return container;
+const checkbox = (id,row,metadata,action_func) => {
+ let input = document.createElement('input');
+ input.id = `${row.name || 'unknown'}__AT__${id}`;
+ input.className = "check";
+ input.setAttribute("type", "checkbox");
+ input.setAttribute('name',row.name || 'unknown');
+ input.setAttribute('value',row.checkbox);
+ input.checked = row.checkbox;
+
+ // TODO Add event onchanged
+ return input;
 }
+

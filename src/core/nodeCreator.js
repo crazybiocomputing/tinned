@@ -24,14 +24,71 @@
 
 'use strict';
 
-export class Hamburger {
+import {Socket} from './socket.js';
+import {WidgetFactory} from './widgetFactory.js';
+
+export class NodeCreator {
+
+  /**
+   * Create Content in Node's body
+   *
+   * @author Jean-Christophe Taveau
+   */
+  static createContent(template_rows,parent,id, metadata) {
+    let nodeid = id;
+    let outputs = 0;
+    let inputs = 0;
+    template_rows.forEach( (row,index) => {
+      if (row.layer !== undefined) {
+        let container = document.createElement('div');
+        container.className = 'layer';
+        container.id = `layer_${index}`;
+        NodeFactory.createRows(row.properties,container,nodeid);
+        parent.appendChild(container);
+        container.style.display = (index === 0) ? 'block': 'none';
+      }
+      else {
+        let container = WidgetFactory.createRow(nodeid,row,metadata,(e) => {});
+/*
+        if (row.output !== undefined) {
+          container.id = `o_${outputs++}`;
+          container.classList.add('output');
+        }
+        else if (row.input !== undefined) {
+          container.id = `i_${inputs++}`;
+          container.classList.add('input');
+        }
+*/
+        parent.appendChild(container);
+      }
+    });
+  }
+
+  static createRows(rows,parent,id) {
+    let nodeid = id;
+    let outputs = 0;
+    let inputs = 0;
+    rows.forEach( row => {
+      let container = NodeFactory.createRow(row,nodeid);
+      if (row.output !== undefined) {
+        container.id = `o_${outputs++}`;
+        // container.classList.add('output');
+      }
+      else if (row.input !== undefined) {
+        container.id = `i_${inputs++}`;
+        // container.classList.add('input');
+      }
+      parent.appendChild(container);
+    });
+  }
+
 
   /**
    * Create Hamburger Menu of Node
    *
    * @author Jean-Christophe Taveau
    */
-  static create(parent,preview) {
+  static createHamburger(parent,preview) {
   
         // Preview Action
       const preview_action = (evt) => {
@@ -100,5 +157,14 @@ export class Hamburger {
     menu.style.display = 'block';
   }
 
-} // End of class Hamburger
-
+  static createInspector(nodeid) {
+    let nodeH = document.getElementById(nodeid);
+    // Inputs
+    let inputs = document.querySelectorAll(`#${nodeid} .input`);
+    // Properties
+    // let props = document.querySelectorAll(`#${nodeid} .widget`);
+    // Outputs
+    let outputs = document.querySelectorAll(`#${nodeid} .output`);
+  }
+  
+} // End of class NodeGUI

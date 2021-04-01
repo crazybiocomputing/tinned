@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with TWIN.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with TINNED.  If not, see <http://www.gnu.org/licenses/>.
  *
  *
  * Authors:
@@ -24,7 +24,7 @@
 
 'use strict';
 
-import {NodeFactory} from './nodeFactory.js';
+import {TINNED} from '../tinned.js';
 import {Draggable,translStart,translOver,translEnd} from './draggable.js';
 import {Graph} from './graph.js';
 import {xmlns} from './common.js';
@@ -60,12 +60,12 @@ export class Board extends Draggable {
     // Zoom Event with mouse wheel scroll
     window.addEventListener("wheel", event => {
       const delta = Math.sign(event.deltaY);
-      TWIN.zoom += 0.05*(-delta);
+      TINNED.zoom += 0.05*(-delta);
       console.info(delta,this.zoom);
       document.querySelector('#board').style.transform = `
         translate(50%,50%) 
-        scale(${TWIN.zoom}) 
-        translate(${TWIN.translate.x}px,${TWIN.translate.y}px) 
+        scale(${TINNED.zoom}) 
+        translate(${TINNED.translate.x}px,${TINNED.translate.y}px) 
         translate(-50%,-50%) 
       `;
       this.graph.updateAllEdges(document.querySelectorAll('section'));
@@ -115,7 +115,7 @@ export class Board extends Draggable {
     this.graph.setGraphicsContext(svg);
     
     // Create Nodes
-    TWIN.graph = this.graph;
+    TINNED.graph = this.graph;
     this.graph.build(graph);
     this.graph.show();
     

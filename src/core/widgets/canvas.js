@@ -24,18 +24,17 @@
 
 'use strict';
 
-import {Socket} from './socket.js';
-
-/*
-   * Create an input socket
-   *
+/**
+   * Widget 
    * @author Jean-Christophe Taveau
    */
-const input_socket = (id,row,metadata,action_func) => {
-  // Create Input Socket
+const canvas = (id,row,metadata,action_func) => {
+  // <div class="graphics"><canvas></canvas></div>
+  // Check if canvas is already created TODO
   let container = document.createElement('div');
-  container.className = 'input';
-  let socket = new Socket(id,'input',row.name);
-  container.appendChild(socket.button);
+  container.className = 'graphics';
+  let cnvs = document.createElement('canvas');
+  cnvs.className = 'preview';
+  container.appendChild(cnvs);
   return container;
 }

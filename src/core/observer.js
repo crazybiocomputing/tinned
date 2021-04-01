@@ -24,18 +24,8 @@
 
 'use strict';
 
-import {Socket} from './socket.js';
+export class Observer {
 
-/*
-   * Create an input socket
-   *
-   * @author Jean-Christophe Taveau
-   */
-const input_socket = (id,row,metadata,action_func) => {
-  // Create Input Socket
-  let container = document.createElement('div');
-  container.className = 'input';
-  let socket = new Socket(id,'input',row.name);
-  container.appendChild(socket.button);
-  return container;
+  // Gets called by the Subject::notify method.
+  update() {}
 }

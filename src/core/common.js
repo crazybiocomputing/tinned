@@ -24,18 +24,14 @@
 
 'use strict';
 
-import {Socket} from './socket.js';
+export const xmlns = "http://www.w3.org/2000/svg";
 
-/*
-   * Create an input socket
-   *
-   * @author Jean-Christophe Taveau
-   */
-const input_socket = (id,row,metadata,action_func) => {
-  // Create Input Socket
-  let container = document.createElement('div');
-  container.className = 'input';
-  let socket = new Socket(id,'input',row.name);
-  container.appendChild(socket.button);
-  return container;
-}
+/**
+ * Return Numerical ID used by graph from node ID (in DOM)
+ *
+ * @author Jean-Christophe Taveau
+ */
+export const getID = (nodeid) => nodeid.match(/\d+/)[0];
+
+
+

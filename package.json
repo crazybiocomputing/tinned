@@ -1,0 +1,33 @@
+{
+  "name": "tinned",
+  "version": "0.0.1",
+  "description": "Tiny Node Editor",
+  "main": "tinned.js",
+  "directories": {
+    "doc": "doc",
+    "example": "examples",
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "http-server ./",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crazybiocomputing/tinned.git"
+  },
+  "keywords": [
+    "JavaScript",
+    "Node",
+    "Editor"
+  ],
+  "author": "Jean-Christophe Taveau",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/crazybiocomputing/tinned/issues"
+  },
+  "homepage": "https://github.com/crazybiocomputing/tinned#readme",
+  "dependencies": {
+    "http-server": "^0.12.3"
+  }
+}

@@ -24,18 +24,21 @@
 
 'use strict';
 
-import {Socket} from './socket.js';
-
-/*
-   * Create an input socket
-   *
+/**
+   * Widget 
    * @author Jean-Christophe Taveau
    */
-const input_socket = (id,row,metadata,action_func) => {
-  // Create Input Socket
-  let container = document.createElement('div');
-  container.className = 'input';
-  let socket = new Socket(id,'input',row.name);
-  container.appendChild(socket.button);
-  return container;
+const readonly = (id,row,metadata,action_func) => {
+  let input = document.createElement('input');
+  input.className = "readonly";
+  input.readOnly = true;
+  input.setAttribute("type", "text");
+  input.setAttribute('name',row.name || 'unknown');
+  input.setAttribute('minlength',4);
+  input.setAttribute('maxlength',40);
+  // input.setAttribute('size',10);
+  input.setAttribute('value',row.readonly);
+
+  // TODO Add event onchanged
+  return input;
 }
