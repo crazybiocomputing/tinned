@@ -24,6 +24,6 @@
 
 'use strict';
 
-export const searchBox = (tags) => {
+export const searchBox = (element,titles) => {
 
 }
