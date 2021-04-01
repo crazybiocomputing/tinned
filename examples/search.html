@@ -22,13 +22,19 @@
   const tags = [
     {
       id: "MOL_OPEN",
-      class: "Unknown",
+      class: "io",
       description: "Open Structure",
       tags: ["file","open","pdb","cif","xyz"]
     },
     {
+      id: "MOL_NUMBER",
+      class: "processing",
+      description: "Number",
+      tags: ["value","integer","float"]
+    },
+    {
       id: "MOL_MATHS",
-      class: "Unknown",
+      class: "processing",
       description: "Arithmetics",
       tags: ["add","subtract","multiply","divide"]
     },
@@ -37,7 +43,61 @@
       class: "information",
       description: "Monitor",
       tags: ["console","display","log","print","show","tap"]
-    }
+    },
+    {
+      id: "MOL_ID",
+      class: "selection",
+      description: "Select by ID",
+      tags: ["atom","symbol","chainID"]
+    },
+    {
+      id: "MOL_PROPS",
+      class: "selection",
+      description: "Select by Props",
+      tags: ["properties","aliphatic","aromatic","large","small"]
+    },
+    {
+      id: "MOL_WITHIN",
+      class: "selection",
+      description: "Select by Distance",
+      tags: ["within","distance","radius","center"]
+    },
+    {
+      id: "MOL_COLOR",
+      class: "rendering",
+      description: "Color Chooser",
+      tags: ["rgb","hsl"]
+    },
+    {
+      id: "MOL_COLORMODE",
+      class: "rendering",
+      description: "Color Mode",
+      tags: ["cpk","lut","rainbow"]
+    },
+    {
+      id: "MOL_RENDER",
+      class: "rendering",
+      description: "Render",
+      tags: ["wireframe","backbone","trace","cartoon","strands","ball-and-stick"]
+    },
+    {
+      id: "MOL_PHIPSI",
+      class: "processing",
+      description: "PhiPsi",
+      tags: ["phipsi","dihedral","angle"]
+    },
+    {
+      id: "MOL_RAMACHANDRAN",
+      class: "processing",
+      description: "Ramachandran",
+      tags: ["phipsi","dihedral","angle"]
+    },
+    {
+      id: "MOL_KABSCH",
+      class: "processing",
+      description: "Kabsch",
+      tags: ["superposition","alignment"]
+    },
     ];
   
   let main = document.querySelector('main');
