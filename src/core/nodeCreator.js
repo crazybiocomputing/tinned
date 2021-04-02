@@ -127,8 +127,8 @@ export class NodeCreator {
       
     const item = (id,icon,title,callback,template) => {
       let item = document.createElement('li');
-      let b = WidgetFactory.button(id,template,{},callback);
-      b.classList.remove('button');
+      let b = WidgetFactory.create(id,'button',template,{},callback);
+      b.firstChild.classList = 'toolbar';
       item.appendChild(b);
       return item;
     }

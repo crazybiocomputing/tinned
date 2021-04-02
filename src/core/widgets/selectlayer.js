@@ -28,7 +28,7 @@
    * Widget 
    * @author Jean-Christophe Taveau
    */
-const selectlayer = (id,row,metadata,action_func) => {
+ export const selectlayer = (id,row,metadata,action_func) => {
   let container = document.createElement('div');
   container.className = "flex-cell select-container";
   let select = document.createElement('select');

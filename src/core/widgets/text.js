@@ -28,7 +28,7 @@
    * Widget 
    * @author Jean-Christophe Taveau
    */
-const text = (id,row,metadata,action_func) => {
+ export const text = (id,row,metadata,action_func) => {
 
   let input = document.createElement('textArea');
   input.className = "textarea";

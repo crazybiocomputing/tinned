@@ -28,7 +28,7 @@
    * Widget 
    * @author Jean-Christophe Taveau
    */
-const canvas = (id,row,metadata,action_func) => {
+export const canvas = (id,row,metadata,action_func) => {
   // <div class="graphics"><canvas></canvas></div>
   // Check if canvas is already created TODO
   let container = document.createElement('div');

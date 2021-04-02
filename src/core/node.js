@@ -24,6 +24,7 @@
 
 'use strict';
 
+import {TINNED} from '../tinned.js';
 import {Draggable,dragStartNode,dragOverNode, dragEndNode} from './draggable.js';
 import {NodeCreator} from './nodeCreator.js';
 import {WidgetFactory} from './widgetFactory.js';
@@ -47,10 +48,14 @@ export class Node extends Draggable {
     this.element = document.createElement('section');
 
     // Check if `node` requires a preview
-    this.preview = template.rows.some( p => p.preview !== undefined) || template.preview;
-    this.hasLayers = template.rows.some( (p) => p.layer !== undefined);
-    this.hasOutputs = template.rows.some( (p) => (p.layer !== undefined && p.layer.type === 'output') || p.output !== undefined);
-    this.hasInputs  = template.rows.some( (p) => (p.layer !== undefined && p.layer.type === 'input')  || p.input !== undefined);
+    this.preview = template.ui.some( p => p.preview !== undefined) || template.preview;
+
+    // Obsolete??
+    this.hasLayers = template.ui.some( (p) => p.layer !== undefined);
+
+    // DEBUG: Check if node contains inputs and outputs
+    this.hasOutputs = template.ui.some( (p) => (p.layer !== undefined && p.layer.type === 'output') || p.output !== undefined);
+    this.hasInputs  = template.ui.some( (p) => (p.layer !== undefined && p.layer.type === 'input')  || p.input !== undefined);
 
     // Create Widgets
     this.createMarkup(id,template,metadata);
@@ -74,7 +79,7 @@ export class Node extends Draggable {
   }
   
   getArguments() {
-    return this.template.rows.map( p => {
+    return this.template.ui.map( p => {
       const type = (p.input)  ? 'TO' : ( (p.output) ? 'FROM': 'AT');
       return `${p.name}__${type}__${this.id}`;
     });
@@ -162,8 +167,8 @@ export class Node extends Draggable {
     let toolset = document.createElement('span');
     toolset.className = 'toolset';
     banner.appendChild(toolset);
-    let menu = WidgetFactory.button('bars',{icon:'bars',title:'Tools',name:'hamburger'},{},openTools(node.preview)); // fa-ellipsis-v
-    menu.classList.remove('button');
+    let menu = WidgetFactory.create('bars','button',{icon:'bars',title:'Tools',name:'hamburger'},{},openTools(node.preview)); // fa-ellipsis-v
+    menu.firstChild.classList = ''; // Remove all classes
     toolset.appendChild(menu);
     
     // Add event
@@ -200,7 +205,7 @@ export class Node extends Draggable {
     body.className = 'body';
     // Main content
 
-    NodeCreator.createContent( template.rows,body,this.id, metadata);
+    NodeCreator.createContent( template.ui,body,this.id, metadata);
 
     return body;
   }
@@ -239,7 +244,7 @@ export class Node extends Draggable {
 
     let foot = document.createElement('div');
     foot.className = 'footer';
-    foot.innerHTML = `<span style="align:right;margin:2px">${node.class}::${node.description}</span>`;
+    foot.innerHTML = `<span style="align:right;margin:2px">${node.class}</span>`;
     let link = document.createElement('a');
     foot.appendChild(link);
     link.dataset.nodeid = id;

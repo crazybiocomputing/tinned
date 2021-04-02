@@ -4,7 +4,7 @@
 <meta charset="utf8">
 <title>TINNED - Maths</title>
 <link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet"> 
-<link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" href="../css/font-awesome-4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="../css/tinned.css">
 <script type="module" src="../mol/components.js"></script>
 
@@ -19,6 +19,7 @@
 
   import {TINNED} from '../src/tinned.js';
   import {Board} from '../src/core/board.js';
+  import {components} from '../mol/components.js';
 
   ////// MAIN //////
 
@@ -28,23 +29,26 @@
   TINNED.init();
   
   // Create Board + Graph
-  let board = new Board(main);
+  let board = new Board(main,components);
 
   // Load Graph
   let test = {
     nodes: [
-      {
-        id: 0,
-        template:"MOL_OPEN_RASTER",
+    {
+        id: 1,
+        template:"MOL_NUMBER",
         metadata: {
-          pos: [507,224]
+          pos: [717,256],
+        },
+        state: {
+          value: 34
         }
       },
       {
         id: 5,
         template:"MOL_MONITOR",
         metadata: {
-          pos: [717,256],
+          pos: [1167,300],
         }
       },
       {
@@ -59,35 +63,27 @@
       },
       {
         id: 15,
-        template:"MOL_MATHS",
+        template:"MOL_MATH",
         metadata: {
           pos: [939,288],
         },
-      },
-      {
-        id: 22,
-        template:"MOL_VIEW_2D",
-        metadata: {
-          pos: [1143,231],
+        state: {
+          op: 'add'
         }
       }
     ],
     edges : [
       {
         eid: 1,
-        sockets: ['raster@0','in_data@5'],
+        sockets: ['value@1','value1@15'],
       },
       {
         eid: 2,
-        sockets: ['out_data@5','value1@15'],
-      },
-      {
-        eid: 3,
         sockets: ['value@11','value2@15'],
       },
       {
-        eid: 4,
-        sockets: ['value@15','raster2d@22'],
+        eid: 3,
+        sockets: ['value@15','data@5'],
       }
     ]
   };

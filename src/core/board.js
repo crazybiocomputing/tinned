@@ -35,12 +35,12 @@ export class Board extends Draggable {
   /**
    * @constructor
    */
-  constructor(parent,templates) {
+  constructor(parent,components) {
     super();
     this.parent = parent;
     this.boardgame;
-    this._templates = templates;
-    this.graph = new Graph();
+    this._components = components;
+    this.graph = new Graph(components);
     this.zoom = 1.0;
     this.translate = {x:0,y:0};
     this.tx = 0;
@@ -48,12 +48,12 @@ export class Board extends Draggable {
     
   }
   
-  set templates(nodeTemplates) {
-    this._templates = nodeTemplates;
+  set components(nodecomponents) {
+    this._components = nodecomponents;
   }
   
-  get templates() {
-    return this._templates;
+  get components() {
+    return this._components;
   }
   
   addEvents() {
@@ -110,7 +110,6 @@ export class Board extends Draggable {
     this.boardgame.appendChild(popup);
     
     // Graph
-    this.graph.setTemplates(this._templates);
     this.graph.setRootNode(this.boardgame);
     this.graph.setGraphicsContext(svg);
     

@@ -24,6 +24,9 @@
 
 'use strict';
 
+import {TINNED} from '../tinned.js';
+
+
 const DRAG = {
   BBox:null,
   orgX: 0,
@@ -168,7 +171,12 @@ export  const edgeEnd = (event) => {
    */
   export const dragStartNode = (event) => {
     event.preventDefault();
-    let dragged = document.getElementById(`node_${event.target.dataset.nodeid}`);
+    let element = event.target;
+    while (!element.dataset.nodeid) {
+      element = element.parentNode; // Set parent
+    }
+    let dragged = document.getElementById(`node_${element.dataset.nodeid}`);
+
     DRAG.node = dragged;
     dragged.style.zIndex = 1000;
     let isShrinked = dragged.classList.contains('shrink');

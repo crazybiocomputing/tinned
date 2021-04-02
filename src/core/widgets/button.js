@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with TWIN.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with TINNED.  If not, see <http://www.gnu.org/licenses/>.
  *
  *
  * Authors:
@@ -28,7 +28,7 @@
    * Widget 
    * @author Jean-Christophe Taveau
    */
-const button = (id,template_row,metadata,action_func) => {
+export const button = (id,template_row,metadata,action_func) => {
   let e = document.createElement('a');
   e.id = `${template_row.name || 'unknown'}__AT__${id}`;
   e.className = 'button';

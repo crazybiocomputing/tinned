@@ -24,18 +24,19 @@
 
 'use strict';
 
-import {Socket} from './socket.js';
+import {Socket} from '../socket.js';
 
 /*
    * Create an input socket
    *
    * @author Jean-Christophe Taveau
    */
-const output_socket = (id,row,metadata,action_func) => {
+export const output_socket = (id,row,metadata,action_func) => {
 
   // Create Output Socket
   let container = document.createElement('div');
   container.className = 'output';
+  console.log(row);
   let socket = new Socket(id,'output',row.name);
   container.appendChild(socket.button);
 

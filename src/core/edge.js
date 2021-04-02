@@ -43,13 +43,25 @@ export class Edge {
     this.line = this._createEdge(edge_id,source_id,target_id,input_connector, output_connector);
   }
 
-  // Private
+  /*
+   * @private
+   * idE - Edge ID
+   * idS - Source ID
+   * idT - Target ID
+   * input - Input Socket
+   * output - Output Socket
+   */
   _createEdge(idE,idS,idT,input,output) {
     // Source
-    let nodeS = document.querySelector(`#${idS}`); //`#node_${idS} #o_${output} button`);
+    let words = idS.split('@'); 
+    let idSource = {index: words[1],variable: words[0]};
+    words = idT.split('@'); 
+    let idTarget = {index: words[1],variable: words[0]};
+    
+    let nodeS = document.querySelector(`#${idSource.variable}__OUT__${idSource.index}`); //`#node_${idS} #o_${output} button`);
     console.log(idS,nodeS);
-    console.log(idS.match(/@(\d+)/));
-    let shrinkNodeS = document.querySelector(`#node_${idS.match(/@(\d+)/)[1]} .out_socket`);
+    console.log('EDGE',idS.match(/@(\d+)/));
+    let shrinkNodeS = document.querySelector(`#node_${idSource.index} .out_socket`);
     let tmp = [idE];
     if (nodeS.dataset.edge !== undefined) {
       console.log(nodeS.dataset.edge);
@@ -68,9 +80,9 @@ export class Edge {
     }
     
     // Target
-    let nodeT = document.querySelector(`#${idT}`);
+    let nodeT = document.querySelector(`#${idT.replace('@','__IN__')}`);
         console.log(idT);
-    let shrinkNodeT = document.querySelector(`#node_${idT.match(/@(\d+)/)[1]}  .in_socket`);
+    let shrinkNodeT = document.querySelector(`#node_${idTarget.index}  .in_socket`);
     nodeT.dataset.edge = idE;
     if (shrinkNodeT.dataset.edge !== undefined) {
       let array = JSON.parse(shrinkNodeT.dataset.edge);
@@ -86,8 +98,8 @@ export class Edge {
     let start = this.getCoords(nodeS);
     let end = this.getCoords(nodeT);
     let line = document.createElementNS(xmlns,'line');
-    line.dataset.source = `node_${idS}`;
-    line.dataset.target = `node_${idT}`;
+    line.dataset.source = `node_${idSource.index}`;
+    line.dataset.target = `node_${idTarget.index}`;
     line.setAttribute('id',`e_${idE}`);
     line.setAttribute('stroke-width',2.0);
     line.setAttribute('x1',start.x);

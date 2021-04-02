@@ -28,6 +28,7 @@
 import {Node} from './node.js';
 import {Edge} from './edge.js';
 import {DataFlow} from '../workflow/dataflow.js';
+import { components } from '../../mol/components.js';
 
 
 export class Graph {
@@ -36,11 +37,11 @@ export class Graph {
    * @constructor
    * @author Jean-Christophe Taveau
    */
-  constructor(components) {
-    this.templates;
+  constructor(templates) {
+    this.templates = templates;
     this.nodes = [];
     this.edges = [];
-    this.pipeline = new DataFlow(this);
+    this.pipeline = new DataFlow(this); // ??
     this.context; // svg or canvas/webgl?
     this.root; // HTML Parent node for all the nodes
   }
@@ -56,7 +57,7 @@ export class Graph {
 
   appendNode(templateID,nodeID = -1,metadata={}) {
     let newid = (nodeID !== -1) ? nodeID : this.lastID() + 1; // TODO HACK
-    // Create the Node GUI (the `Producer`)
+    // Create the Node (the `Producer`)
     let template = this.templates.find( n => n.id === templateID);
     let node =  new Node(newid,template,metadata);
     this.nodes.push(node);
@@ -72,16 +73,13 @@ export class Graph {
    * @author Jean-Christophe Taveau
    */
   appendNodeByName(templateName,nodeID = -1,metadata={}) {
-    let newid = (nodeID !== -1) ? nodeID : this.lastID() + 1; // TODO HACK
-    let node =  new Node(newid,this.templates.find( n => n.name === templateName),metadata);
-    this.nodes.push(node);
-    this.root.appendChild(node.element);
-    return node;
+    let templateID = this.templates.find( n => n.name === templateName);
+    return this.appendNode(tmplID,nodeID,metadata);
   }
 
 
   appendEdge(start_id,end_id) {
-    let ctx = this.context;
+    let ctx = this.context; 
     let eid = this.edges[this.edges.length - 1].eid++;
     let e = new Edge(eid,start_id,end_id,0,0);
     this.edges.push(e);
@@ -89,21 +87,23 @@ export class Graph {
   }
 
   /**
-   * Create Nodes of the given graph from templates
+   * Create Nodes of the given graph from components
    *
    * @author Jean-Christophe Taveau
    */
-  createNodes(nodes) {
+  createNodes(json) {
     let root = this.root;
     // Create Graph
-    nodes.forEach( (node) => {
-      // Step #1: Get component
-      let component = this.components.get(node.template);
+    json.forEach( (node) => {
+      // Step #1: Create component
+      let component = {};
+      let template_ui = this.templates.find(t => t.id === node.template);
       // Step #2:  Update states
       // TODO component.setState(node.state);
       // Step #3:  Create GUI
       console.log('NODE',node.id,node.template,component);
-      component.createMarkup(node.id,node.metadata);
+      component.node = new Node(node.id,template_ui,node.metadata);
+      // component.createMarkup(node.id,node.metadata);
       this.nodes.push(component.node);
       this.root.appendChild(component.node.element);
       // Add the engine in the queue waiting for execution (the `Consumer`).
@@ -113,8 +113,8 @@ export class Graph {
       /*
       // Attach node to <root>
       console.log(node.template,node.id,node.metadata);
-      console.log(this.templates.find( n => n.id === node.template));
-      let n = new Node(node.id,this.templates.find( n => n.id === node.template),node.metadata);
+      console.log(this.components.find( n => n.id === node.template));
+      let n = new Node(node.id,this.components.find( n => n.id === node.template),node.metadata);
       this.nodes.push(n);
       root.appendChild(n.element);
       */
@@ -160,9 +160,6 @@ export class Graph {
     this.root = parentNode;
   }
 
-  setTemplates(nodeTemplates) {
-    this.templates = nodeTemplates;
-  }
 
   show() {
   }
@@ -251,7 +248,6 @@ export class Graph {
           }
         });
       }
-
     }
   }
 

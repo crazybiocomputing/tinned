@@ -28,7 +28,7 @@
    * Widget 
    * @author Jean-Christophe Taveau
    */
-const flowcontrols = (id,row,metadata,action_func) => {
+ export const flowcontrols = (id,row,metadata,action_func) => {
   let buttons = row.flowcontrols;
   let controls = document.createElement('div');
   controls.className = 'flowcontrols';

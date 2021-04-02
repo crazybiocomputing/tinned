@@ -28,7 +28,7 @@
    * Widget 
    * @author Jean-Christophe Taveau
    */
-const readonly = (id,row,metadata,action_func) => {
+ export const readonly = (id,row,metadata,action_func) => {
   let input = document.createElement('input');
   input.className = "readonly";
   input.readOnly = true;

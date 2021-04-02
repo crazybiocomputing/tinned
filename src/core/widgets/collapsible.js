@@ -24,14 +24,12 @@
 
 'use strict';
 
-import {Socket} from './socket.js';
-
 
 /**
    * Widget 
    * @author Jean-Christophe Taveau
    */
-const collapsible = (id,row,metadata,action_func) => {
+ export const collapsible = (id,row,metadata,action_func) => {
   let container = document.createElement('div');
   let input = document.createElement('input');
   input.id = `collapsible_${id}`;

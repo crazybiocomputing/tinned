@@ -33,7 +33,7 @@ export class Socket extends Draggable {
     let _button = document.createElement('button');
     // Extract name + type
     let data = name.split(':');
-    _button.id = `${data[0]}@${id}`; // HACK: (type === 'input') ? `${name}__TO__${id}` :`${name }__FROM__${id}`;
+    _button.id = (type === 'input') ? `${data[0]}__IN__${id}` :`${data[0]}__OUT__${id}`;
     _button.dataset.type = data[1] || 'any';
     _button.innerHTML = '<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>';
     this.draggable(_button,edgeStart,edgeDrag,edgeEnd);

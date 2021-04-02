@@ -24,40 +24,20 @@
 
 'use strict';
 
-import {Socket} from './socket.js';
-
 
 /**
    * Widget 
    * @author Jean-Christophe Taveau
    */
-const numerical = (id,template_row,metadata,action_func) => {
+export const label = (id,row,metadata,action_func) => {
+  let e = document.createElement('label');
+  e.innerHTML = row.title;
+  if (row.output === undefined && row.input === undefined) {
+    e.innerHTML += '&nbsp;';
+  }
+  else {
+    // e.title = row.input || row.output;
+  }
 
-  // Create Numerical
-  let input = document.createElement('input');
-  input.id = `${template_row.name.split(':')[0] || 'unknown'}__AT__${id}`;
-  input.className = "numerical";
-  input.setAttribute("type", "text");
-  input.setAttribute('name',template_row.name || 'unknown');
-  input.setAttribute('minlength',4);
-  input.setAttribute('maxlength',40);
-  // input.setAttribute('size',10);
-  input.setAttribute('value',metadata[template_row.name] || template_row.state);
-  TINNED.args[input.id] = metadata[template_row.name] || template_row.state;
-  input.addEventListener('input',(event)=> {
-    let value = event.srcElement.value;
-    event.srcElement.value = /^\d*\.?\d*$/.test(event.srcElement.value) ? value : value.slice(0,-1);
-    return false;
-  });
-  input.addEventListener('blur',(event) => {
-    console.info(`Add the ${event.srcElement.value} in queue`);
-    TINNED.args[input.id] = +event.srcElement.value;
-    // Update 
-    TINNED.graph.update(id); 
-  });
-
-  // TODO Add event onchanged
-  return input;
+  return e;
 }
-
-

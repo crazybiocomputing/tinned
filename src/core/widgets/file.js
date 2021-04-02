@@ -24,14 +24,11 @@
 
 'use strict';
 
-import {Socket} from './socket.js';
-
-
 /**
    * Widget 
    * @author Jean-Christophe Taveau
    */
-const file = (id,row,metadata,action_func) => {
+ export const file = (id,row,metadata,action_func) => {
   // Create File Widget
  let container = document.createElement('div');
   // From MDN

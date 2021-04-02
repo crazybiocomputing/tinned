@@ -24,8 +24,11 @@
 
 'use strict';
 
-import * as MOL3D from './components.js';
-
+// import * as MOL3D from './components.js';
+import {Maths} from './maths.js';
+import {Monitor} from './monitor.js';
+import {NumberComponent} from './number.js';
+import {Loader} from './loader.js';
 
 export class NodeFactory {
 
@@ -48,14 +51,14 @@ export class NodeFactory {
       case "MOL_INFO": break;
       case "MOL_INSPECT": break;
       case "MOL_MATH_MACRO": break;
-      case "MOL_MATHS": return new MOL3D.Maths();
+      case "MOL_MATHS": return new Maths();
       case "MOL_MATHS_FORMULA": break;
       case "MOL_MERGE_COLORS": break;
-      case "MOL_MONITOR": return new MOL3D.Monitor();
+      case "MOL_MONITOR": return new Monitor();
       case "MOL_MONTAGE": break;
       case "MOL_NEW": break;
-      case "MOL_NUMBER": return new MOL3D.NumberComponent();
-      case "MOL_OPEN_MOL": return new MOL3D.Loader();
+      case "MOL_NUMBER": return new NumberComponent();
+      case "MOL_OPEN_MOL": return new Loader();
       case "MOL_PHIPSI": break;
       case "MOL_RANGE": break;
       case "MOL_RAMACHANDRAN": break;

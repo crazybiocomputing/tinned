@@ -24,14 +24,13 @@
 
 'use strict';
 
-import {Socket} from './socket.js';
-
+import {TINNED} from '../../tinned.js';
 
 /**
    * Widget 
    * @author Jean-Christophe Taveau
    */
-const numerical = (id,template_row,metadata,action_func) => {
+ export const numerical = (id,template_row,metadata,action_func) => {
 
   // Create Numerical
   let input = document.createElement('input');

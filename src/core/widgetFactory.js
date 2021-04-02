@@ -25,6 +25,7 @@
 'use strict';
 
 import {Socket} from './socket.js';
+import * as WL from './widgets/index.js' ;
 
 
 export class WidgetFactory {
@@ -51,7 +52,7 @@ export class WidgetFactory {
 
     cells.forEach( cell => {
       console.log(cell.widget,cell,metadata);
-      let widget = WidgetFactory.createWidget(node_id,cell.widget,cell,metadata,callback);
+      let widget = WidgetFactory.create(node_id,cell.widget,cell,metadata,callback);
       console.log(widget);
       container.appendChild(widget);
       if (cell.widget === 'input') {
@@ -67,24 +68,24 @@ export class WidgetFactory {
   }
   
   
-  static createWidget(id,type,row,metadata,action_func) {
+  static create(id,type,row,metadata,action_func) {
     let element;
     switch (type) {
-      case 'button': element = WidgetFactory.button(id,row,metadata,action_func); break;
-      case 'canvas': element = WidgetFactory.canvas(id,row,metadata,action_func); break;
-      case 'checkbox': element = WidgetFactory.checkbox(id,row,metadata,action_func); break;
-      case 'collapsible': element = WidgetFactory.collapsible(id,row,metadata,action_func); break;
-      case 'file': element = WidgetFactory.file(id,row,metadata,action_func); break;
-      case 'flowcontrols': element = WidgetFactory.flowcontrols(id,row,metadata,action_func); break;
-      case 'input': element = WidgetFactory.input_socket(id,row,metadata,action_func); break;
-      case 'label': element = WidgetFactory.label(id,row,metadata,action_func); break;
-      case 'numerical': element = WidgetFactory.numerical(id,row,metadata,action_func); break;
-      case 'preview': element = WidgetFactory.canvas(id,row,metadata,action_func); break;
-      case 'readonly': element = WidgetFactory.readonly(id,row,metadata,action_func); break;
-      case 'selectlayer': element = WidgetFactory.selectlayer(id,row,metadata,action_func); break;
-      case 'select': element = WidgetFactory.select(id,row,metadata,action_func); break;
-      case 'output': element = WidgetFactory.output_socket(id,row,metadata,action_func); break;
-      case 'text': element = WidgetFactory.text(id,row,metadata,action_func); break;
+      case 'button': element = WL.button(id,row,metadata,action_func); break;
+      case 'canvas': element = WL.canvas(id,row,metadata,action_func); break;
+      case 'checkbox': element = WL.checkbox(id,row,metadata,action_func); break;
+      case 'collapsible': element = WL.collapsible(id,row,metadata,action_func); break;
+      case 'file': element = WL.file(id,row,metadata,action_func); break;
+      case 'flowcontrols': element = WL.flowcontrols(id,row,metadata,action_func); break;
+      case 'input': element = WL.input_socket(id,row,metadata,action_func); break;
+      case 'label': element = WL.label(id,row,metadata,action_func); break;
+      case 'numerical': element = WL.numerical(id,row,metadata,action_func); break;
+      case 'preview': element = WL.canvas(id,row,metadata,action_func); break;
+      case 'readonly': element = WL.readonly(id,row,metadata,action_func); break;
+      case 'selectlayer': element = WL.selectlayer(id,row,metadata,action_func); break;
+      case 'select': element = WL.select(id,row,metadata,action_func); break;
+      case 'output': element = WL.output_socket(id,row,metadata,action_func); break;
+      case 'text': element = WL.text(id,row,metadata,action_func); break;
       default: 
         alert(`Unknown widget ${type}`);
     }

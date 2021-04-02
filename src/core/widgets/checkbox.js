@@ -28,7 +28,7 @@
    * Widget 
    * @author Jean-Christophe Taveau
    */
-const checkbox = (id,row,metadata,action_func) => {
+ export const checkbox = (id,row,metadata,action_func) => {
  let input = document.createElement('input');
  input.id = `${row.name || 'unknown'}__AT__${id}`;
  input.className = "check";

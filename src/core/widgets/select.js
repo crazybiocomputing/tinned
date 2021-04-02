@@ -28,7 +28,7 @@
    * Widget 
    * @author Jean-Christophe Taveau
    */
-const select = (id,row,metadata,action_func) => {
+ export const select = (id,row,metadata,action_func) => {
   let container = document.createElement('div');
   container.className = "select-container";
   let select = document.createElement('select');
