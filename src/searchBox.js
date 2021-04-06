@@ -28,6 +28,53 @@
  * @param {dom} element - HTML parent element
  * @param {array} titles - [{id:<string>,description: <string>,tags: [<string>, ...]},...]
  */
-export const searchBox = (element,titles) => {
+export const searchBox = (element,tags) => {
+    
+const container = document.getElementById("container");
 
+const displayNode = (tags,id) => {
+  const htmlString = tags
+      .map((tag) => {
+          return `
+          <li class="Node">
+              <h2>${tag.id}</h2>
+          </li>
+      `;
+      })
+      .join('');
+  id.innerHTML = htmlString;
+};
+
+const displaySearchbox = () => {
+  const searchbox = `<div class="searchbox">
+      <h1>Node Research</h1>
+        <div id="searchWrapper">
+          <input
+            type="text"
+            name="searchbar"
+            id="searchbar"
+            placeholder="search for a Node"
+          />
+        </div>
+      <ul id="NodeList"></ul>
+    </div>`;
+  container.innerHTML = searchbox;
+}
+
+element.addEventListener("mousedown",displaySearchbox())
+
+element.onmouseup = function (){
+  const NodeList = document.getElementById("NodeList");
+  const searchbar = document.getElementById("searchbar");
+  searchbar.addEventListener('keyup', (e) => {
+    const searchString = e.target.value.toLowerCase();
+    const filteredTags = tags.filter((tag) => {
+        return (
+            tag.tags.includes(searchString) ||
+            tag.id.toLowerCase().includes(searchString)
+        );
+      });
+    displayNode(filteredTags,NodeList);
+  });
+}
 }
