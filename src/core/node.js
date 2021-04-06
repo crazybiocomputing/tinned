@@ -54,8 +54,8 @@ export class Node extends Draggable {
     this.hasLayers = template.ui.some( (p) => p.layer !== undefined);
 
     // DEBUG: Check if node contains inputs and outputs
-    this.hasOutputs = template.ui.some( (p) => (p.layer !== undefined && p.layer.type === 'output') || p.output !== undefined);
-    this.hasInputs  = template.ui.some( (p) => (p.layer !== undefined && p.layer.type === 'input')  || p.input !== undefined);
+    this.hasOutputs = template.ui.some( (row) => row.find( w => w.widget === 'output'));
+    this.hasInputs  = template.ui.some( (row) => row.find( w => w.widget === 'input'));
 
     // Create Widgets
     this.createMarkup(id,template,metadata);
