@@ -36,12 +36,14 @@
     nodes: [
     {
         id: 1,
-        template:"MOL_NUMBER",
+        template:"MOL_RANGE",
         metadata: {
           pos: [717,256],
         },
         state: {
-          value: 37
+          start: 1,
+          stop: 20,
+          step: 2
         }
       },
       {
@@ -52,38 +54,25 @@
         }
       },
       {
-        id: 11,
-        template:"MOL_NUMBER",
-        metadata: {
-          pos: [722,412],
-        },
-        state: {
-          value: 46
-        }
-      },
-      {
         id: 15,
         template:"MOL_MATH",
         metadata: {
           pos: [939,288],
         },
         state: {
-          op: 1 // Add
+          op: 1, // Add
+          y : 46
         }
       }
     ],
     edges : [
       {
         eid: 1,
-        sockets: ['value@1','x@15'],
+        sockets: ['stream@1','x@15']
       },
       {
         eid: 2,
-        sockets: ['value@11','yin@15'],
-      },
-      {
-        eid: 3,
-        sockets: ['value@15','data@5'],
+        sockets: ['value@15','data@5']
       }
     ]
   };
