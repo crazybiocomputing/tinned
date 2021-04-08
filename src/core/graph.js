@@ -96,16 +96,18 @@ export class Graph {
     // Create Graph
     json.forEach( (node) => {
       // Step #1: Create component
-      let component = {};
+      let component = {id: node.id};
       let template_ui = this.templates.find(t => t.id === node.template);
-      // Step #2:  Update states
-      // TODO component.setState(node.state);
-      // Step #3:  Create GUI
+      // Step #2:  Create GUI
       console.log('NODE',node.id,node.template,component);
       component.node = new Node(node.id,template_ui,node.metadata);
-      // component.createMarkup(node.id,node.metadata);
+            // component.createMarkup(node.id,node.metadata);
       this.nodes.push(component.node);
       this.root.appendChild(component.node.element);
+      // Step #3:  Update states if any
+      if (node.state) {
+        component.node.setState(node.state);
+      }
       // Add the engine in the queue waiting for execution (the `Consumer`).
       // TODO this.pipeline.add(component);
       // this.appendNode(component);

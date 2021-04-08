@@ -75,6 +75,7 @@ export class WidgetFactory {
       case 'canvas': element = WL.canvas(id,row,metadata,action_func); break;
       case 'checkbox': element = WL.checkbox(id,row,metadata,action_func); break;
       case 'collapsible': element = WL.collapsible(id,row,metadata,action_func); break;
+      case 'color': element = WL.color(id,row,metadata,action_func); break;
       case 'file': element = WL.file(id,row,metadata,action_func); break;
       case 'flowcontrols': element = WL.flowcontrols(id,row,metadata,action_func); break;
       case 'input': element = WL.input_socket(id,row,metadata,action_func); break;
@@ -86,6 +87,7 @@ export class WidgetFactory {
       case 'select': element = WL.select(id,row,metadata,action_func); break;
       case 'output': element = WL.output_socket(id,row,metadata,action_func); break;
       case 'text': element = WL.text(id,row,metadata,action_func); break;
+      case 'textarea': element = WL.textarea(id,row,metadata,action_func); break;
       default: 
         alert(`Unknown widget ${type}`);
     }

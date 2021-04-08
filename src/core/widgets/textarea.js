@@ -28,14 +28,13 @@
    * Widget 
    * @author Jean-Christophe Taveau
    */
- export const select = (id,row,metadata,action_func) => {
-  let container = document.createElement('div');
-  container.className = "select-container";
-  let select = document.createElement('select');
-  select.id = `${row.name.split(':')[0] || 'unknown'}__AT__${id}`;
+ export const textarea = (id,row,metadata,action_func) => {
 
-  let options = row.items.reduce( (html,item,index) => html + `<option value="${index}">${item}</option>`,'');
-  select.innerHTML = options;
-  container.appendChild(select);
-  return container;
+  let input = document.createElement('textArea');
+  input.className = "textarea";
+  input.setAttribute("type", "text");
+  input.setAttribute('name',row.name || 'unknown');
+  input.setAttribute('readonly',true);
+
+  return input;
 }

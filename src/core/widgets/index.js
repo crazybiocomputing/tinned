@@ -29,6 +29,7 @@ import {button} from './button.js'
 import {canvas} from './canvas.js'
 import {checkbox} from './checkbox.js'
 import {collapsible} from './collapsible.js'
+import {color} from './color.js'
 import {file} from './file.js'
 import {flowcontrols} from './flowcontrols.js'
 import {input_socket} from './input_socket.js'
@@ -39,12 +40,14 @@ import {readonly} from './readonly.js'
 import {select} from './select.js'
 import {selectlayer} from './selectlayer.js'
 import {text} from './text.js'
+import {textarea} from './textarea.js'
 
 export {
   button,
   canvas,
   checkbox,
   collapsible,
+  color,
   file,
   flowcontrols,
   input_socket,
@@ -54,5 +57,6 @@ export {
   readonly,
   select,
   selectlayer,
-  text
+  text,
+  textarea
 }

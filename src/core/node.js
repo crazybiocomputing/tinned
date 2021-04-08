@@ -84,6 +84,20 @@ export class Node extends Draggable {
       return `${p.name}__${type}__${this.id}`;
     });
   }
+
+  /**
+   * Update widgets values
+   * @param {object} state 
+   * @author Jean-Christophe Taveau
+   */
+  setState(state) {
+    Object.keys(state).forEach( key => {
+      console.log(`#${key}__AT__${this.element.id}`);
+      let child = this.element.querySelector(`#${key}__AT__${this.id}`);
+      child.value = state[key];
+    });
+  }
+
   /*
    * @private
    * Create Node

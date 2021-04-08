@@ -24,6 +24,7 @@
 
 'use strict';
 
+import {WidgetFactory} from '../widgetFactory.js';
 
 /**
    * Widget 
@@ -43,13 +44,13 @@
   let label = document.createElement('label');
   label.className = 'lbl-toggle';
   label.setAttribute('for',`collapsible_${id}`);
-  label.innerHTML = row.collapsible.label;
+  label.innerHTML = row.title;
   container.appendChild(label);
 
   let content = document.createElement('div');
   content.className = 'collapsible-content';
   container.appendChild(content);
-  row.collapsible.section.forEach( section_row => {
+  row.section.forEach( section_row => {
     let widgets_row = WidgetFactory.createRow(id,section_row,undefined);
     content.appendChild(widgets_row);
   });

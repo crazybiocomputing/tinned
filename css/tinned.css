@@ -318,7 +318,7 @@ svg {
   background-color: #cab2d6;
 }
 
-.tool {
+.tool,.rendering {
   background-color: #66c4ff;
   background-color: #fb9a99;
 }
@@ -659,6 +659,7 @@ input[type="file"].visually-hidden {
 input[type="file"].visually-hidden:focus + label {
   outline: thin dotted;
 }
+
 input[type="file"].visually-hidden:focus-within + label {
   outline: thin dotted;
 }
@@ -669,7 +670,7 @@ input, .select-container {
   background-color: #fefefe;
   border: solid 1px #ccc;
 }
-
+/*
 input:-moz-read-only {
   color: #888;
   cursor: not-allowed;
@@ -679,6 +680,7 @@ input:readonly {
   color: #888;
   cursor: not-allowed;
 }
+*/
 
 input[type="text"] {
   width: 90%;
@@ -701,6 +703,9 @@ input[type="number"] {
   padding-left: 4px;
 }
 
+input[type="color"] {
+  padding: 0px;
+}
 
 /*
 .inputs {
