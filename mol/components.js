@@ -24,23 +24,6 @@
 
 'use strict';
 
-/*
- * Tiny Web Components: GUI Node + Engine 
-
-import Loader from './loader.js';
-import Maths from './maths.js';
-import Monitor from './monitor.js';
-import NumberComponent from './number.js';
-
-
-export {
-  Loader,
-  Maths,
-  Monitor,
-  NumberComponent
-}
-
- */
 
 const action = (id) => {
   console.log("Run...",id);
@@ -119,8 +102,14 @@ export const components = [
         {widget: "output", "name": "molout:mol" }
       ],
       [
+        
         {widget: "label", title: "Mode"},
-        {widget: "select", "state": 0, "name": "mode:string", "items": ["CPK","Chain","Rainbow"]},
+        {
+          widget: "select", 
+          state: 0, 
+          name: "mode:string", 
+          items: ['Alt', 'Amino', 'Chain', 'Charge', 'CPK', 'Model', 'Rainbow','Shapely', 'Structure', 'Temperature']
+        },
       ],
       [
         {widget: "input", "name": "molin:mol"},
@@ -208,6 +197,32 @@ export const components = [
     runner : action("MOL_MONITOR")
   },
   {
+    id: "MOL_NUCLEIC",
+    class: "filter",
+    description: "Nucleic",
+    help: "Select by nucleotide",
+    tags: ["select","protein","nucleic","ligand","ion","solvent","water","hoh","h2o"],
+    ui: [
+      [
+        {widget:"label",title: "Atoms"}, 
+        {widget: "output","name":"molout:molecule"}
+      ],
+      [
+        {widget: "label", title: "Type"},
+        {
+          widget: "select", 
+          state: 0, 
+          name: "type:string", 
+          items: ["Nucleic","AT","CG","Purine","Pyrimidine"]
+        }
+      ],
+      [
+        {widget: "input","name": "molin:molecule"},
+        {widget:"label",title: "Atoms"}
+      ]
+    ]
+  },
+  {
     id: "MOL_NUMBER",
     class: "programming",
     description: "Number",
@@ -280,8 +295,8 @@ export const components = [
           widget: "select", 
           state: 0, 
           name: "prop:string", 
-          items: ["acidic", "acyclic", "aliphatic", "aromatic", "basic", "buried", "charged", "cyclic", 
-          "hydrophobic", "large", "medium", "negative", "neutral", "polar", "positive", "small", "surface"
+          items: ["Acidic", "Acyclic", "Aliphatic", "Aromatic", "Basic", "Buried", "Charged", "Cyclic", 
+          "Hydrophobic", "Large", "Medium", "Negative", "Neutral", "Polar", "Positive", "Small", "Surface"
           ]
         }
       ],
@@ -334,6 +349,105 @@ export const components = [
       [
         {widget: "label", title: "Mode"},
         {widget: "select", "state": 0, "name": "mode:string", "items": ["Trace","Backbone","Wireframe","Strands","Ball-and-Stick","Cartoon"]},
+      ],
+      [
+        {widget: "input","name": "molin:molecule"},
+        {widget:"label",title: "Atoms"}
+      ]
+    ]
+  },
+  {
+    id: "MOL_SECONDARY",
+    class: "filter",
+    description: "Secondary",
+    help: "Select by Secondary Structures",
+    tags: ["select","protein","nucleic","ligand","ion","solvent","water","hoh","h2o"],
+    ui: [
+      [
+        {widget:"label",title: "Atoms"}, 
+        {widget: "output","name":"molout:molecule"}
+      ],
+      [
+        {widget: "label", title: "Sec.Struct."},
+        {
+          widget: "select", 
+          state: 0, 
+          name: "type:string", 
+          items: ["Alpha","Helix","Sheet","Turn"]
+        }
+      ],
+      [
+        {widget: "input","name": "molin:molecule"},
+        {widget:"label",title: "Atoms"}
+      ]
+    ]
+  },
+  {
+    id: "MOL_SELECTED",
+    class: "selection",
+    description: "Selected",
+    help: "Filter (un) selected atoms",
+    tags: ["select","unselect"],
+    ui: [
+      [
+        {widget:"label",title: "Atoms"}, 
+        {widget: "output","name":"molout:molecule"}
+      ],
+      [
+        {widget: "label", title: "Selected"},
+        {widget: "checkbox", "state": 0, "name": "selected:boolean"},
+      ],
+      [
+        {widget: "input","name": "molin:molecule"},
+        {widget:"label",title: "Atoms"}
+      ]
+    ]    
+  },
+  {
+    id: "MOL_STRUCT",
+    class: "filter",
+    description: "Structure",
+    help: "Select by Structure",
+    tags: ["select","properties"],
+    ui: [
+      [
+        {widget:"label",title: "Atoms"}, 
+        {widget: "output","name":"molout:molecule"}
+      ],
+      [
+        {widget: "label", title: "Prop."},
+        {
+          widget: "select", 
+          state: 0, 
+          name: "prop:string", 
+          items: ["Backbone","Sidechain","Cystine","Bonded"]
+        }
+      ],
+      [
+        {widget: "input","name": "molin:molecule"},
+        {widget:"label",title: "Atoms"}
+      ]
+    ]
+  },
+  {
+    id: "MOL_TYPES",
+    class: "filter",
+    description: "Types",
+    help: "Select by Types: protein, nucleic, and solvent",
+    tags: ["select","protein","nucleic","ligand","ion","solvent","water","hoh","h2o"],
+    ui: [
+      [
+        {widget:"label",title: "Atoms"}, 
+        {widget: "output","name":"molout:molecule"}
+      ],
+      [
+        {widget: "label", title: "Type"},
+        {
+          widget: "select", 
+          state: 0, 
+          name: "type:string", 
+          items: ["Amino","Hetero","Ions","Ligand","Nucleic","Protein","Solvent","Water","Hydrogen"]
+        }
       ],
       [
         {widget: "input","name": "molin:molecule"},
