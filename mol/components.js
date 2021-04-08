@@ -32,7 +32,7 @@ const action = (id) => {
 export const components = [
   {
     id: "MOL_ID",
-    class: "filter",
+    class: "selection",
     description: "ID",
     help: "Select by ID",
     tags: ["select","atom","symbol","chainID"],
@@ -121,7 +121,17 @@ export const components = [
     id: "MOL_KABSCH",
     class: "processing",
     description: "Kabsch",
-    tags: ["superposition","alignment"]
+    tags: ["superposition","alignment"],
+    ui: [
+      [
+        {widget:"label",title: "Data"}, 
+        {widget: "output","name":"data:any"}
+      ],
+      [
+        {widget: "input","name": "data:any"},
+        {widget:"label",title: "Data"}
+      ]
+    ]
   },
   {
     id: "MOL_LOGICAL",
@@ -198,7 +208,7 @@ export const components = [
   },
   {
     id: "MOL_NUCLEIC",
-    class: "filter",
+    class: "selection",
     description: "Nucleic",
     help: "Select by nucleotide",
     tags: ["select","protein","nucleic","ligand","ion","solvent","water","hoh","h2o"],
@@ -238,7 +248,7 @@ export const components = [
   },
   {
     id: "MOL_OPEN",
-    class: "loader",
+    class: "io",
     description: "Open...",
     tags: ["file","open","pdb","cif","xyz"],
     ui: [
@@ -280,7 +290,7 @@ export const components = [
   },
   {
     id: "MOL_PROPS",
-    class: "filter",
+    class: "selection",
     description: "Properties",
     help: "Select by Properties",
     tags: ["select","properties","aliphatic","aromatic","large","small"],
@@ -311,6 +321,16 @@ export const components = [
     class: "processing",
     description: "Ramachandran",
     tags: ["phipsi","dihedral","angle"],
+    ui: [
+      [
+        {widget:"label",title: "Data"}, 
+        {widget: "output","name":"data:any"}
+      ],
+      [
+        {widget: "input","name": "data:any"},
+        {widget:"label",title: "Data"}
+      ]
+    ]
   },
   {
     id: "MOL_RANGE",
@@ -358,7 +378,7 @@ export const components = [
   },
   {
     id: "MOL_SECONDARY",
-    class: "filter",
+    class: "selection",
     description: "Secondary",
     help: "Select by Secondary Structures",
     tags: ["select","protein","nucleic","ligand","ion","solvent","water","hoh","h2o"],
@@ -386,7 +406,7 @@ export const components = [
     id: "MOL_SELECTED",
     class: "selection",
     description: "Selected",
-    help: "Filter (un) selected atoms",
+    help: "selection (un) selected atoms",
     tags: ["select","unselect"],
     ui: [
       [
@@ -405,7 +425,7 @@ export const components = [
   },
   {
     id: "MOL_STRUCT",
-    class: "filter",
+    class: "selection",
     description: "Structure",
     help: "Select by Structure",
     tags: ["select","properties"],
@@ -431,7 +451,7 @@ export const components = [
   },
   {
     id: "MOL_TYPES",
-    class: "filter",
+    class: "selection",
     description: "Types",
     help: "Select by Types: protein, nucleic, and solvent",
     tags: ["select","protein","nucleic","ligand","ion","solvent","water","hoh","h2o"],
@@ -460,6 +480,24 @@ export const components = [
     class: "selection",
     description: "Within",
     help: "Select by Distance",
-    tags: ["select","within","distance","radius","center"]
+    tags: ["select","within","distance","radius","center"],
+    ui: [
+      [
+        {widget:"label",title: "Atoms"}, 
+        {widget: "output","name":"data:any"}
+      ],
+      [
+        {widget: "label", title: "Radius"},
+        {widget: "numerical", "state": 0,"name": "radius:number"}
+      ],
+      [
+        {widget: "input","name": "data:any"},
+        {widget:"label",title: "Center"}
+      ],
+      [
+        {widget: "input","name": "data:any"},
+        {widget:"label",title: "Atoms"}
+      ]
+    ]
   }
 ];

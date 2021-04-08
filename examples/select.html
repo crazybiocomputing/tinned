@@ -55,7 +55,7 @@
         id: 16,
         template:"MOL_ID",
         metadata: {
-          pos: [780,151],
+          pos: [687,145],
         },
         state: {
           chainid: "B"
@@ -63,6 +63,16 @@
       },
       {
         id: 17,
+        template:"MOL_SELECTED",
+        metadata: {
+          pos: [832,189],
+        },
+        state: {
+          selected: 1
+        }
+      },
+      {
+        id: 19,
         template:"MOL_RENDER",
         metadata: {
           pos: [986,212],
@@ -97,7 +107,11 @@
       },      
       {
         eid: 4,
-        sockets: ['molout@17','molin@21'],
+        sockets: ['molout@17','molin@19'],
+      },      
+      {
+        eid: 5,
+        sockets: ['molout@19','molin@21'],
       }       
     ]
   };

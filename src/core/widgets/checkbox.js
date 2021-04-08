@@ -30,7 +30,7 @@
    */
  export const checkbox = (id,row,metadata,action_func) => {
  let input = document.createElement('input');
- input.id = `${row.name || 'unknown'}__AT__${id}`;
+ input.id = `${row.name.split(':')[0] || 'unknown'}__AT__${id}`;
  input.className = "check";
  input.setAttribute("type", "checkbox");
  input.setAttribute('name',row.name || 'unknown');

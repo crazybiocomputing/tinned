@@ -309,9 +309,9 @@ svg {
   background-color: #1f78b4;
 }
 
-.saver {
+.saver, .processing {
   background-color: #b33641;
-  background-color: #a6cee3;
+  /* background-color: #a6cee3; */
 }
 
 .viewer {
@@ -327,7 +327,7 @@ svg {
   background-color: #749797;
 }
 
-.math {
+.io {
   background-color: #e68745;
   background-color: #ff7f00;
 }
@@ -337,7 +337,7 @@ svg {
 }
 
 
-.filter {
+.filter,.selection {
   background-color: #1f78b4;
 }
 
