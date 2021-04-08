@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf8">
+<title>TINNED - Maths</title>
+<link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet"> 
+<link rel="stylesheet" href="../css/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/tinned.css">
+<script type="module" src="../mol/components.js"></script>
+
+</head>
+<body>
+<main>
+</main>
+
+<script type="module">
+
+  'use strict';
+
+  import {TINNED} from '../src/tinned.js';
+  import {Board} from '../src/core/board.js';
+  import {components} from '../mol/components.js';
+
+  ////// MAIN //////
+
+  let main = document.querySelector('main');
+
+  // Init Board
+  TINNED.init();
+  
+  // Create Board + Graph
+  let board = new Board(main,components);
+
+  // Load Graph
+  let test = {
+    nodes: [
+    {
+        id: 1,
+        template:"MOL_OPEN",
+        metadata: {
+          pos: [315,282],
+        }
+      },
+      {
+        id: 15,
+        template:"MOL_PROPS",
+        metadata: {
+          pos: [538,170],
+        },
+        state: {
+          prop: 5 // ???
+        }
+      },
+      {
+        id: 16,
+        template:"MOL_ID",
+        metadata: {
+          pos: [780,151],
+        },
+        state: {
+          chainid: "B"
+        }
+      },
+      {
+        id: 17,
+        template:"MOL_RENDER",
+        metadata: {
+          pos: [986,212],
+        },
+        state: {
+          mode: 0 // Trace
+        }
+      },
+      {
+        id: 21,
+        template:"MOL_COLOR",
+        metadata: {
+          pos: [1180,216],
+        },
+        state: {
+          color: '#ff900a'
+        }
+      }
+    ],
+    edges : [
+      {
+        eid: 1,
+        sockets: ['molout@1','molin@15'],
+      },
+      {
+        eid: 2,
+        sockets: ['molout@15','molin@16'],
+      },
+      {
+        eid: 3,
+        sockets: ['molout@16','molin@17'],
+      },      
+      {
+        eid: 4,
+        sockets: ['molout@17','molin@21'],
+      }       
+    ]
+  };
+
+  board.load(test);
+  board.run();
+
+
+</script>
+</body>
+</html>

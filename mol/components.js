@@ -265,26 +265,37 @@ export const components = [
   },
   {
     id: "MOL_PROPS",
-    class: "selection",
-    description: "Props",
+    class: "filter",
+    description: "Properties",
     help: "Select by Properties",
-    tags: ["select","properties","aliphatic","aromatic","large","small"]
+    tags: ["select","properties","aliphatic","aromatic","large","small"],
+    ui: [
+      [
+        {widget:"label",title: "Atoms"}, 
+        {widget: "output","name":"molout:molecule"}
+      ],
+      [
+        {widget: "label", title: "Prop."},
+        {
+          widget: "select", 
+          state: 0, 
+          name: "prop:string", 
+          items: ["acidic", "acyclic", "aliphatic", "aromatic", "basic", "buried", "charged", "cyclic", 
+          "hydrophobic", "large", "medium", "negative", "neutral", "polar", "positive", "small", "surface"
+          ]
+        }
+      ],
+      [
+        {widget: "input","name": "molin:molecule"},
+        {widget:"label",title: "Atoms"}
+      ]
+    ]
   },
   {
     id: "MOL_RAMACHANDRAN",
     class: "processing",
     description: "Ramachandran",
     tags: ["phipsi","dihedral","angle"],
-    ui: [
-      [
-        {widget:"label",title: "Data"}, 
-        {widget: "output","name":"data:any"}
-      ],
-      [
-        {widget: "input","name": "data:any"},
-        {widget:"label",title: "Data"}
-      ]
-    ]
   },
   {
     id: "MOL_RANGE",
