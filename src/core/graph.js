@@ -195,7 +195,7 @@ export class Graph {
    * @author Jean-Christophe Taveau
    */
   updateAllEdges(nodes) {
-    console.log(nodes);
+    // console.log(nodes);
     nodes.forEach( n => {
       this.updateEdges(n, n.classList.contains('shrink') );
     });
