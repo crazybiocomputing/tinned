@@ -31,47 +31,6 @@ const action = (id) => {
 
 export const components = [
   {
-    id: "MOL_ID",
-    class: "selection",
-    description: "ID",
-    help: "Select by ID",
-    tags: ["select","atom","symbol","chainID"],
-    ui: [
-      [
-        {widget: "label", title: "Atoms"},
-        {widget: "output", "name": "molout:mol" }
-      ],
-      [
-        {widget: "label", title: "Serial"},
-        {widget: "numerical", "state": 0,"name": "serial:number"}
-      ],
-      [
-        {widget: "label", title: "Name"},
-        {widget: "text", "state": '*',"name": "name:string"}
-      ],
-      [
-        {widget: "label", title: "ResName"},
-        {widget: "text", "state": '*',"name": "resname:string"}
-      ],
-      [
-        {widget: "label", title: "ResSeq"},
-        {widget: "text", "state": 0,"name": "resseq:string"}
-      ],
-      [
-        {widget: "label", title: "ChainID"},
-        {widget: "text", "state": '*',"name": "chainid:string"}
-      ],
-      [
-        {widget: "label", title: "Chemical"},
-        {widget: "text", "state": '*',"name": "symbol:string"}
-      ],
-      [
-        {widget: "input", "name": "molin:mol"},
-        {widget: "label", title: "Atoms"}
-      ]
-    ]
-  },
-  {
     id: "MOL_COLOR",
     class: "rendering",
     description: "Color Chooser",
@@ -118,18 +77,63 @@ export const components = [
     ]
   },
   {
+    id: "MOL_ID",
+    class: "selection",
+    description: "ID",
+    help: "Select by ID",
+    tags: ["select","atom","symbol","chainID"],
+    ui: [
+      [
+        {widget: "label", title: "Atoms"},
+        {widget: "output", "name": "molout:mol" }
+      ],
+      [
+        {widget: "label", title: "Serial"},
+        {widget: "numerical", "state": 0,"name": "serial:number"}
+      ],
+      [
+        {widget: "label", title: "Name"},
+        {widget: "text", "state": '*',"name": "name:string"}
+      ],
+      [
+        {widget: "label", title: "ResName"},
+        {widget: "text", "state": '*',"name": "resname:string"}
+      ],
+      [
+        {widget: "label", title: "ResSeq"},
+        {widget: "text", "state": 0,"name": "resseq:string"}
+      ],
+      [
+        {widget: "label", title: "ChainID"},
+        {widget: "text", "state": '*',"name": "chainid:string"}
+      ],
+      [
+        {widget: "label", title: "Chemical"},
+        {widget: "text", "state": '*',"name": "symbol:string"}
+      ],
+      [
+        {widget: "input", "name": "molin:mol"},
+        {widget: "label", title: "Atoms"}
+      ]
+    ]
+  },
+  {
     id: "MOL_KABSCH",
     class: "processing",
     description: "Kabsch",
     tags: ["superposition","alignment"],
     ui: [
       [
-        {widget:"label",title: "Data"}, 
-        {widget: "output","name":"data:any"}
+        {widget:"label",title: "Superposed"}, 
+        {widget: "output","name":"molout:molecule"}
       ],
       [
-        {widget: "input","name": "data:any"},
-        {widget:"label",title: "Data"}
+        {widget: "input","name": "molin1:molecule"},
+        {widget:"label",title: "Atoms"}
+      ],
+      [
+        {widget: "input","name": "molin2:molecule"},
+        {widget:"label",title: "Atoms"}
       ]
     ]
   },
@@ -323,12 +327,15 @@ export const components = [
     tags: ["phipsi","dihedral","angle"],
     ui: [
       [
-        {widget:"label",title: "Data"}, 
-        {widget: "output","name":"data:any"}
+        {widget:"label",title: "Atoms"}, 
+        {widget: "output","name":"molout:molecule"}
       ],
       [
-        {widget: "input","name": "data:any"},
-        {widget:"label",title: "Data"}
+        {widget: "canvas","name":"data:any"}
+      ],
+      [
+        {widget: "input","name": "molin:molecule"},
+        {widget:"label",title: "Atoms"}
       ]
     ]
   },
@@ -377,24 +384,35 @@ export const components = [
     ]
   },
   {
+    id: "MOL_RMSD",
+    class: "processing",
+    description: "RMSD",
+    tags: ["wireframe","backbone","trace","cartoon","strands","ball-and-stick"],
+    ui: [
+      [
+        {widget:"label",title: "Score"}, 
+        {widget: "output","name":"score:number"}
+      ],
+      [
+        {widget: "input","name": "molin1:molecule"},
+        {widget:"label",title: "Atoms"}
+      ],
+      [
+        {widget: "input","name": "molin2:molecule"},
+        {widget:"label",title: "Atoms"}
+      ]
+    ]
+  },
+  {
     id: "MOL_SECONDARY",
-    class: "selection",
+    class: "processing",
     description: "Secondary",
-    help: "Select by Secondary Structures",
-    tags: ["select","protein","nucleic","ligand","ion","solvent","water","hoh","h2o"],
+    help: "Compute Secondary Structures",
+    tags: ["secondary","dssp","protein"],
     ui: [
       [
         {widget:"label",title: "Atoms"}, 
         {widget: "output","name":"molout:molecule"}
-      ],
-      [
-        {widget: "label", title: "Sec.Struct."},
-        {
-          widget: "select", 
-          state: 0, 
-          name: "type:string", 
-          items: ["Alpha","Helix","Sheet","Turn"]
-        }
       ],
       [
         {widget: "input","name": "molin:molecule"},
@@ -440,7 +458,7 @@ export const components = [
           widget: "select", 
           state: 0, 
           name: "prop:string", 
-          items: ["Backbone","Sidechain","Cystine","Bonded"]
+          items: ["Alpha","Helix","Sheet","Turn","Backbone","Bonded","Cystine","Sidechain"]
         }
       ],
       [
