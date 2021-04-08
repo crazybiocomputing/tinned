@@ -52,7 +52,7 @@
         id: 7,
         template:"MOL_RENDER",
         metadata: {
-          pos: [1167,222],
+          pos: [1345,222],
         },
         state: {
           mode:  4 // Ball-and-stick
@@ -62,7 +62,7 @@
         id: 11,
         template:"MOL_COLORMODE",
         metadata: {
-          pos: [985,233],
+          pos: [1175,233],
         },
         state: {
           mode: 1 // Chain
@@ -72,7 +72,7 @@
         id: 15,
         template:"MOL_ID",
         metadata: {
-          pos: [650,192],
+          pos: [650,82],
         },
         state: {
           resname: "ARG"
@@ -82,7 +82,7 @@
         id: 16,
         template:"MOL_ID",
         metadata: {
-          pos: [825,189],
+          pos: [825,80],
         },
         state: {
           resname: "LEU"
@@ -107,7 +107,29 @@
         state: {
           color: '#ff900a'
         }
-      }
+      },
+      {
+        id: 30,
+        template:"MOL_LOGICAL",
+        metadata: {
+          pos: [1006,260],
+        },
+        state: {
+          op: 1 // AND
+        }
+      },
+      {
+        id: 31,
+        template:"MOL_ID",
+        metadata: {
+          pos: [737,305],
+        },
+        state: {
+          name: "CA"
+        }
+      },
+
+
     ],
     edges : [
       {
@@ -136,8 +158,20 @@
       },      
       {
         eid: 7,
-        sockets: ['molout@16','molin@11'],
-      }      
+        sockets: ['molout@30','molin@11'],
+      },
+      {
+        eid: 8,
+        sockets: ['molout@16','x@30'],
+      },
+      {
+        eid: 9,
+        sockets: ['molout@31','y@30'],
+      },      
+      {
+        eid: 10,
+        sockets: ['molout@17','molin@31'],
+      }       
     ]
   };
 

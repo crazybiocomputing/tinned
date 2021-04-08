@@ -60,7 +60,7 @@ export const components = [
       ],
       [
         {widget: "label", title: "Serial"},
-        {widget: "numerical", "state": 1,"name": "serial:number"}
+        {widget: "numerical", "state": 0,"name": "serial:number"}
       ],
       [
         {widget: "label", title: "Name"},
@@ -72,11 +72,11 @@ export const components = [
       ],
       [
         {widget: "label", title: "ResSeq"},
-        {widget: "text", "state": '*',"name": "resseq:string"}
+        {widget: "text", "state": 0,"name": "resseq:string"}
       ],
       [
         {widget: "label", title: "ChainID"},
-        {widget: "text", "state": 'A',"name": "chainid:string"}
+        {widget: "text", "state": '*',"name": "chainid:string"}
       ],
       [
         {widget: "label", title: "Chemical"},
@@ -133,6 +133,31 @@ export const components = [
     class: "processing",
     description: "Kabsch",
     tags: ["superposition","alignment"]
+  },
+  {
+    id: "MOL_LOGICAL",
+    class: "programming",
+    description: "Logical",
+    help: "Arithmetic operations",
+    tags: ["programming","maths","and", "or"],
+    ui: [
+      [
+        {widget: "label", title: "Atoms"},
+        {widget: "output", "name": "molout:molecule" }
+      ],
+      [
+        {widget: "label", title: "Op."},
+        {widget: "select", "state": 0, "name": "op:string", "items": ["None","AND","OR","XOR"]}
+      ],
+      [
+        {widget: "input", "name": "x:any"},
+        {widget: "label", title: "X"}
+      ],
+      [
+        {widget: "input", "name": "y:any"},
+        {widget: "label", title: "Y"}
+      ]
+    ]
   },
   {
     id: "MOL_MATH",
