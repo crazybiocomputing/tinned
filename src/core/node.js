@@ -143,13 +143,13 @@ export class Node extends Draggable {
       // Hide body, footer
       let id = evt.target.parentNode.id.match(/\d+/)[0];
       let node = document.getElementById(`node_${id}`);
-      console.log(evt.target.parentNode.id,id);
-      console.log(node);
+      // DEBUG console.log(evt.target.parentNode.id,id);
+      // DEBUG console.log(node);
       node.classList.toggle('shrink');
 
       // Shrink mode is true
       TINNED.graph.updateEdges(node,node.classList.contains('shrink'));
-      console.log(node);
+      // DEBUG console.log(node);
       evt.preventDefault();
     }
     
@@ -197,7 +197,7 @@ export class Node extends Draggable {
         ])
       ]);
 
-      /*
+    /*
     let head = document.createElement('div'); head.className = 'header'; head.classList.add(node.class.replace('.','_').toLowerCase());
     let banner = document.createElement('p');
     banner.title = (node.help) ? node.help : "No Help";

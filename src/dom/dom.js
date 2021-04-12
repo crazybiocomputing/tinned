@@ -112,7 +112,6 @@ function nodeHTML(id,options,content,children) {
   }
   if (options.on) {
     Object.keys(options.on).forEach( key => {
-      console.log(key);
       el.addEventListener(key,options.on[key]);
     });
   }
@@ -123,7 +122,6 @@ function nodeHTML(id,options,content,children) {
   // Children
   children.forEach( (child,i) => {
     let c = (typeof(child) === 'string') ? document.createTextNode(child) : child;
-    console.log('create child ',c);
     el.appendChild(c);
   });
 

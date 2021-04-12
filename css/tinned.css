@@ -224,6 +224,7 @@ svg {
 
 .shrinkdiv .in_socket  {
   display: inline-block;
+  background-color: #f2f1f0;
   float: left;
   outline: none;
   cursor: pointer;
@@ -243,6 +244,7 @@ svg {
 
 .shrinkdiv .out_socket  {
   display: inline-block;
+  background-color: #f2f1f0;
   float: left;
   outline: none;
   cursor: pointer;
