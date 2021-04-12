@@ -169,7 +169,7 @@ export class Node extends Draggable {
         // Banner
         DOM.p({
           props: {title: `${(template.help) ? template.help : "No Help"}`},
-          dataset: {nodeid: 11}
+          dataset: {nodeid: id}
         },
         [
           // Part I - Shrink/Expand Button
@@ -195,7 +195,7 @@ export class Node extends Draggable {
             ])
           ])
         ])
-      ])
+      ]);
 
       /*
     let head = document.createElement('div'); head.className = 'header'; head.classList.add(node.class.replace('.','_').toLowerCase());
@@ -258,13 +258,10 @@ export class Node extends Draggable {
    * @author Jean-Christophe Taveau
    */
   createBody(template,id,metadata) {
-
     // Body
-    let body = document.createElement('div');
-    body.id = 'body_'+id;
-    body.className = 'body';
-    // Main content
+    let body = DOM.div(`#body_${id}.body`);
 
+    // Main content
     NodeCreator.createContent( template.ui,body,this.id, metadata);
 
     return body;
