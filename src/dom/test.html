@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>DOM Test</title>  
+</head>
+<body>
+  <div id="container" class="two classes" onclick="{console.log('click')}" >
+    <span style="font-weight: bold">This is bold</span>
+    and this is just normal text
+    <a href= "/foo">I'll take you places!</a>
+  </div>
+
+  <section id="data"></section><br>
+
+
+<script>
+// Inspired by snabbdom API
+
+function nodeHTML(id,options,content,children) { 
+  // DEBUG  console.log(`create ${id} ${JSON.stringify(options)} ${content } ${children}[${children.length}]`);
+  let type,elid,klass;
+
+  // Type, ID, Classes
+  if (id.includes('#')) {
+    [type,elid,...klass] = id.split(/[\s\.#]/);
+  }
+  else {
+    [type,...klass]  = id.split(/[\s\.]/);
+  }
+
+  let el = document.createElement(type);
+  if (elid) {
+    el.id = elid;
+  }
+  if (klass) {
+    el.classList = klass.join(' ');
+  }
+  // Options - style
+  if (options.style) {
+    Object.keys(options.style).forEach( key => {
+      el.style[key] = options.style[key]
+    });
+  }
+  else if (options.props) {
+    Object.keys(options.props).forEach( key => {
+      el[key] = options.props[key]
+    });    
+  }
+  else if (options.on) {
+    Object.keys(options.on).forEach( key => {
+      console.log(key);
+      el.addEventListener(key,options.on[key]);
+    });
+  }
+
+  // Content
+  el.textContent = content;
+
+  // Children
+  children.forEach( (child,i) => {
+    let c = (typeof(child) === 'string') ? document.createTextNode(child) : child;
+    console.log('create child ',c);
+    el.appendChild(c);
+  });
+
+  return el;
+};
+
+const parseArg1 = (arg0) => {
+  let _id = (typeof arg0 === 'string') ? arg0 : '';
+  let _children = (Array.isArray(arg0)) ? arg0 : [];
+  return [_id,{},'',_children];
+}
+
+const parseArg2 = (arg0,arg1) => {
+  let _id = (typeof arg0 === 'string') ? arg0 : '';
+  let _options = (typeof arg0 === 'object') ? arg0 : {};
+  let _content = (typeof arg1 === 'string') ? arg1 : '';
+  let _children = (Array.isArray(arg1)) ? arg1 : [];
+  return [_id,_options,_content,_children];
+}
+
+const parseArg3 = (arg0, arg1,arg2) => {
+  let _content,_children;
+  _content = (typeof arg2 === 'string') ? arg2 : '';
+  _children = (Array.isArray(arg2)) ? arg2 : [];
+  return [arg0,arg1,_content,_children];
+}
+
+const _parseArgs = [parseArg1,parseArg2,parseArg3];
+
+const error = () => {
+  throw 'ERR: Too much arguments';
+}
+
+const parseArgs = (args) => {
+  console.log(args);
+  return (args.length <= 3) ? _parseArgs[args.length - 1](...args) : error();
+}
+
+
+const div = (...args) => {
+  let [id,...other] = parseArgs(args);
+  return nodeHTML(`div${id}`,...other);
+}
+const p = (...args) => {
+  let [id,...other] = parseArgs(args);
+  return nodeHTML(`p${id}`,...other);
+}
+const a = (...args) => {
+  let [id,...other] = parseArgs(args);
+  return nodeHTML(`a${id}`,...other);
+}
+const span = (...args) => {
+  let [id,...other] = parseArgs(args);
+  return nodeHTML(`span${id}`,...other);
+}
+
+
+function h(...args)  {
+  let [id,options,content,children] = parseArgs(args);
+  return nodeHTML(id,options,content,children);
+}
+
+/*
+let _div = document.createElement('div');
+_div.id="container";
+_div.classList ="two classes";
+_div.onclick = (e) => {console.log('click')};
+let _span = document.createElement('span');
+_span.style.fontWeight= "bold";
+_span.textContent = 'This is bold';
+_div.appendChild(_span);
+_div.appendChild(document.createTextNode(' and this is just normal text '));
+let _a = document.createElement('a');
+_a. href= "/foo";
+_a.textContent = "I'll take you places!";
+_div.appendChild(_a);
+
+
+document.querySelector('section').appendChild(_div);
+*/
+
+
+// Main
+const vnode = div(
+  "#container.two.classes", 
+  { on: { click: (e) => console.log('click') } }, 
+  [
+    h("span", { style: { fontWeight: "bold" } }, "This is bold"), 
+    " and this is just normal text ",
+    h("a", { props: { href: "/foo" } }, "I'll take you places!"),
+  ]
+)
+document.body.appendChild(vnode);
+
+// Header
+let head = div(
+  `.header.selection.movable`,
+  [
+    p({
+      props: {title: "Select by Properties"},
+      dataset: {nodeid: 11}
+    },
+    [
+      a('#expand_11',{props: {href: '#'}},
+      [
+        span('.expandB','▾'),
+        span('.shrinkB','▸')
+      ]),
+      "Properties",
+      span('.toolset',
+      [
+        div('.flex-cell',
+        [
+          a('#hambuger__AT__bars',
+          {
+            props: {href: '#',title: "Tools"},           
+          },
+          [h('i.fa.fa-bars')])
+        ])
+      ])
+    ])
+  ])
+  
+  document.body.appendChild(head);
+  
+  /*
+  <div class="header selection movable">
+    <p title="Select by Properties" data-nodeid="11">
+      <a id="expand_11" href="#">
+        <span class="expandB">▾</span>
+        <span class="shrinkB">▸</span>
+      </a>
+      Properties
+      <span class="toolset">
+        <div class="flex-cell">
+          <a id="hamburger__AT__bars" class="" href="#" title="Tools">
+            <i class="fa fa-bars"></i>
+          </a>
+        </div>
+      </span>
+    </p>
+  </div>
+  */
+
+</script>
+</body>
+</html>

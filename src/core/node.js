@@ -28,6 +28,7 @@ import {TINNED} from '../tinned.js';
 import {Draggable,dragStartNode,dragOverNode, dragEndNode} from './draggable.js';
 import {NodeCreator} from './nodeCreator.js';
 import {WidgetFactory} from './widgetFactory.js';
+import * as DOM from '../dom/dom.js';
 
 export class Node extends Draggable {
 
@@ -136,7 +137,7 @@ export class Node extends Draggable {
    *
    * @author Jean-Christophe Taveau
    */
-  createHeader(node,id,metadata) {
+  createHeader(template,id,metadata) {
   
     const shrinkExpand = (evt) => {
       // Hide body, footer
@@ -162,6 +163,41 @@ export class Node extends Draggable {
     let nodeH = this.element;
 
     // Header
+    let head = DOM.div(
+      `.header.${template.class.replace('.','_').toLowerCase()}`,
+      [
+        // Banner
+        DOM.p({
+          props: {title: `${(template.help) ? template.help : "No Help"}`},
+          dataset: {nodeid: 11}
+        },
+        [
+          // Part I - Shrink/Expand Button
+          DOM.a(`#expand_${id}`,{props: {href: '#'}, on: {click: shrinkExpand}},
+          [
+            DOM.span('.expandB','▾'),
+            DOM.span('.shrinkB','▸')
+          ]),
+          // Part II - Description/Title
+          template.description,
+          // Part III - Hamburger Menu
+          DOM.span('.toolset',
+          [
+            DOM.div('.flex-cell',
+            [
+              DOM.a('#hambuger__AT__bars',
+              {
+                props: {href: '#',title: "Tools",title:'Tools'},
+                on: {click: openTools(template.preview)}           
+              },
+              [DOM.h('i.fa.fa-bars')]
+              )
+            ])
+          ])
+        ])
+      ])
+
+      /*
     let head = document.createElement('div'); head.className = 'header'; head.classList.add(node.class.replace('.','_').toLowerCase());
     let banner = document.createElement('p');
     banner.title = (node.help) ? node.help : "No Help";
@@ -184,7 +220,8 @@ export class Node extends Draggable {
     let menu = WidgetFactory.create('bars','button',{icon:'bars',title:'Tools',name:'hamburger'},{},openTools(node.preview)); // fa-ellipsis-v
     menu.firstChild.classList = ''; // Remove all classes
     toolset.appendChild(menu);
-    
+    */
+
     // Add event
     this.draggable( head,dragStartNode,dragOverNode, dragEndNode);
     return head;
@@ -195,14 +232,23 @@ export class Node extends Draggable {
    *
    * @author Jean-Christophe Taveau
    */
-  createShrinkArea(node,id,metadata) {
+  createShrinkArea(template,id,metadata) {
 
-    let shrink = document.createElement('div');
-    shrink.className = 'shrinkdiv'; shrink.classList.add(node.class.replace('.','_').toLowerCase());
+    return DOM.div(`.shrinkdiv.${template.class.replace('.','_').toLowerCase()}`,
+    [
+      (this.hasInputs)  ? DOM.span('.in_socket',[DOM.h('i.fa.fa-chevron-circle-right')]) : '',
+      DOM.p(["\u00A0"]),
+      (this.hasOutputs) ? DOM.span('.out_socket',[DOM.h('i.fa.fa-chevron-circle-right')]) : ''
+    ]);
+
+    /*
+    document.createElement('div');
+    shrink.className = 'shrinkdiv'; shrink.classList.add();
     shrink.innerHTML = (this.hasInputs) ? '<span class="in_socket"><i class="fa fa-chevron-circle-right"></i></span>': '';
     shrink.innerHTML += '<p>&nbsp;</p>';
     shrink.innerHTML += (this.hasOutputs) ? '<span class="out_socket"><i class="fa fa-chevron-circle-right"></i></span>' : '';
     return shrink;
+    */
   }
 
 
