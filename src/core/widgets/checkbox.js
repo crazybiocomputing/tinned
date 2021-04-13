@@ -28,14 +28,16 @@
    * Widget 
    * @author Jean-Christophe Taveau
    */
- export const checkbox = (id,row,metadata,action_func) => {
+ export const checkbox = (id,template,metadata,action_func) => {
  let input = document.createElement('input');
- input.id = `${row.name.split(':')[0] || 'unknown'}__AT__${id}`;
+ let [_name,_type] = template.name.split(':');
+ input.id = `${_name || 'unknown'}__AT__${id}`;
  input.className = "check";
  input.setAttribute("type", "checkbox");
- input.setAttribute('name',row.name || 'unknown');
- input.setAttribute('value',row.checkbox);
- input.checked = row.checkbox;
+ input.setAttribute('name',_name || 'unknown');
+ console.log(metadata);
+ input.setAttribute('value', template.state);
+ input.checked = (template.state) ? true : false;
 
  // TODO Add event onchanged
  return input;

@@ -96,6 +96,9 @@ export class Node extends Draggable {
       console.log(`#${key}__AT__${this.element.id}`);
       let child = this.element.querySelector(`#${key}__AT__${this.id}`);
       child.value = state[key];
+      if (child.type === 'checkbox') {
+        child.checked = state[key];
+      }
     });
   }
 

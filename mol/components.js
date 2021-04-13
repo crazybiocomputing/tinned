@@ -24,10 +24,57 @@
 
 'use strict';
 
+import { input_socket } from "../src/core/widgets";
 
+// Test Actions
 const action = (id) => {
   console.log("Run...",id);
 }
+
+const produce = (params) => {
+  console.log("Run...",params);
+  return {data: [1,2,3,4,5], params};
+}
+
+// Could be transducer
+const operation = (params) => (input) => {
+  input.params = [...input.params,...params];
+  return input;
+}
+
+const sink = (params) => (input) => {
+  console.log(JSON.stringify(input));
+}
+
+export const engines = {
+  // Producers
+  MOL_NUMBER: action('MOL_NUMBER (producer)'),
+  MOL_OPEN: action('MOL_OPEN (producer)'),
+  MOL_RANGE: action('MOL_RANGE (producer)'),
+  // Operations
+  MOL_COLOR: action('MOL_COLOR'),
+  MOL_COLORMODE: action('MOL_COLORMODE'),
+  MOL_ID: action('MOL_ID'),
+  MOL_KABSCH: action('MOL_KABSCH'),
+  MOL_LOGICAL: action('MOL_LOGICAL'),
+  MOL_MATH: action('MOL_MATH'),
+  MOL_MONITOR: action('MOL_MONITOR'),
+  MOL_NUCLEIC: action('MOL_NUCLEIC'),
+  MOL_PHIPSI: action('MOL_PHIPSI'),
+  MOL_PROPS: action('MOL_PROPS'),
+  MOL_RAMACHANDRAN: action('MOL_RAMACHANDRAN'),
+  MOL_RENDER: action('MOL_CRENDER'),
+  MOL_RMSD: action('MOL_RMSD'),
+  MOL_SECONDARY: action('MOL_SECONDARY'),
+  MOL_SELECTED: action('MOL_SELECTED'),
+  MOL_STRUCT: action('MOL_STRUCT'),
+  MOL_TYPES: action('MOL_TYPES'),
+  MOL_WITHIN: action('MOL_WITHIN'),
+  // Sinks
+  MOL_HISTOGRAM: action('MOL_HISTOGRAM'),
+  MOL_VIEW: action('MOL_VIEW')
+};
+
 
 export const components = [
   {
@@ -60,8 +107,7 @@ export const components = [
         {widget: "label", title: "Atoms"},
         {widget: "output", "name": "molout:mol" }
       ],
-      [
-        
+      [        
         {widget: "label", title: "Mode"},
         {
           widget: "select", 
@@ -73,6 +119,56 @@ export const components = [
       [
         {widget: "input", "name": "molin:mol"},
         {widget: "label", title: "Atoms"}
+      ]
+    ]
+  },
+  {
+    id: "MOL_COUNTBY",
+    class: "programming",
+    description: "CountBy",
+    tags: ["sort"],
+    ui: [
+      [
+        {widget: "label", title: "Counts"},
+        {widget: "output", "name": "counts:[number]" }
+      ],
+      [
+        {widget: "label", title: "Prop."},
+        {
+          widget: "select", "state": 0,"name": "prop:string",
+          items: ['ResName', 'Name','ChainID','Chemical'] 
+        },
+      ],
+      [
+        {widget: "input", "name": "molin:mol"},
+        {widget: "label", title: "Atoms"}
+      ]
+    ]
+  },
+  {
+    id: "MOL_HISTOGRAM",
+    class: "io",
+    description: "Histogram",
+    tags: ["plot","drawing","scheme"],
+    ui: [
+      [
+        {widget: "label", title: "Bins"},
+        {widget: "numerical", "state": 0,"name": "bins:number"}
+      ],
+      [
+        {widget: "label", title: "Min"},
+        {widget: "numerical", "state": 0,"name": "min:number"}
+      ],
+      [
+        {widget: "label", title: "Max"},
+        {widget: "numerical", "state": 0,"name": "max:number"}
+      ],
+      [
+        {widget: "canvas","name":"data:any"}
+      ],
+      [
+        {widget: "input","name": "data:[number]"},
+        {widget:"label",title: "Data"}
       ]
     ]
   },
@@ -207,8 +303,7 @@ export const components = [
       [
         {widget:"textarea", "state": "null","name": "log:string"}
       ]
-    ],
-    runner : action("MOL_MONITOR")
+    ]
   },
   {
     id: "MOL_NUCLEIC",
@@ -247,8 +342,7 @@ export const components = [
         {widget: "numerical", "state": 0,"name": "value:number"},
         {widget: "output", title: "Value","name": "value:number"}
       ]
-    ],
-    runner : action("MOL_NUMBER")
+    ]
   },
   {
     id: "MOL_OPEN",
@@ -273,8 +367,7 @@ export const components = [
           ]
         }
       ]
-    ],
-    runner : action("MOL_OPEN")
+    ]
   },
   {
     id: "MOL_PHIPSI",
@@ -283,12 +376,12 @@ export const components = [
     tags: ["phipsi","dihedral","angle"],
     ui: [
       [
-        {widget:"label",title: "Data"}, 
-        {widget: "output","name":"data:any"}
+        {widget:"label",title: "Atoms"}, 
+        {widget: "output","name":"molout:molecule"}
       ],
       [
-        {widget: "input","name": "data:any"},
-        {widget:"label",title: "Data"}
+        {widget: "input","name": "molin:molecule"},
+        {widget:"label",title: "Atoms"}
       ]
     ]
   },
@@ -433,7 +526,7 @@ export const components = [
       ],
       [
         {widget: "label", title: "Selected"},
-        {widget: "checkbox", "state": 0, "name": "selected:boolean"},
+        {widget: "checkbox", "state": false, "name": "selected:boolean"},
       ],
       [
         {widget: "input","name": "molin:molecule"},
@@ -489,6 +582,35 @@ export const components = [
       ],
       [
         {widget: "input","name": "molin:molecule"},
+        {widget:"label",title: "Atoms"}
+      ]
+    ]
+  },
+  {
+    id: "MOL_VIEW",
+    class: "io",
+    description: "3D View",
+    help: "View",
+    tags: ["view"],
+    ui: [
+      [
+        {widget: "label", title: "Backdrop"},
+        {widget: "checkbox", "state": 0, "name": "backdrop:boolean"},
+      ],
+      [
+        {widget: "input","name": "mol1:molecule"},
+        {widget:"label",title: "Atoms"}
+      ],
+      [
+        {widget: "input","name": "mol2:molecule"},
+        {widget:"label",title: "Atoms"}
+      ],
+      [
+        {widget: "input","name": "mol2:molecule"},
+        {widget:"label",title: "Atoms"}
+      ],
+      [
+        {widget: "input","name": "mol4:molecule"},
         {widget:"label",title: "Atoms"}
       ]
     ]

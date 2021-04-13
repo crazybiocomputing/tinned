@@ -125,6 +125,18 @@ const nodeHTML = (id,options,content,children) => {
 // Generic HTML node
 export const h = (...args) => nodeHTML(...parseArgs(args));
 
+// a
+export const a = (...args) => {
+  let [id,...others] = parseArgs(args);
+  return nodeHTML(`a${id}`,...others);
+}
+
+// button
+export const button = (...args) => {
+  let [id,...others] = parseArgs(args);
+  return nodeHTML(`button${id}`,...others);
+}
+
 // div
 export const div = (...args) => {
   let [id,...others] = parseArgs(args);
@@ -135,12 +147,6 @@ export const div = (...args) => {
 export const p = (...args) => {
   let [id,...others] = parseArgs(args);
   return nodeHTML(`p${id}`,...others);
-}
-
-// a
-export const a = (...args) => {
-  let [id,...others] = parseArgs(args);
-  return nodeHTML(`a${id}`,...others);
 }
 
 // span
