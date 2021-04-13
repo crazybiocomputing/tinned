@@ -43,7 +43,7 @@ const tags = [
   'time', 'title', 'tr', 'ul', 'video', 'wbr', 'wbr', 'xmp'];
   
 
-// Inspired by snabbdom API
+// Freely inspired by snabbdom API
 
 const parseArg1 = (arg0) => {
   let _id = (typeof arg0 === 'string') ? arg0 : '';
@@ -74,7 +74,7 @@ const error = () => {
 
 const parseArgs = (args) => (args.length <= 3) ? _parseArgs[args.length - 1](...args) : error();
 
-function nodeHTML(id,options,content,children) { 
+const nodeHTML = (id,options,content,children) => { 
   // DEBUG  console.log(`create ${id} ${JSON.stringify(options)} ${content } ${children}[${children.length}]`);
   let type,elid,klass;
 
@@ -93,28 +93,21 @@ function nodeHTML(id,options,content,children) {
   if (klass) {
     el.classList = klass.join(' ');
   }
-  // Options -dataset
-  if (options.dataset) {
-    Object.keys(options.dataset).forEach( key => {
-      el.dataset[key] = options.dataset[key]
-    });    
-  }
-  // Options - style
-  if (options.style) {
-    Object.keys(options.style).forEach( key => {
-      el.style[key] = options.style[key]
-    });
-  }
-  if (options.props) {
-    Object.keys(options.props).forEach( key => {
-      el[key] = options.props[key]
-    });    
-  }
-  if (options.on) {
-    Object.keys(options.on).forEach( key => {
-      el.addEventListener(key,options.on[key]);
-    });
-  }
+
+  const setDataset = (elem,key,value) => elem.dataset[key] = value;
+  const setStyle = (elem,key,value) => elem.style[key] = value;
+  const setProperty = (elem,key,value) => elem[key] = value;
+  const setAttribute = (elem,key,value) => elem.setAttribute(key,value);
+  const setListener = (elem,event,func) => elem.addEventListener(event,func);
+
+  const setProp = [setDataset,setStyle,setProperty,setAttribute,setListener];
+
+  // Options
+  ['dataset','style','props','attrs','on'].forEach( (prop,i) => {
+    if (options[prop]) {
+      Object.keys(options[prop]).forEach( key => setProp[i](el,key,options[prop][key]) );
+    }
+  });
 
   // Content
   el.textContent = content;
@@ -129,21 +122,28 @@ function nodeHTML(id,options,content,children) {
 };
 
 
+// Generic HTML node
 export const h = (...args) => nodeHTML(...parseArgs(args));
 
+// div
 export const div = (...args) => {
   let [id,...others] = parseArgs(args);
   return nodeHTML(`div${id}`,...others);
 }
 
+// p
 export const p = (...args) => {
   let [id,...others] = parseArgs(args);
   return nodeHTML(`p${id}`,...others);
 }
+
+// a
 export const a = (...args) => {
   let [id,...others] = parseArgs(args);
   return nodeHTML(`a${id}`,...others);
 }
+
+// span
 export const span = (...args) => {
   let [id,...others] = parseArgs(args);
   return nodeHTML(`span${id}`,...others);
