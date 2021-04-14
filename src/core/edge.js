@@ -44,29 +44,37 @@ export class Edge {
   }
 
   /*
+    * @private
+    * Update flow in function of source and/or target
+    */
+  _updateFlow() {
+      let flow = TINNED.graph.flow;
+      flow.insertOperation(this.source,this.target);
+  }
+
+  /*
    * @private
-   * idE - Edge ID
-   * idS - Source ID
-   * idT - Target ID
+   * Create SVG element 
+   * edgID - Edge ID
+   * srcID - Source ID
+   * tgtID - Target ID
    * input - Input Socket
    * output - Output Socket
    */
-  _createEdge(idE,idS,idT,input,output) {
+  _createEdge(edgID,srcID,tgtID,input,output) {
     // Source
-    let words = idS.split('@'); 
-    let idSource = {index: words[1],variable: words[0]};
-    words = idT.split('@'); 
-    let idTarget = {index: words[1],variable: words[0]};
+    let words = srcID.split('@'); 
+    let sourceID = {index: words[1],variable: words[0]};
     
-    let nodeS = document.querySelector(`#${idSource.variable}__OUT__${idSource.index}`); //`#node_${idS} #o_${output} button`);
-    console.log(idS,nodeS);
-    console.log('EDGE',idS.match(/@(\d+)/));
-    let shrinkNodeS = document.querySelector(`#node_${idSource.index} .out_socket`);
-    let tmp = [idE];
+    let nodeS = document.querySelector(`#${sourceID.variable}__OUT__${sourceID.index}`); //`#node_${srcID} #o_${output} button`);
+    console.log(srcID,nodeS);
+    console.log('EDGE',srcID.match(/@(\d+)/));
+    let shrinkNodeS = document.querySelector(`#node_${sourceID.index} .out_socket`);
+    let tmp = [edgID];
     if (nodeS.dataset.edge !== undefined) {
       console.log(nodeS.dataset.edge);
       tmp = JSON.parse(nodeS.dataset.edge);
-      tmp.push( idE);
+      tmp.push( edgID);
     }
     nodeS.dataset.edge = JSON.stringify(tmp);
     if (shrinkNodeS.dataset.edge !== undefined) {
@@ -80,28 +88,30 @@ export class Edge {
     }
     
     // Target
-    let nodeT = document.querySelector(`#${idT.replace('@','__IN__')}`);
-        console.log(idT);
-    let shrinkNodeT = document.querySelector(`#node_${idTarget.index}  .in_socket`);
-    nodeT.dataset.edge = idE;
+    words = tgtID.split('@'); 
+    let targetID = {index: words[1],variable: words[0]};
+    let nodeT = document.querySelector(`#${tgtID.replace('@','__IN__')}`);
+        console.log(tgtID);
+    let shrinkNodeT = document.querySelector(`#node_${targetID.index}  .in_socket`);
+    nodeT.dataset.edge = edgID;
     if (shrinkNodeT.dataset.edge !== undefined) {
       let array = JSON.parse(shrinkNodeT.dataset.edge);
-      array.push(idE);
+      array.push(edgID);
       shrinkNodeT.dataset.edge = JSON.stringify(array);
-      console.log('shrinkT ' + shrinkNodeT.dataset.edge + ' ' +  idE);
+      console.log('shrinkT ' + shrinkNodeT.dataset.edge + ' ' +  edgID);
     }
     else {
-      shrinkNodeT.dataset.edge = `[${idE}]`;
+      shrinkNodeT.dataset.edge = `[${edgID}]`;
     }
 
     console.log(nodeS.id + '--> ' + nodeT.id);
     let start = this.getCoords(nodeS);
     let end = this.getCoords(nodeT);
     let line = document.createElementNS(xmlns,'line');
-    line.dataset.source = `node_${idSource.index}`;
-    line.dataset.target = `node_${idTarget.index}`;
-    line.setAttribute('id',`e_${idE}`);
-    line.setAttribute('stroke-width',2.0);
+    line.dataset.source = `node_${sourceID.index}`;
+    line.dataset.target = `node_${targetID.index}`;
+    line.setAttribute('id',`e_${edgID}`);
+    line.setAttribute('stroke-wtgtIDh',2.0);
     line.setAttribute('x1',start.x);
     line.setAttribute('y1',start.y);
     line.setAttribute('x2',end.x);

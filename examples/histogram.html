@@ -31,8 +31,8 @@
   // Create Board + Graph
   let board = new Board(main,components);
 
-  // Load Graph
-  let test = {
+  // Create Graph (nodes + edges)
+  let _graph = {
     nodes: [
     {
         id: 1,
@@ -104,10 +104,10 @@
     ]
   };
 
-  board.load(test);
+  board.load(_graph);
   board.run();
 
-
+  
 </script>
 </body>
 </html>

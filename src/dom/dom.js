@@ -104,7 +104,7 @@ const nodeHTML = (id,options,content,children) => {
 
   // Options
   ['dataset','style','props','attrs','on'].forEach( (prop,i) => {
-    if (options[prop]) {
+    if (prop in options) {
       Object.keys(options[prop]).forEach( key => setProp[i](el,key,options[prop][key]) );
     }
   });

@@ -24,13 +24,12 @@
 
 'use strict';
 
-import { input_socket } from "../src/core/widgets";
 
 // Test Actions
-const action = (id) => {
-  console.log("Run...",id);
+const action = (id) => (msg) => {
+  console.log(msg,id);
 }
-
+/*
 const produce = (params) => {
   console.log("Run...",params);
   return {data: [1,2,3,4,5], params};
@@ -45,6 +44,8 @@ const operation = (params) => (input) => {
 const sink = (params) => (input) => {
   console.log(JSON.stringify(input));
 }
+
+*/
 
 export const engines = {
   // Producers
@@ -95,7 +96,8 @@ export const components = [
         {widget: "input", "name": "molin:mol"},
         {widget: "label", title: "Atoms"}
       ]
-    ]
+    ],
+    operation: action('MOL_COLOR')
   },
   {
     id: "MOL_COLORMODE",
@@ -170,7 +172,8 @@ export const components = [
         {widget: "input","name": "data:[number]"},
         {widget:"label",title: "Data"}
       ]
-    ]
+    ],
+    operation: action('MOL_HISTOGRAM')
   },
   {
     id: "MOL_ID",
