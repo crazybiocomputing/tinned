@@ -1,0 +1,55 @@
+p.main {
+  width: 100px;
+  height: 100px;
+  transform-origin: center;
+  background-color: blue;
+}
+
+body {
+font-family: Arial, Helvetica, sans-serif;
+}
+
+#container {
+  width : 300px;
+  z-index: 1;
+}
+
+div.searchbox {
+  background-color : rgb(7, 7, 7);
+  color : lightgray;
+  padding-top: 2px;
+  padding-bottom: 4px;
+  border-radius: 10px;
+}
+
+#searchWrapper{
+  padding-left : 50px;
+}
+
+#NodeList {
+  background-color: rgba(63, 62, 62, 0.466);
+  font-size: small;
+  padding: 10px 10px 10px 10px;
+}
+
+li.Node{
+  margin-top : 5px;
+  margin-bottom: 4px;
+  padding-left: 10px;
+  border-width: 1px;
+  border-style: solid;
+  border-color:white;
+  border-radius: 10px;
+}
+
+h1 {
+  text-align: center;
+}
+
+a {
+  color : white;
+}
+
+a:hover {
+  color : gray;
+}

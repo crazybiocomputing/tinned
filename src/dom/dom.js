@@ -43,7 +43,11 @@ const tags = [
   'time', 'title', 'tr', 'ul', 'video', 'wbr', 'wbr', 'xmp'];
   
 
-// Freely inspired by snabbdom API
+/*
+ * Freely inspired by:
+ * ⌞ snabbdom () 
+ * ⌞ hyperscript (https://github.com/hyperhype/hyperscript)
+ */
 
 const parseArg1 = (arg0) => {
   let _id = (typeof arg0 === 'string') ? arg0 : '';
@@ -74,6 +78,14 @@ const error = () => {
 
 const parseArgs = (args) => (args.length <= 3) ? _parseArgs[args.length - 1](...args) : error();
 
+/*
+ * Element Creation
+ * @param {string} id Comprises Tag,ID,Class(es) or Tag,Class(es) (only in this order).
+ * @param {object} options - Attributes
+ * @param {string} content - text
+ * @param {children} children - Element children
+ * @returns 
+ */
 const nodeHTML = (id,options,content,children) => { 
   // DEBUG  console.log(`create ${id} ${JSON.stringify(options)} ${content } ${children}[${children.length}]`);
   let type,elid,klass;
@@ -108,24 +120,29 @@ const nodeHTML = (id,options,content,children) => {
       Object.keys(options[prop]).forEach( key => setProp[i](el,key,options[prop][key]) );
     }
   });
-
   // Content
   el.textContent = content;
-
   // Children
   children.forEach( (child,i) => {
     let c = (typeof(child) === 'string') ? document.createTextNode(child) : child;
     el.appendChild(c);
   });
-
   return el;
 };
 
 
-// Generic HTML node
+/**
+ *  Generic HTML node
+ * 
+ */ 
 export const h = (...args) => nodeHTML(...parseArgs(args));
 
-// a
+
+/**
+ * Hyperlink <a> Element Creation
+ * @param  {...any} args
+ * @returns 
+ */
 export const a = (...args) => {
   let [id,...others] = parseArgs(args);
   return nodeHTML(`a${id}`,...others);

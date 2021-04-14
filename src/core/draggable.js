@@ -25,6 +25,7 @@
 'use strict';
 
 import {TINNED} from '../tinned.js';
+import {getID} from './common.js';
 
 
 const DRAG = {

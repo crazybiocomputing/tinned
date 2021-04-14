@@ -41,7 +41,7 @@ export class Node extends Draggable {
    *
    * @author Jean-Christophe Taveau
    */
-  constructor(id,template,metadata) {
+  constructor(id,template,data) {
     super();
     this.id = id;
     console.log('NODE',id);
@@ -59,15 +59,14 @@ export class Node extends Draggable {
     this.hasInputs  = template.ui.some( (row) => row.find( w => w.widget === 'input'));
 
     // Create Widgets
-    this.createMarkup(id,template,metadata);
-    
+    this.createMarkup(id,template,data.meta); 
   }
 
   /**
    * Is this node a `Consumer`
    *
    */
-  isConsumer() {
+  isSink() {
     return this.hasInputs && !this.hasOutputs;
   }
   
@@ -190,7 +189,7 @@ export class Node extends Draggable {
             [
               DOM.a('#hambuger__AT__bars',
               {
-                props: {href: '#',title: "Tools",title:'Tools'},
+                props: {href: '#',title: "Tools"},
                 on: {click: openTools(template.preview)}           
               },
               [DOM.h('i.fa.fa-bars')]

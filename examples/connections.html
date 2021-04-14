@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf8">
-<title>TINNED - Range</title>
+<title>TINNED MOL - All Nodes</title>
 <link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet"> 
 <link rel="stylesheet" href="../css/font-awesome-4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="../css/tinned.css">
@@ -32,19 +32,18 @@
   let board = new Board(main,components);
 
   // Load Graph
-  let test = {
+  let graph = {
+    edges: [],
     nodes: [
     {
         id: 1,
-        template:"MOL_RANGE",
+        template:"MOL_NUMBER",
         data: {
           meta: {
             pos: [717,256],
           },
           state: {
-            start: 1,
-            stop: 20,
-            step: 2
+            value: 37
           }
         }
       },
@@ -58,6 +57,18 @@
         }
       },
       {
+        id: 11,
+        template:"MOL_NUMBER",
+        data: {
+          meta: {
+            pos: [722,412],
+          },
+          state: {
+            value: 46
+          }
+        }
+      },
+      {
         id: 15,
         template:"MOL_MATH",
         data: {
@@ -65,25 +76,14 @@
             pos: [939,288],
           },
           state: {
-            op: 1, // Add
-            y : 46
+            op: 1 // Add
           }
         }
-      }
-    ],
-    edges : [
-      {
-        eid: 1,
-        sockets: ['stream@1','x@15']
-      },
-      {
-        eid: 2,
-        sockets: ['value@15','data@5']
       }
     ]
   };
 
-  board.load(test);
+  board.load(graph);
   board.run();
 
 

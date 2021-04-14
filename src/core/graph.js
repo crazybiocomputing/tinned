@@ -41,7 +41,7 @@ export class Graph {
     this.templates = templates;
     this.nodes = [];
     this.edges = [];
-    this.pipeline = new DataFlow(this); // ??
+    this.flow = new DataFlow(this); // ??
     this.context; // svg or canvas/webgl?
     this.root; // HTML Parent node for all the nodes
   }
@@ -55,15 +55,15 @@ export class Graph {
     return (this.nodes.length > 0) ? this.nodes[this.nodes.length - 1].id : 0;
   }
 
-  appendNode(templateID,nodeID = -1,metadata={}) {
+  appendNode(templateID,nodeID = -1,data={}) {
     let newid = (nodeID !== -1) ? nodeID : this.lastID() + 1; // TODO HACK
     // Create the Node (the `Producer`)
     let template = this.templates.find( n => n.id === templateID);
-    let node =  new Node(newid,template,metadata);
+    let node =  new Node(newid,template,data);
     this.nodes.push(node);
     this.root.appendChild(node.element);
     // Add the engine in the queue waiting for execution (the `Consumer`).
-    this.pipeline.add(node);
+    this.flow.add(node);
     return node;
   }
 
@@ -72,9 +72,9 @@ export class Graph {
    *
    * @author Jean-Christophe Taveau
    */
-  appendNodeByName(templateName,nodeID = -1,metadata={}) {
+  appendNodeByName(templateName,nodeID = -1,data={}) {
     let templateID = this.templates.find( n => n.name === templateName);
-    return this.appendNode(tmplID,nodeID,metadata);
+    return this.appendNode(tmplID,nodeID,data);
   }
 
 
@@ -100,23 +100,22 @@ export class Graph {
       let template_ui = this.templates.find(t => t.id === node.template);
       // Step #2:  Create GUI
       console.log('NODE',node.id,node.template,component);
-      component.node = new Node(node.id,template_ui,node.metadata);
-            // component.createMarkup(node.id,node.metadata);
+      component.node = new Node(node.id,template_ui,node.data);
       this.nodes.push(component.node);
       this.root.appendChild(component.node.element);
-      // Step #3:  Update states if any
+      // Step #3:  Update states if any or in data
       if (node.state) {
-        component.node.setState(node.state);
+        component.node.setState(node.data.state);
       }
       // Add the engine in the queue waiting for execution (the `Consumer`).
-      // TODO this.pipeline.add(component);
+      // TODO this.flow.add(component);
       // this.appendNode(component);
-      // this.appendNode(NodeFactory.node.template,node.id,node.metadata);
+      // this.appendNode(NodeFactory.node.template,node.id,node.data);
       /*
       // Attach node to <root>
-      console.log(node.template,node.id,node.metadata);
+      console.log(node.template,node.id,node.data);
       console.log(this.components.find( n => n.id === node.template));
-      let n = new Node(node.id,this.components.find( n => n.id === node.template),node.metadata);
+      let n = new Node(node.id,this.components.find( n => n.id === node.template),node.data);
       this.nodes.push(n);
       root.appendChild(n.element);
       */
@@ -144,7 +143,7 @@ export class Graph {
    */
   dispatch(socket_id, args) {
     let edges = this.edges.filter( e => e.source === socket_id || e.target === socket_id);
-    return this.pipeline.dispatch(edges, args);
+    return this.flow.dispatch(edges, args);
   }
   
   getNode(node_id) {
@@ -172,7 +171,7 @@ export class Graph {
    * @author Jean-Christophe Taveau
    */
   run() {
-    this.pipeline.forEach( func => func() );
+    this.flow.forEach( func => func() );
   }
 
   /**
@@ -184,7 +183,7 @@ export class Graph {
    */
   update(node_id) {
     console.log(node_id);
-    this.pipeline.update(node_id);
+    this.flow.update(node_id);
   }
 
   /**

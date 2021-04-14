@@ -35,86 +35,98 @@
   let test = {
     nodes: [
     {
-        id: 1,
-        template:"MOL_OPEN",
-        metadata: {
+      id: 1,
+      template:"MOL_OPEN",
+      data: {
+        meta: {
           pos: [315,282],
         }
-      },
-      {
-        id: 15,
-        template:"MOL_PROPS",
-        metadata: {
+      }
+    },
+    {
+      id: 15,
+      template:"MOL_PROPS",
+      data: {
+        meta: {
           pos: [538,170],
         },
         state: {
           prop: 5 // ???
         }
-      },
-      {
-        id: 16,
-        template:"MOL_ID",
-        metadata: {
+      }
+    },
+    {
+      id: 16,
+      template:"MOL_ID",
+      data: {
+        meta: {
           pos: [687,145],
         },
         state: {
           chainid: "B"
         }
-      },
-      {
-        id: 17,
-        template:"MOL_SELECTED",
-        metadata: {
+      }
+    },
+    {
+      id: 17,
+      template:"MOL_SELECTED",
+      data: {
+        meta: {
           pos: [832,189],
         },
         state: {
           selected: 1
         }
-      },
-      {
-        id: 19,
-        template:"MOL_RENDER",
-        metadata: {
+      }
+    },
+    {
+      id: 19,
+      template:"MOL_RENDER",
+      data: {
+        meta: {
           pos: [986,212],
         },
         state: {
           mode: 0 // Trace
         }
-      },
-      {
-        id: 21,
-        template:"MOL_COLORMODE",
-        metadata: {
+      }
+    },
+    {
+      id: 21,
+      template:"MOL_COLORMODE",
+      data: {
+        meta: {
           pos: [1180,216],
         },
         state: {
           mode: 4 // CPK
         }
       }
-    ],
-    edges : [
-      {
-        eid: 1,
-        sockets: ['molout@1','molin@15'],
-      },
-      {
-        eid: 2,
-        sockets: ['molout@15','molin@16'],
-      },
-      {
-        eid: 3,
-        sockets: ['molout@16','molin@17'],
-      },      
-      {
-        eid: 4,
-        sockets: ['molout@17','molin@19'],
-      },      
-      {
-        eid: 5,
-        sockets: ['molout@19','molin@21'],
-      }       
-    ]
-  };
+    }
+  ],
+  edges : [
+    {
+      eid: 1,
+      sockets: ['molout@1','molin@15'],
+    },
+    {
+      eid: 2,
+      sockets: ['molout@15','molin@16'],
+    },
+    {
+      eid: 3,
+      sockets: ['molout@16','molin@17'],
+    },      
+    {
+      eid: 4,
+      sockets: ['molout@17','molin@19'],
+    },      
+    {
+      eid: 5,
+      sockets: ['molout@19','molin@21'],
+    }       
+  ]
+};
 
   board.load(test);
   board.run();
