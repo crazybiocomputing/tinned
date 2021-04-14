@@ -5,113 +5,35 @@
 <title>TINNED - Search Box</title>
 <link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet"> 
 <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
-<link rel="stylesheet" href="../css/searchbar.css">
+<link rel="stylesheet" href="../css/searchBox.css">
  <link rel="stylesheet" href="../css/tinned.css">
 
 </head>
 <body>
 <main>
-  <div id = "container"></div>
 </main>
 
 <script type="module">
 
   'use strict';
 
+  import {TINNED} from '../src/tinned.js';
+  import {Board} from '../src/core/board.js';
+  import {components} from '../mol/components.js';
   import {searchBox} from '../src/searchBox.js';
 
   ////// MAIN //////
-  const tags = [
-    {
-      id: "MOL_OPEN",
-      class: "io",
-      description: "Open Structure",
-      tags: ["file","open","pdb","cif","xyz"]
-    },
-    {
-      id: "MOL_NUMBER",
-      class: "programming",
-      description: "Number",
-      tags: ["value","variable", "set"]
-    },
-    {
-      id: "MOL_RANGE",
-      class: "programming",
-      description: "Range",
-      tags: ["array","series","list"]
-    },
-    {
-      id: "MOL_MATHS",
-      class: "programming",
-      description: "Arithmetics",
-      tags: ["add","subtract","multiply","divide"]
-    },
-    {
-      id: "MOL_MONITOR",
-      class: "information",
-      description: "Monitor",
-      tags: ["console","display","log","print","show","tap"]
-    },
-    {
-      id: "MOL_ID",
-      class: "selection",
-      description: "Select by ID",
-      tags: ["atom","symbol","chainID"]
-    },
-    {
-      id: "MOL_PROPS",
-      class: "selection",
-      description: "Select by Props",
-      tags: ["properties","aliphatic","aromatic","large","small"]
-    },
-    {
-      id: "MOL_WITHIN",
-      class: "selection",
-      description: "Select by Distance",
-      tags: ["within","distance","radius","center"]
-    },
-    {
-      id: "MOL_COLOR",
-      class: "rendering",
-      description: "Color Chooser",
-      tags: ["rgb","hsl"]
-    },
-    {
-      id: "MOL_COLORMODE",
-      class: "rendering",
-      description: "Color Mode",
-      tags: ["cpk","lut","rainbow"]
-    },
-    {
-      id: "MOL_RENDER",
-      class: "rendering",
-      description: "Render",
-      tags: ["wireframe","backbone","trace","cartoon","strands","ball-and-stick"]
-    },
-    {
-      id: "MOL_PHIPSI",
-      class: "processing",
-      description: "PhiPsi",
-      tags: ["phipsi","dihedral","angle"]
-    },
-    {
-      id: "MOL_RAMACHANDRAN",
-      class: "processing",
-      description: "Ramachandran",
-      tags: ["phipsi","dihedral","angle"]
-    },
-    {
-      id: "MOL_KABSCH",
-      class: "processing",
-      description: "Kabsch",
-      tags: ["superposition","alignment"]
-    },
-    ];
-  
-  let main = document.querySelector('main');
 
+  let main = document.querySelector('main');
+  
   // Init Board
-  searchBox(main,tags);
+  TINNED.init();
+  
+  // Create Board + Graph
+  let board = new Board(main,components);  
+  
+  // Create SearchBox
+  searchBox(main,components);
 
 </script>
 </body>

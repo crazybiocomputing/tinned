@@ -28,10 +28,8 @@
  * @param {dom} element - HTML parent element
  * @param {array} titles - [{id:<string>,description: <string>,tags: [<string>, ...]},...]
  */
-export const searchBox = (element,tags) => {
+export const searchBox = (parent,tags) => {
     
-  const container = document.getElementById("container");
-
   const displayNode = (tags,id) => {
     const htmlString = tags
         .map((tag) => {
@@ -47,8 +45,9 @@ export const searchBox = (element,tags) => {
   };
 
   const displaySearchbox = () => {
-    const searchbox = `<div class="searchbox">
-        <div id="searchWrapper">
+    const searchbox = document.createElement('div');
+    searchbox.className = "searchbox"; 
+    const html = `<div id="searchWrapper">
           <input
             type="text"
             name="searchbar"
@@ -58,15 +57,17 @@ export const searchBox = (element,tags) => {
         </div>
         <ul id="NodeList"></ul>
       </div>`;
-    container.innerHTML = searchbox;
+      searchbox.innerHTML = html;
+    return searchbox;
   }
 
-  element = document.getElementById("main");
-  element.onmousedown = function(){
-      displaySearchbox();
+  // **WARNING**. Check if there is no other event in Board!!
+  // Add Events
+  parent.onmousedown = function(){
+      parent.appendChild(displaySearchbox() );
   }
 
-  element.onmouseup = function (){
+  parent.onmouseup = function (){
     const NodeList = document.getElementById("NodeList");
     const searchbar = document.getElementById("searchbar");
     searchbar.addEventListener('keyup', (e) => {
