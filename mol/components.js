@@ -200,7 +200,7 @@ export const components = [
       ],
       [
         {widget: "label", title: "ResSeq"},
-        {widget: "text", "state": 0,"name": "resseq:string"}
+        {widget: "numerical", "state": 0,"name": "resseq:string"}
       ],
       [
         {widget: "label", title: "ChainID"},

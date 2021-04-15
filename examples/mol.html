@@ -32,104 +32,122 @@
   let board = new Board(main,components);
 
   // Load Graph
-  let test = {
+  let workflow = {
     nodes: [
     {
         id: 1,
         template:"MOL_OPEN",
-        metadata: {
-          pos: [97,223],
+        data: {
+          meta: {
+            pos: [97,223],
+          }
         }
       },
       {
         id: 5,
         template:"MOL_MONITOR",
-        metadata: {
-          pos: [268,100],
+        data: {
+          meta: {
+            pos: [268,100],
+          }
         }
       },
       {
         id: 7,
         template:"MOL_RENDER",
-        metadata: {
-          pos: [1345,222],
-        },
-        state: {
-          mode:  4 // Ball-and-stick
+        data: {
+          meta: {
+            pos: [1345,222],
+          },
+          state: {
+            mode:  4 // Ball-and-stick
+          }
         }
       },
       {
         id: 11,
         template:"MOL_COLORMODE",
-        metadata: {
-          pos: [1175,233],
-        },
-        state: {
-          mode: 1 // Chain
+        data: {
+          meta: {
+            pos: [1175,233],
+          },
+          state: {
+            mode: 1 // Chain
+          }
         }
       },
       {
         id: 15,
         template:"MOL_ID",
-        metadata: {
-          pos: [650,82],
-        },
-        state: {
-          resname: "ARG"
+        data: {
+          meta: {
+            pos: [650,82],
+          },
+          state: {
+            resname: "ARG"
+          }
         }
       },
       {
         id: 16,
         template:"MOL_ID",
-        metadata: {
-          pos: [825,80],
-        },
-        state: {
-          resname: "LEU"
+        data: {
+          meta: {
+            pos: [825,80],
+          },
+          state: {
+            resname: "LEU"
+          }
         }
       },
       {
         id: 17,
         template:"MOL_RENDER",
-        metadata: {
-          pos: [462,305],
-        },
-        state: {
-          mode: 0 // Trace
+        data: {
+          meta: {
+            pos: [462,305],
+          },
+          state: {
+            mode: 0 // Trace
+          }
         }
       },
       {
         id: 21,
         template:"MOL_COLOR",
-        metadata: {
-          pos: [293,275],
-        },
-        state: {
-          color: '#ff900a'
+        data: {
+          meta: {
+            pos: [293,275],
+          },
+          state: {
+            color: '#ff900a'
+          }
         }
       },
       {
         id: 30,
         template:"MOL_LOGICAL",
-        metadata: {
-          pos: [1006,260],
-        },
-        state: {
-          op: 1 // AND
+        data: {
+          meta: {
+            pos: [1006,260],
+          },
+          state: {
+            op: 1 // AND
+          }
         }
       },
       {
         id: 31,
         template:"MOL_ID",
-        metadata: {
-          pos: [737,305],
-        },
-        state: {
-          name: "CA"
+        data: {
+          meta: {
+            pos: [737,305],
+          },
+          state: {
+            name: "CA"
+          }
         }
-      },
-
-
+      }
     ],
     edges : [
       {
@@ -175,7 +193,7 @@
     ]
   };
 
-  board.load(test);
+  board.load(workflow);
   board.run();
 
 

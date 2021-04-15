@@ -104,7 +104,7 @@ export class Graph {
       this.nodes.push(component.node);
       this.root.appendChild(component.node.element);
       // Step #3:  Update states if any or in data
-      if (node.state) {
+      if (node.data.state) {
         component.node.setState(node.data.state);
       }
       // Add the engine in the queue waiting for execution (the `Consumer`).
@@ -147,7 +147,7 @@ export class Graph {
   }
   
   getNode(node_id) {
-    return this.nodes.filter( n => n.id === node_id)[0];
+    return this.nodes.find( n => n.id === node_id);
   }
   
   getEdge(id) {

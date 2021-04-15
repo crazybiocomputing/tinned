@@ -160,6 +160,12 @@ export const div = (...args) => {
   return nodeHTML(`div${id}`,...others);
 }
 
+// input
+export const input = (...args) => {
+  let [id,...others] = parseArgs(args);
+  return nodeHTML(`input${id}`,...others);
+}
+
 // p
 export const p = (...args) => {
   let [id,...others] = parseArgs(args);

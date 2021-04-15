@@ -25,6 +25,7 @@
 'use strict';
 
 import {TINNED} from '../../tinned.js';
+import * as DOM from '../../dom/dom.js';
 
 /**
    * Widget 
@@ -33,6 +34,22 @@ import {TINNED} from '../../tinned.js';
  export const numerical = (id,template_row,metadata,action_func) => {
 
   // Create Numerical
+  let [_key,_type] = template_row.name.split(':');
+  let input = DOM.input(`#${_key}__AT__${id}.numerical`,
+    {
+      attrs: { 
+        type: "text",
+        name: template_row.name || 'unknown',
+        minlength: 4,
+        maxlength: 40,
+        value: 0
+      },
+      dataset: {
+        type: _type
+      }
+    },
+    []);
+/*
   let input = document.createElement('input');
   input.id = `${template_row.name.split(':')[0] || 'unknown'}__AT__${id}`;
   input.className = "numerical";
@@ -42,18 +59,37 @@ import {TINNED} from '../../tinned.js';
   input.setAttribute('maxlength',40);
   // input.setAttribute('size',10);
   input.setAttribute('value',metadata[template_row.name] || template_row.state);
+*/
   TINNED.args[input.id] = metadata[template_row.name] || template_row.state;
+
+  // Restrict alphabet to numbers and several signs/symbols
   input.addEventListener('input',(event)=> {
-    let value = event.srcElement.value;
-    event.srcElement.value = /^\d*\.?\d*$/.test(event.srcElement.value) ? value : value.slice(0,-1);
+    let value = event.target.value;
+    event.target.value = /^\d*\.?\d*$/.test(event.target.value) ? value : value.slice(0,-1);
     return false;
   });
-  input.addEventListener('blur',(event) => {
-    console.info(`Add the ${event.srcElement.value} in queue`);
-    TINNED.args[input.id] = +event.srcElement.value;
+
+  // Only send modification when typing finished
+  let typingTimer; //timer identifier
+
+  //user is "finished typing," do something
+  const doneTyping = (event) => () => {
+    console.info(`Add the ${event.target.value} in queue`);
+    TINNED.args[input.id] = +event.target.value;
+    let [key,nid] = input.id.split('__AT__');
+    TINNED.graph.getNode(parseInt(nid)).data.state[key] = +event.target.value;
     // Update 
-    TINNED.graph.update(id); 
+    // TINNED.graph.update(id); 
+  }
+
+  //on keyup, start the countdown
+  input.addEventListener('keyup', (ev) => {
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(doneTyping(ev), 500); // 500ms
   });
+
+  //on keydown, clear the countdown 
+  input.addEventListener('keydown', () => clearTimeout(typingTimer));
 
   // TODO Add event onchanged
   return input;

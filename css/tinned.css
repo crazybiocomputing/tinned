@@ -108,7 +108,7 @@ main {
   padding: 0;
   list-style: none;
   margin: 1px;
-  font-color: #333;
+  color: #333;
 }
 
 .hamburger li {
@@ -225,7 +225,7 @@ svg {
 .shrinkdiv .in_socket  {
   display: inline-block;
   background-color: #f2f1f0;
-  float: left;
+  /*float: left;*/
   outline: none;
   cursor: pointer;
   font-size: 1em;
@@ -245,7 +245,7 @@ svg {
 .shrinkdiv .out_socket  {
   display: inline-block;
   background-color: #f2f1f0;
-  float: left;
+  /*float: left;*/
   outline: none;
   cursor: pointer;
   font-size: 1em;
@@ -727,7 +727,7 @@ textarea {
 
 .input button  {
   display: inline-block;
-  float: left;
+  /*float: left;*/
   outline: none;
   cursor: pointer;
   font-size: 1em;

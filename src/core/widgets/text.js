@@ -32,10 +32,10 @@ import {TINNED} from '../../tinned.js';
    */
  export const text = (id,template_row,metadata,action_func) => {
 
-  // Create Numerical
+  // Create Text
   let input = document.createElement('input');
   input.id = `${template_row.name.split(':')[0] || 'unknown'}__AT__${id}`;
-  input.className = "numerical";
+  input.className = "text";
   input.setAttribute("type", "text");
   input.setAttribute('name',template_row.name || 'unknown');
   input.setAttribute('minlength',4);

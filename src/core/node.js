@@ -45,7 +45,8 @@ export class Node extends Draggable {
     super();
     this.id = id;
     console.log('NODE',id);
-    this.template = template;
+    this.template = template; // Useful?
+    this.data = data;
     this.element = document.createElement('section');
 
     // Check if `node` requires a preview
