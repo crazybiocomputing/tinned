@@ -81,9 +81,10 @@ export class Graph {
   appendEdge(start_id,end_id) {
     let ctx = this.context; 
     let eid = this.edges[this.edges.length - 1].eid++;
-    let e = new Edge(eid,start_id,end_id,0,0);
+    let e = new Edge(eid,start_id,end_id);
     this.edges.push(e);
     ctx.append(e.line);
+    this.flow.append(e);
   }
 
   /**
@@ -130,10 +131,12 @@ export class Graph {
   createEdges(edges) {
     let ctx = this.context;
     edges.forEach( (edge) => {
-      let e = new Edge(edge.eid,edge.sockets[0],edge.sockets[1],edge.in,edge.out);
+      let e = new Edge(edge.eid,...edge.sockets);
       this.edges.push(e);
       ctx.append(e.line);
+      this.flow.append(e);
     });
+    console.log(this.flow);
   }
 
   /**

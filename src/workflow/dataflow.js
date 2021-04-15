@@ -30,31 +30,64 @@ import {TINNED} from '../tinned.js';
 export class DataFlow {
 
   constructor(graph) {
-    this.flow = [];
+    this.graph = graph;
     this.args = {};
     TINNED.args = this.args; // Just for convenience
     this.lastProducer = -1;
     this.firstConsumer = 0;
+    this.producers = [];
+    this.streams = [{path:[],funcs:[]}]; // Stream #0 (main)
+    this.sinks = [];
   }
 
   /**
-   * Add node function in DataFlow
-   *
+   * Append node functions in DataFlow from edge
+   * @param {object} edge - The edge connecting an output node to a input node
    * @author Jean-Christophe Taveau
    */
-  add(node) {
-    // Add function (core engine of the node)
-    console.log(node.template.name);
-    node.engine = FuncFactory.func(node.template.name);
-        
+  append(edge) {
+    const [varout,nodeout] = edge.source.split('@');
+    const [varin,nodein] = edge.target.split('@');
+    console.log(`Add in stream [${varout},${nodeout}] --> [${varin},${nodein}] `);
+
+    // Add function (core engine of the node) in stream
+
+    const indexOut = this.streams[0].path.indexOf(+nodeout);
+    const indexIn = this.streams[0].path.indexOf(+nodein);
+    console.log(indexOut,indexIn);
+    if (indexOut == -1 && indexIn === -1) {
+      // Add node(s)
+      this.streams[0].path.push(+nodeout);
+      this.streams[0].funcs.push(this.graph.nodes.find(n => n.id === +nodeout).template.func);
+      this.streams[0].path.push(+nodein);
+      this.streams[0].funcs.push(this.graph.nodes.find(n => n.id === +nodein).template.func);     
+    }
+    else if (indexIn !== -1) {
+      this.streams[0].path.splice(indexIn,0,+nodeout);
+      this.streams[0].funcs.splice(indexIn,0,this.graph.nodes.find(n => n.id === +nodeout).template.func);
+    }
+    else if (indexOut !== -1) {
+      // Add node(s)
+      this.streams[0].path.splice(indexOut+1,0,+nodein);
+      this.streams[0].funcs.splice(indexOut+1,0,this.graph.nodes.find(n => n.id === +nodein).template.func); 
+    }
+
+    /*
     if (node.isProducer()) {
+      this.producers.push(node.engine);
       this.flow.unshift(node);
       this.lastProducer++;
       this.firstConsumer++;
     }
     else if (node.isConsumer()) {
       this.flow.push(node);
+      this.streams.push(node);
     }
+
+    else if (node.isSink()) {
+      this.sinks.push()
+    }
+
     else {
       // TODO 
       // Producer AND Consumer - must be inserted between `lastProducer` and `firstConsumer`.
@@ -64,6 +97,7 @@ export class DataFlow {
       this.flow.splice(index+1,0,node);
       this.firstConsumer++;
     }
+    */
   }
 
   /**

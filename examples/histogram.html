@@ -45,51 +45,42 @@
       },
       {
         id: 15,
-        template:"MOL_COUNTBY",
+        template:"PROG_COUNTBY",
         data: {
           meta: {
-            pos: [989,190],
-          },
-          state: {
-            prop: 0 // ???
+            pos: [915,263],
           }
         }
       },
       {
         id: 16,
-        template:"MOL_ID",
+        template:"MOL_FASTA",
         data: {
           meta: {
-            pos: [570,145],
-          },
-          state: {
-            name: "CA"
-          }
-        }
-      },
-      {
-        id: 17,
-        template:"MOL_SELECTED",
-        data: {
-          meta: {
-            pos: [780,189],
-          },
-          state: {
-            selected: true
+            pos: [537,280],
           }
         }
       },
       {
         id: 21,
-        template:"MOL_HISTOGRAM",
+        template:"PROG_HISTOGRAM",
         data: {
           meta: {
-            pos: [1214,186],
+            pos: [1096,193],
           },
           state: {
             bins: 20, // Alphabet
             min: 0,
             max: Infinity
+          }
+        }
+      },
+      {
+        id: 24,
+        template:"MOL_UNION",
+        data: {
+          meta: {
+            pos: [720,276],
           }
         }
       }
@@ -101,11 +92,11 @@
       },
       {
         eid: 2,
-        sockets: ['molout@16','molin@17'],
-      },
+        sockets: ['fasta@16','fastain@24'],
+      },      
       {
         eid: 3,
-        sockets: ['molout@17','molin@15'],
+        sockets: ['fastaout@24','molin@15'],
       },      
       {
         eid: 4,

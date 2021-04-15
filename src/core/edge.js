@@ -34,13 +34,11 @@ export class Edge {
    *
    * @author Jean-Christophe Taveau
    */
-  constructor(edge_id,source_id,target_id,input_connector = 0, output_connector = 0) {
+  constructor(edge_id,source_id,target_id) {
     this.eid = edge_id;
     this.source = source_id;
-    this.out = output_connector;
     this.target = target_id;
-    this.in = input_connector;
-    this.line = this._createEdge(edge_id,source_id,target_id,input_connector, output_connector);
+    this.line = this._createEdge(edge_id,source_id,target_id);
   }
 
   /*
@@ -61,11 +59,10 @@ export class Edge {
    * input - Input Socket
    * output - Output Socket
    */
-  _createEdge(edgID,srcID,tgtID,input,output) {
+  _createEdge(edgID,srcID,tgtID) {
     // Source
     let words = srcID.split('@'); 
     let sourceID = {index: words[1],variable: words[0]};
-    
     let nodeS = document.querySelector(`#${sourceID.variable}__OUT__${sourceID.index}`); //`#node_${srcID} #o_${output} button`);
     console.log(srcID,nodeS);
     console.log('EDGE',srcID.match(/@(\d+)/));
@@ -91,7 +88,7 @@ export class Edge {
     words = tgtID.split('@'); 
     let targetID = {index: words[1],variable: words[0]};
     let nodeT = document.querySelector(`#${tgtID.replace('@','__IN__')}`);
-        console.log(tgtID);
+    console.log(tgtID);
     let shrinkNodeT = document.querySelector(`#node_${targetID.index}  .in_socket`);
     nodeT.dataset.edge = edgID;
     if (shrinkNodeT.dataset.edge !== undefined) {
