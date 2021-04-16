@@ -24,11 +24,15 @@
 
 'use strict';
 
+import {components as plots} from '../plot/components.js';
+
 import {countby_ui} from './countby.js';
 import {map_ui} from './map.js';
 import {math_ui} from './math.js';
+import {number_ui} from './number.js';
 import {monitor_ui} from './monitor.js';
 import {range_ui} from './range.js';
+import {string_ui} from './string.js';
 
 // Test Actions
 const action = (node) => (obs) => {
@@ -36,13 +40,15 @@ const action = (node) => (obs) => {
   return obs;
 }
 
-export const components = [
+
+const _basics = [
   countby_ui,
   map_ui, 
   math_ui, 
   monitor_ui,
+  number_ui,
   range_ui,
-
+  string_ui,
   {
     id: "BASX_EVALUATE",
     class: "programming",
@@ -81,35 +87,6 @@ export const components = [
     ]
   },
   {
-    id: "BASX_HISTOGRAM",
-    class: "io",
-    description: "Histogram",
-    tags: ["plot","drawing","scheme"],
-    func: action,
-    ui: [
-      [
-        {widget: "label", title: "Bins"},
-        {widget: "numerical", state: 0,name: "bins:number"}
-      ],
-      [
-        {widget: "label", title: "Min"},
-        {widget: "numerical", state: 0,name: "min:number"}
-      ],
-      [
-        {widget: "label", title: "Max"},
-        {widget: "numerical", state: 0,name: "max:number"}
-      ],
-      [
-        {widget: "canvas",name:"data:any"}
-      ],
-      [
-        {widget: "input",name: "data:[point]"},
-        {widget:"label",title: "Data"}
-      ]
-    ],
-    operation: action('MOL_HISTOGRAM')
-  },
-  {
     id: "BASX_LOGICAL",
     class: "programming",
     description: "Logical",
@@ -135,32 +112,9 @@ export const components = [
       ]
     ]
   },
-  {
-    id: "BASX_NUMBER",
-    class: "programming",
-    description: "Number",
-    help: "Numeric node",
-    tags: ["programming","value","variable","number", "set"],
-    func: action,
-    ui: [
-      [
-        {widget: "numerical", state: 0,name: "value:number"},
-        {widget: "output", title: "Value",name: "value:number"}
-      ]
-    ]
-  },
-  {
-    id: "BASX_STRING",
-    class: "programming",
-    description: "String",
-    help: "String of Characters",
-    tags: ["programming","value","variable","string", "set"],
-    func: action,
-    ui: [
-      [
-        {widget: "text", state: '',name: "value:string"},
-        {widget: "output", title: "Value",name: "value:string"}
-      ]
-    ]
-  }
+
+
 ];
+
+
+export const components = _basics.concat(plots);

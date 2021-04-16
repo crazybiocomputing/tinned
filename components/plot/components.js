@@ -24,21 +24,8 @@
 
 'use strict';
 
-export const xmlns = "http://www.w3.org/2000/svg";
+import {barchart_ui} from './barchart.js';
 
-/**
- * Return Numerical ID used by graph from node ID (in DOM)
- *
- * @author Jean-Christophe Taveau
- */
-export const getID = (nodeid) => nodeid.match(/\d+/)[0];
-
-// From Eric Elliott, Reduce (Composing Software)
-// https://medium.com/javascript-scene/reduce-composing-software-fe22f0c39a1d
-
-export const compose = (...fns) => x => fns.reduceRight((v, f) => f(v), x);
-export const pipe = (...fns) => x => fns.reduce((v, f) => f(v), x);
-
-export const zip = (...rows) => rows[0].map((_,i) => rows.map(row => row[i]));
-export const sum = (...rows) => rows.map( row => row.reduce( (s,v) => s + v,0));
-
+export const components = [
+  barchart_ui
+];

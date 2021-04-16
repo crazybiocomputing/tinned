@@ -24,21 +24,27 @@
 
 'use strict';
 
-export const xmlns = "http://www.w3.org/2000/svg";
+import {Observable} from '../../src/core/observable.js';
 
-/**
- * Return Numerical ID used by graph from node ID (in DOM)
- *
- * @author Jean-Christophe Taveau
- */
-export const getID = (nodeid) => nodeid.match(/\d+/)[0];
+const numberPub = (node) => () => {
+  // Return observable
+  return new Observable(observer => {
+    observer.next(node.data.state.value);
+    observer.complete();
+  });
+}
 
-// From Eric Elliott, Reduce (Composing Software)
-// https://medium.com/javascript-scene/reduce-composing-software-fe22f0c39a1d
-
-export const compose = (...fns) => x => fns.reduceRight((v, f) => f(v), x);
-export const pipe = (...fns) => x => fns.reduce((v, f) => f(v), x);
-
-export const zip = (...rows) => rows[0].map((_,i) => rows.map(row => row[i]));
-export const sum = (...rows) => rows.map( row => row.reduce( (s,v) => s + v,0));
-
+export const number_ui = {
+  id: "BASX_NUMBER",
+  class: "programming",
+  description: "Number",
+  help: "Numeric node",
+  tags: ["programming","value","variable","number", "set"],
+  func: numberPub,
+  ui: [
+    [
+      {widget: "numerical", state: 0,name: "value:number"},
+      {widget: "output", title: "Value",name: "value:number"}
+    ]
+  ]
+};
