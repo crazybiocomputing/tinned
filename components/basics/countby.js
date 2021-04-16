@@ -24,18 +24,27 @@
 
 'use strict';
 
-export const xmlns = "http://www.w3.org/2000/svg";
+import {Observable} from '../../src/core/observable.js';
 
-/**
- * Return Numerical ID used by graph from node ID (in DOM)
- *
- * @author Jean-Christophe Taveau
- */
-export const getID = (nodeid) => nodeid.match(/\d+/)[0];
+const countby = (node) => (sourceObservable) => {
+  // TODO
+  return sourceObservable;
+}
 
-// From Eric Elliott, Reduce (Composing Software)
-// https://medium.com/javascript-scene/reduce-composing-software-fe22f0c39a1d
-
-export const compose = (...fns) => x => fns.reduceRight((v, f) => f(v), x);
-export const pipe = (...fns) => x => fns.reduce((v, f) => f(v), x);
-
+export const countby_ui = {
+  id: "BASX_COUNTBY",
+  class: "programming",
+  description: "CountBy",
+  tags: ["sort"],
+  func: countby,
+  ui: [
+    [
+      {widget: "label", title: "Counts"},
+      {widget: "output", name: "counts:[number]" }
+    ],
+    [
+      {widget: "input", name: "data:any"},
+      {widget: "label", title: "Data"}
+    ]
+  ]
+};

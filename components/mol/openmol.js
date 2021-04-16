@@ -24,18 +24,43 @@
 
 'use strict';
 
-export const xmlns = "http://www.w3.org/2000/svg";
 
-/**
- * Return Numerical ID used by graph from node ID (in DOM)
- *
+function readFileAsync(f) {
+  return new Promise((resolve, reject) => {
+    // Read File
+    let reader = new FileReader();
+
+    reader.onload = (e) => {
+      let text = reader.result;
+      // Run the parser...
+      let extension = f.name.split('.').pop();
+      let model;
+      if (extension === 'pdb') {
+        model = parsePDB(text);
+      }
+      else if (extension === 'cif') {
+        model = parseCIF(text);
+      }
+      resolve(model);
+    }
+
+    reader.onerror = reject;
+    reader.readAsText(f);
+
+  });
+}
+
+
+/*
+ * Load a structure (pdb, cif, xyz)
  * @author Jean-Christophe Taveau
  */
-export const getID = (nodeid) => nodeid.match(/\d+/)[0];
-
-// From Eric Elliott, Reduce (Composing Software)
-// https://medium.com/javascript-scene/reduce-composing-software-fe22f0c39a1d
-
-export const compose = (...fns) => x => fns.reduceRight((v, f) => f(v), x);
-export const pipe = (...fns) => x => fns.reduce((v, f) => f(v), x);
-
+export async function openmol(nod) {
+  console.log('openmol',nod);
+  try {
+    let file = nod.data.state._file;
+    return await readFileAsync(file);
+  } catch(err) {
+    console.log(err);
+  }
+}

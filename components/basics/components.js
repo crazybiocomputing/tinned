@@ -24,49 +24,27 @@
 
 'use strict';
 
+import {countby_ui} from './countby.js';
+import {map_ui} from './map.js';
+import {math_ui} from './math.js';
+import {monitor_ui} from './monitor.js';
+import {range_ui} from './range.js';
 
 // Test Actions
-const action = (...params) => (msg) => {
-  console.log(msg,params[0]);
+const action = (node) => (obs) => {
+  console.log(obs,node.id);
+  return obs;
 }
-/*
-const produce = (params) => {
-  console.log("Run...",params);
-  return {data: [1,2,3,4,5], params};
-}
-
-// Could be transducer
-const operation = (params) => (input) => {
-  input.params = [...input.params,...params];
-  return input;
-}
-
-const sink = (params) => (input) => {
-  console.log(JSON.stringify(input));
-}
-
-*/
 
 export const components = [
+  countby_ui,
+  map_ui, 
+  math_ui, 
+  monitor_ui,
+  range_ui,
+
   {
-    id: "PROG_COUNTBY",
-    class: "programming",
-    description: "CountBy",
-    tags: ["sort"],
-    func: action,
-    ui: [
-      [
-        {widget: "label", title: "Counts"},
-        {widget: "output", name: "counts:[number]" }
-      ],
-      [
-        {widget: "input", name: "molin:molecule"},
-        {widget: "label", title: "Atoms"}
-      ]
-    ]
-  },
-  {
-    id: "PROG_EVALUATE",
+    id: "BASX_EVALUATE",
     class: "programming",
     description: "Evaluate",
     tags: ["console","display","log","print","show","tap"],
@@ -103,7 +81,7 @@ export const components = [
     ]
   },
   {
-    id: "PROG_HISTOGRAM",
+    id: "BASX_HISTOGRAM",
     class: "io",
     description: "Histogram",
     tags: ["plot","drawing","scheme"],
@@ -125,14 +103,14 @@ export const components = [
         {widget: "canvas",name:"data:any"}
       ],
       [
-        {widget: "input",name: "data:[number]"},
+        {widget: "input",name: "data:[point]"},
         {widget:"label",title: "Data"}
       ]
     ],
     operation: action('MOL_HISTOGRAM')
   },
   {
-    id: "PROG_LOGICAL",
+    id: "BASX_LOGICAL",
     class: "programming",
     description: "Logical",
     help: "Arithmetic operations",
@@ -158,56 +136,7 @@ export const components = [
     ]
   },
   {
-    id: "PROG_MATH",
-    class: "programming",
-    description: "Arithmetic",
-    help: "Arithmetic operations",
-    tags: ["programming","maths","add", "subtract", "multiply", "divide"],
-    func: action,
-    ui: [
-      [
-        {widget: "label", title: "Value"},
-        {widget: "output", name: "value:number" }
-      ],
-      [
-        {widget: "label", title: "Op."},
-        {widget: "select", state: 0, name: "op:string", "items": ["None","Add","Subtract","Multiply","Divide","AND","OR","XOR","Average","Difference"]},
-      ],
-      [
-        {widget: "input", name: "x:any"},
-        {widget: "label", title: "X"},
-      ],
-      [
-        {widget: "input", name: "yin:any"},
-        {widget: "label", title: "Y"},
-        {widget: "numerical", state: 0,name: "y:number"},
-      ]
-    ]
-  },
-  {
-    id: "PROG_MONITOR",
-    class: "information",
-    description: "Monitor",
-    tags: ["console","display","log","print","show","tap"],
-    help: ["Look at data through the pipeline"],
-    comment: ["Network tap https://en.wikipedia.org/wiki/Network_tap"],
-    func: action,
-    ui: [
-      [
-        {widget:"label",title: "Data"}, 
-        {widget: "output",name:"data:any"}
-      ],
-      [
-        {widget: "input",name: "data:any"},
-        {widget:"label",title: "Data"}
-      ],
-      [
-        {widget:"textarea", state: "null",name: "log:string"}
-      ]
-    ]
-  },
-  {
-    id: "PROG_NUMBER",
+    id: "BASX_NUMBER",
     class: "programming",
     description: "Number",
     help: "Numeric node",
@@ -221,32 +150,7 @@ export const components = [
     ]
   },
   {
-    id: "PROG_RANGE",
-    class: "programming",
-    description: "Range",
-    tags: ["array","series","list"],
-    func: action,
-    ui: [
-      [
-        {widget:"label",title: "Data"}, 
-        {widget: "output",name:"stream:stream"}
-      ],
-      [
-        {widget: "label", title: "Start"},
-        {widget: "numerical", state: 0,name: "start:number"}
-      ],
-      [
-        {widget: "label", title: "Stop"},
-        {widget: "numerical", state: 10,name: "stop:number"}
-      ],
-      [
-        {widget: "label", title: "Step"},
-        {widget: "numerical", state: 1,name: "step:number"}
-      ]
-    ]
-  },
-  {
-    id: "PROG_STRING",
+    id: "BASX_STRING",
     class: "programming",
     description: "String",
     help: "String of Characters",

@@ -46,7 +46,21 @@ export class Node extends Draggable {
     this.id = id;
     console.log('NODE',id);
     this.template = template; // Useful?
-    this.data = data;
+
+    // Step #1 - Set states
+    // Init default states
+    this.data = {meta: {pos:[0,0]},state:{}};
+    template.ui.forEach( row => row.forEach(widget => {
+        if (!['output','input'].includes(widget.widget)  && widget.name) {
+          const [_var,_type] = widget.name.split(':');
+          this.data.state[_var] = widget.state;
+        }
+      })
+    );
+    // Fill with new data
+    Object.keys(data.meta).forEach( key => this.data.meta[key] = data.meta[key]);
+    Object.keys(data.state).forEach( key => this.data.state[key] = data.state[key]);
+    
     this.element = document.createElement('section');
 
     // Check if `node` requires a preview
@@ -59,8 +73,8 @@ export class Node extends Draggable {
     this.hasOutputs = template.ui.some( (row) => row.find( w => w.widget === 'output'));
     this.hasInputs  = template.ui.some( (row) => row.find( w => w.widget === 'input'));
 
-    // Create Widgets
-    this.createMarkup(id,template,data.meta); 
+    // Step #2 - Create HTML Widgets
+    this.createMarkup(id,template,data); 
   }
 
   /**
@@ -107,25 +121,27 @@ export class Node extends Draggable {
    * Create Node
    * @author Jean-Christophe Taveau
    */
-  createMarkup(id,template,metadata) {
+  createMarkup(id,template,data) {
 
     // Main
+    const metadata = data.meta;
+
     let nodeH = this.element;
     nodeH.id = 'node_'+id;
     nodeH.style.left = (metadata.pos) ? `${metadata.pos[0]}px`: `${Math.floor(Math.random() * 1000)}px`;
     nodeH.style.top  = (metadata.pos) ? `${metadata.pos[1]}px`: `${Math.floor(Math.random() * 600)}px`;
 
     // Head
-    let head = this.createHeader(template,id,metadata);
+    let head = this.createHeader(template,id,data);
 
     // Shrink
-    let shrink = this.createShrinkArea(template,id,metadata);
+    let shrink = this.createShrinkArea(template,id,data);
 
     // Body
-    let body = this.createBody(template,id,metadata);
+    let body = this.createBody(template,id,data);
     
     // Footer
-    let foot = this.createFooter(template,id,metadata);
+    let foot = this.createFooter(template,id,data);
 
     // Append all the parts
     nodeH.appendChild(head);
@@ -140,7 +156,7 @@ export class Node extends Draggable {
    *
    * @author Jean-Christophe Taveau
    */
-  createHeader(template,id,metadata) {
+  createHeader(template,id,data) {
   
     const shrinkExpand = (evt) => {
       // Hide body, footer
@@ -235,7 +251,7 @@ export class Node extends Draggable {
    *
    * @author Jean-Christophe Taveau
    */
-  createShrinkArea(template,id,metadata) {
+  createShrinkArea(template,id,data) {
 
     return DOM.div(`.shrinkdiv.${template.class.replace('.','_').toLowerCase()}`,
     [
@@ -260,12 +276,12 @@ export class Node extends Draggable {
    *
    * @author Jean-Christophe Taveau
    */
-  createBody(template,id,metadata) {
+  createBody(template,id,data) {
     // Body
     let body = DOM.div(`#body_${id}.body`);
 
     // Main content
-    NodeCreator.createContent( template.ui,body,this.id, metadata);
+    NodeCreator.createContent( template.ui,body,this.id, data);
 
     return body;
   }
@@ -276,7 +292,7 @@ export class Node extends Draggable {
    *
    * @author Jean-Christophe Taveau
    */
-  createFooter(node,id,metadata) {
+  createFooter(node,id,data) {
   
     const resizeStart = (event) => {
       event.preventDefault();

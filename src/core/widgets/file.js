@@ -24,42 +24,45 @@
 
 'use strict';
 
+import {TINNED} from '../../tinned.js';
+import * as DOM from '../../dom/dom.js';
+
 /**
-   * Widget 
-   * @author Jean-Christophe Taveau
-   */
- export const file = (id,row,metadata,action_func) => {
+ * Widget File
+ * @author Jean-Christophe Taveau
+ */
+export const file = (id,row,metadata,action_func) => {
+
+  // Event
+  const setFile = (event) => {
+    let files = event.target.files;
+    let root = document.querySelector(`#node_${id}`);
+    root.dataset.file = files[0].name;
+    // Update / notify
+    let node = TINNED.graph.nodes.find( n => n.id === id);
+    node.data.state._file = files[0]; 
+    TINNED.graph.update(node);
+  }
+
   // Create File Widget
- let container = document.createElement('div');
   // From MDN
   // https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications
-  let inp = document.createElement('input');
-  inp.id = `${row.name || 'unknown'}__AT__${id}`;
-  inp.className = "visually-hidden";
-  inp.setAttribute("type", "file");
-  
-  inp.addEventListener("change", (event) => {
-    let files = event.target.files;
-    let root = document.querySelector(`#node_${id}`); //WidgetFactory.getNodeElement(event.target);
-    root.dataset.file = files[0].name;
-    TINNED.args[inp.id] = files[0]; 
-    // Update 
-    TINNED.graph.update(id); 
-    /*
-    // Preview
-    let c = document.querySelector(`#node_${id} .preview`);
-    let ctx = c.getContext("2d");
-    ctx.beginPath();
-    ctx.arc(100, 75, 50, 0, 2 * Math.PI);
-    ctx.stroke(); 
-    */
-  });
-  // <input type="file" id="fileElem" multiple accept="image/*" class="visually-hidden">
-  let e = document.createElement('label');
-  e.className = 'button';
-  e.setAttribute('for',inp.id);
-  e.innerHTML = row.title;
-  container.appendChild(inp);
-  container.appendChild(e);
-  return container;
+
+  const [_var,_type] = row.name.split(':');
+  const input_id = `${_var || 'unknown'}__AT__${id}`;
+
+  return DOM.h('div',
+    [
+      DOM.input(
+        `#${input_id}.visually-hidden`,
+        {
+          attrs: {type: "file"},
+          on: {change: setFile}
+        },
+        []
+      ),
+      DOM.h('label.button',{attrs: {for: input_id}},row.title)
+    ]
+  );
+
 }

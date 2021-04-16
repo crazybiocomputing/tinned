@@ -6,7 +6,7 @@
 <link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet"> 
 <link rel="stylesheet" href="../css/font-awesome-4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="../css/tinned.css">
-<script type="module" src="../mol/components.js"></script>
+
 
 </head>
 <body>
@@ -19,7 +19,7 @@
 
   import {TINNED} from '../src/tinned.js';
   import {Board} from '../src/core/board.js';
-  import {components} from '../mol/components.js';
+  import {components} from '../components/mol/components.js';
 
   ////// MAIN //////
 
@@ -40,7 +40,8 @@
       id: i,
       template: c.id,
       data: {
-        meta: {pos: [x, y]}
+        meta: {pos: [x, y]},
+        state: {}
       }
     });
   });

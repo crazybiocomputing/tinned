@@ -24,8 +24,6 @@
 
 'use strict';
 
-import {Node} from '../src/core/node.js';
-import {Observer} from '../src/core/observer.js';
 
 /*
  * Load a structure (pdb, cif, xyz)

@@ -28,8 +28,6 @@
 import {Node} from './node.js';
 import {Edge} from './edge.js';
 import {DataFlow} from '../workflow/dataflow.js';
-import { components } from '../../mol/components.js';
-
 
 export class Graph {
 
@@ -137,6 +135,7 @@ export class Graph {
       this.flow.append(e);
     });
     console.log(this.flow);
+    this.flow.run();
   }
 
   /**
@@ -184,9 +183,9 @@ export class Graph {
    *
    * @author Jean-Christophe Taveau
    */
-  update(node_id) {
-    console.log(node_id);
-    this.flow.update(node_id);
+  update(node) {
+    console.log(node.id);
+    this.flow.run();
   }
 
   /**

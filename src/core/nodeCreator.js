@@ -34,7 +34,7 @@ export class NodeCreator {
    *
    * @author Jean-Christophe Taveau
    */
-  static createContent(template_rows,parent,id, metadata) {
+  static createContent(template_rows,parent,id, data) {
     let nodeid = id;
     let outputs = 0;
     let inputs = 0;
@@ -48,7 +48,7 @@ export class NodeCreator {
         container.style.display = (index === 0) ? 'block': 'none';
       }
       else {
-        let container = WidgetFactory.createRow(nodeid,row,metadata,(e) => {});
+        let container = WidgetFactory.createRow(nodeid,row,data,(e) => {});
 /*
         if (row.output !== undefined) {
           container.id = `o_${outputs++}`;

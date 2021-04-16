@@ -29,12 +29,14 @@
    * @author Jean-Christophe Taveau
    */
  export const textarea = (id,row,metadata,action_func) => {
-
+  const [_var,_type] = row.name.split(':');
   let input = document.createElement('textArea');
+  input.id = `${_var}__AT__${id}`;
   input.className = "textarea";
   input.setAttribute("type", "text");
-  input.setAttribute('name',row.name || 'unknown');
+  input.setAttribute('name',_var || 'unknown');
   input.setAttribute('readonly',true);
+  input.textContent = row.state || '';
 
   return input;
 }

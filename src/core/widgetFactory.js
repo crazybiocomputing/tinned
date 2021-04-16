@@ -38,12 +38,12 @@ export class WidgetFactory {
    *
    * @param {number} node_id - Node ID in DOM
    * @param {object} template_row - Row widgets as described in the template
-   * @param {object} metadata - Row properties containing the various values of the widgets
+   * @param {object} data - Row properties containing the various values of the widgets
    * @param {function} callback - Action triggered by a `change` Event on the widget.
    * 
    * @author Jean-Christophe Taveau
    */
-  static createRow(node_id, cells, metadata, callback) {
+  static createRow(node_id, cells, data, callback) {
     // Extract widget type
     // let widgets = Object.keys(cells).filter( prop => ['label','widget'].indexOf(prop.widget) !== -1);
     let numcolumns = cells.length; // filter( type => ['collapsible','input','output','source','name','zip'].indexOf(type) === -1).length;
@@ -51,8 +51,8 @@ export class WidgetFactory {
     container.className = `row-${numcolumns}`;
 
     cells.forEach( cell => {
-      console.log(cell.widget,cell,metadata);
-      let widget = WidgetFactory.create(node_id,cell.widget,cell,metadata,callback);
+      console.log(cell.widget,cell,data);
+      let widget = WidgetFactory.create(node_id,cell.widget,cell,data,callback);
       console.log(widget);
       container.appendChild(widget);
       if (cell.widget === 'input') {
@@ -68,26 +68,26 @@ export class WidgetFactory {
   }
   
   
-  static create(id,type,row,metadata,action_func) {
+  static create(id,type,row,data,action_func) {
     let element;
     switch (type) {
-      case 'button': element = WL.button(id,row,metadata,action_func); break;
-      case 'canvas': element = WL.canvas(id,row,metadata,action_func); break;
-      case 'checkbox': element = WL.checkbox(id,row,metadata,action_func); break;
-      case 'collapsible': element = WL.collapsible(id,row,metadata,action_func); break;
-      case 'color': element = WL.color(id,row,metadata,action_func); break;
-      case 'file': element = WL.file(id,row,metadata,action_func); break;
-      case 'flowcontrols': element = WL.flowcontrols(id,row,metadata,action_func); break;
-      case 'input': element = WL.input_socket(id,row,metadata,action_func); break;
-      case 'label': element = WL.label(id,row,metadata,action_func); break;
-      case 'numerical': element = WL.numerical(id,row,metadata,action_func); break;
-      case 'preview': element = WL.canvas(id,row,metadata,action_func); break;
-      case 'readonly': element = WL.readonly(id,row,metadata,action_func); break;
-      case 'selectlayer': element = WL.selectlayer(id,row,metadata,action_func); break;
-      case 'select': element = WL.select(id,row,metadata,action_func); break;
-      case 'output': element = WL.output_socket(id,row,metadata,action_func); break;
-      case 'text': element = WL.text(id,row,metadata,action_func); break;
-      case 'textarea': element = WL.textarea(id,row,metadata,action_func); break;
+      case 'button': element = WL.button(id,row,data,action_func); break;
+      case 'canvas': element = WL.canvas(id,row,data,action_func); break;
+      case 'checkbox': element = WL.checkbox(id,row,data,action_func); break;
+      case 'collapsible': element = WL.collapsible(id,row,data,action_func); break;
+      case 'color': element = WL.color(id,row,data,action_func); break;
+      case 'file': element = WL.file(id,row,data,action_func); break;
+      case 'flowcontrols': element = WL.flowcontrols(id,row,data,action_func); break;
+      case 'input': element = WL.input_socket(id,row,data,action_func); break;
+      case 'label': element = WL.label(id,row,data,action_func); break;
+      case 'numerical': element = WL.numerical(id,row,data,action_func); break;
+      case 'preview': element = WL.canvas(id,row,data,action_func); break;
+      case 'readonly': element = WL.readonly(id,row,data,action_func); break;
+      case 'selectlayer': element = WL.selectlayer(id,row,data,action_func); break;
+      case 'select': element = WL.select(id,row,data,action_func); break;
+      case 'output': element = WL.output_socket(id,row,data,action_func); break;
+      case 'text': element = WL.text(id,row,data,action_func); break;
+      case 'textarea': element = WL.textarea(id,row,data,action_func); break;
       default: 
         alert(`Unknown widget ${type}`);
     }

@@ -26,6 +26,7 @@
 
 // import {FuncFactory} from '../core/funcFactory.js';
 import {TINNED} from '../tinned.js';
+import {pipe} from '../core/common.js';
 
 export class DataFlow {
 
@@ -55,21 +56,23 @@ export class DataFlow {
     const indexOut = this.streams[0].path.indexOf(+nodeout);
     const indexIn = this.streams[0].path.indexOf(+nodein);
     console.log(indexOut,indexIn);
+    const nodin = this.graph.nodes.find(n => n.id === +nodein);
+    const nodout = this.graph.nodes.find(n => n.id === +nodeout);
     if (indexOut == -1 && indexIn === -1) {
       // Add node(s)
       this.streams[0].path.push(+nodeout);
-      this.streams[0].funcs.push(this.graph.nodes.find(n => n.id === +nodeout).template.func);
+      this.streams[0].funcs.push(nodout.template.func(nodout));
       this.streams[0].path.push(+nodein);
-      this.streams[0].funcs.push(this.graph.nodes.find(n => n.id === +nodein).template.func);     
+      this.streams[0].funcs.push(nodin.template.func(nodin));     
     }
     else if (indexIn !== -1) {
       this.streams[0].path.splice(indexIn,0,+nodeout);
-      this.streams[0].funcs.splice(indexIn,0,this.graph.nodes.find(n => n.id === +nodeout).template.func);
+      this.streams[0].funcs.splice(indexIn,0,nodout.template.func(nodout));
     }
     else if (indexOut !== -1) {
       // Add node(s)
       this.streams[0].path.splice(indexOut+1,0,+nodein);
-      this.streams[0].funcs.splice(indexOut+1,0,this.graph.nodes.find(n => n.id === +nodein).template.func); 
+      this.streams[0].funcs.splice(indexOut+1,0,nodin.template.func(nodin)); 
     }
 
     /*
@@ -106,7 +109,7 @@ export class DataFlow {
    * @author Jean-Christophe Taveau
    */
   remove(node) {
-  
+    // TODO
   }
   
   /**
@@ -144,11 +147,10 @@ export class DataFlow {
    * @author Jean-Christophe Taveau
    */
   async run(pipeline,root) {
-    let result = root;
-    for (const func of pipeline) {
-      result = await func(result);
-    }
-    return result;
+    let result = pipe(...this.streams[0].funcs)(this.graph.nodes[0]);
+
+    // Sink for Debug
+    console.log(result);
   }
 
 } // End of class DataFlow

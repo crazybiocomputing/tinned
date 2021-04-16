@@ -874,3 +874,6 @@ textarea {
   cursor: grab;
 } 
 
+svg {
+  stroke-width: 2px;
+}

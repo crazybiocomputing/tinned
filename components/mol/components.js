@@ -24,12 +24,15 @@
 
 'use strict';
 
-import {components as basics} from '../prog/components.js';
+import {components as basics} from '../basics/components.js';
+import {openmol} from './openmol.js';
 
 // Test Actions
-const action = (...params) => (msg) => {
-  console.log(msg,params[0]);
+const action = (...params) => (data) => {
+  console.log(data,params[0]);
+  return data;
 }
+
 /*
 const produce = (params) => {
   console.log("Run...",params);
@@ -98,6 +101,27 @@ export const components = basics.concat([
     ]
   },
   {
+    id: "MOL_EXTRACT",
+    class: "processing",
+    description: "Extract Prop.",
+    tags: ["extract","property","attribute"],
+    func: action,
+    ui: [
+      [
+        {widget: "label", title: "Array"},
+        {widget: "output", name: "array:[any]" }
+      ],
+      [
+        {widget: "label", title: "Prop."},
+        {widget: "text", state: '*',name: "name:string"}
+      ],
+      [
+        {widget: "input", name: "molin:mol"},
+        {widget: "label", title: "Atoms"}
+      ]
+    ]
+  },
+  {
     id: "MOL_FASTA",
     class: "processing",
     description: "FASTA",
@@ -111,6 +135,32 @@ export const components = basics.concat([
       [
         {widget: "input", name: "molin:mol"},
         {widget: "label", title: "Atoms"}
+      ]
+    ]
+  },
+  {
+    id: "MOL_FROMPDB",
+    class: "io",
+    description: "From PDB...",
+    tags: ["file","open","pdb","pdbid"],
+    func: action,
+    ui: [
+      [
+        {widget: "label",title: "Mol."}, 
+        {widget:"output",name: "molout:molecule"}
+      ],
+      [
+        {widget: "label", title: "PDB ID"},
+        {widget: "text", state: "1xxx",title: "File...",name: "pdbid:string"}
+      ],
+      [
+        {
+          widget:"collapsible", 
+          title: "Summary",
+          section: [
+            [{widget: "textarea", state: "null",name: "log:string"}]
+          ]
+        }
       ]
     ]
   },
@@ -164,12 +214,12 @@ export const components = basics.concat([
     func: action,
     ui: [
       [
-        {widget:"label",title: "Superposed"}, 
+        {widget:"label",title: "Atoms"}, 
         {widget: "output",name:"molout:molecule"}
       ],
       [
         {widget: "input",name: "molin1:molecule"},
-        {widget:"label",title: "Atoms"}
+        {widget:"label",title: "Ref."}
       ],
       [
         {widget: "input",name: "molin2:molecule"},
@@ -235,7 +285,7 @@ export const components = basics.concat([
     class: "io",
     description: "Open...",
     tags: ["file","open","pdb","cif","xyz"],
-    func: action,
+    func: openmol,
     ui: [
       [
         {widget: "label",title: "Mol."}, 

@@ -19,7 +19,7 @@
 
   import {TINNED} from '../src/tinned.js';
   import {Board} from '../src/core/board.js';
-  import {components} from '../mol/components.js';
+  import {components} from '../components/basics/components.js';
 
   ////// MAIN //////
 
@@ -36,10 +36,10 @@
     nodes: [
     {
         id: 1,
-        template:"MOL_RANGE",
+        template:"BASX_RANGE",
         data: {
           meta: {
-            pos: [717,256],
+            pos: [236,195],
           },
           state: {
             start: 1,
@@ -50,23 +50,36 @@
       },
       {
         id: 5,
-        template:"MOL_MONITOR",
+        template:"BASX_MONITOR",
         data: {
           meta: {
-            pos: [1167,300],
-          }
+            pos: [849,207],
+          },
+          state: {}
         }
       },
       {
         id: 15,
-        template:"MOL_MATH",
+        template:"BASX_MATH",
         data: {
           meta: {
-            pos: [939,288],
+            pos: [432,210],
           },
           state: {
             op: 1, // Add
-            y : 46
+            y : 10
+          }
+        }
+      },
+      {
+        id: 20,
+        template:"BASX_MAP",
+        data: {
+          meta: {
+            pos: [634,183],
+          },
+          state: {
+            code: '(x) => Math.floor(x / 2);'
           }
         }
       }
@@ -78,7 +91,11 @@
       },
       {
         eid: 2,
-        sockets: ['value@15','data@5']
+        sockets: ['value@15','x@20']
+      },
+      {
+        eid: 3,
+        sockets: ['result@20','data@5']
       }
     ]
   };
