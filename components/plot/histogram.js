@@ -51,9 +51,9 @@ const histogram = (node) => (sourceObservable) => {
 export const histogram_ui = {
   id: "PLOT_HISTOGRAM",
   class: "io",
-  description: "BarChart",
+  description: "Histogram",
   tags: ["plot","drawing","scheme","histogram"],
-  func: barchart,
+  func: histogram,
   ui: [
     [
       {widget: "label", title: "Bins"},

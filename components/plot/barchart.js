@@ -54,10 +54,6 @@ export const barchart_ui = {
   func: barchart,
   ui: [
     [
-      {widget: "label", title: "Bins"},
-      {widget: "numerical", state: 0,name: "bins:number"}
-    ],
-    [
       {widget: "label", title: "Min"},
       {widget: "numerical", state: 0,name: "min:number"}
     ],

@@ -25,7 +25,9 @@
 'use strict';
 
 import {barchart_ui} from './barchart.js';
+import {histogram_ui} from './histogram.js';
 
 export const components = [
-  barchart_ui
+  barchart_ui,
+  histogram_ui
 ];
