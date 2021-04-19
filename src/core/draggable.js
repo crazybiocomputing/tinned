@@ -130,7 +130,6 @@ export const edgeStart = (event) => {
     DRAG.edge = getID(event.target.id);
     event.preventDefault();
     // Get canvas
-    const xmlns= "http://www.w3.org/2000/svg";
     let ctx = document.querySelector('main svg');
     let line = document.createElementNS(xmlns,'line');
     line.dataset.source = event.target.id;
