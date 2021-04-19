@@ -25,7 +25,7 @@
 'use strict';
 
 import {TINNED} from '../tinned.js';
-import {getID} from './common.js';
+import {getID, xmlns, xmlns} from './common.js';
 
 
 const DRAG = {
@@ -130,6 +130,7 @@ export const edgeStart = (event) => {
     DRAG.edge = getID(event.target.id);
     event.preventDefault();
     // Get canvas
+    let xmlns=xmlns;
     let ctx = document.querySelector('main svg');
     let line = document.createElementNS(xmlns,'line');
     line.dataset.source = event.target.id;
