@@ -30,6 +30,8 @@
  */
 export const searchBox = (parent,tags) => {
     
+  const container = document.getElementById("container");
+
   const displayNode = (tags,id) => {
     const htmlString = tags
         .map((tag) => {
