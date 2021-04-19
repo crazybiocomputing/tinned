@@ -45,26 +45,25 @@ export const searchBox = (parent,tags) => {
   };
 
   const displaySearchbox = () => {
-    const searchbox = document.createElement('div');
-    searchbox.className = "searchbox"; 
-    const html = `<div id="searchWrapper">
-          <input
-            type="text"
-            name="searchbar"
-            id="searchbar"
-            placeholder="search for a Node"
-          />
-        </div>
+    const searchbox = `<div class="searchbox">
+        <h1>Node Research</h1>
+          <div id="searchWrapper">
+            <input
+              type="text"
+              name="searchbar"
+              id="searchbar"
+              placeholder="search for a Node"
+            />
+          </div>
         <ul id="NodeList"></ul>
       </div>`;
-      searchbox.innerHTML = html;
-    return searchbox;
+    container.innerHTML = searchbox;
   }
 
   // **WARNING**. Check if there is no other event in Board!!
   // Add Events
   parent.onmousedown = function(){
-      parent.appendChild(displaySearchbox() );
+    displaySearchbox();
   }
 
   parent.onmouseup = function (){
