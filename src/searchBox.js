@@ -80,13 +80,13 @@ export const searchBox = (parent,tags) => {
     });
   }
 
-  function Hide (id) { document.getElementById(id).style.visibility = "hidden";	}
+  function Hide (id) { document.getElementById(id).style.display = "none";	}
 
-  function Show (id) { document.getElementById(id).style.visibility = "visible";	}
+  function Show (id) { document.getElementById(id).style.visibility = "contents";	}
   
   parent.appendChild(displaySearchbox());
   
-  if (document.getElementById("searchbox").style.visibility == "hidden"){
+  if (document.getElementsByClassName("searchbox").style.visibility == "hidden"){
     parent.onmousedown(Show("searchbox"));
   }
   else {
