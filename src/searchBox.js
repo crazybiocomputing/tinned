@@ -82,11 +82,11 @@ export const searchBox = (parent,tags) => {
 
   function Hide (id) { document.getElementById(id).style.display = "none";	}
 
-  function Show (id) { document.getElementById(id).style.visibility = "contents";	}
+  function Show (id) { document.getElementById(id).style.display = "contents";	}
   
   parent.appendChild(displaySearchbox());
   
-  if (document.getElementsByClassName("searchbox").style.visibility == "hidden"){
+  if (document.getElementsByClassName("searchbox").style.display == "contents"){
     parent.onmousedown(Show("searchbox"));
   }
   else {
