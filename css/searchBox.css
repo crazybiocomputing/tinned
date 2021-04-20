@@ -17,7 +17,6 @@ div.searchbox {
   border-radius: 10px;
   width : 300px;
   z-index: 1000;
-  visibility: hidden;
 }
 
 #searchWrapper{
