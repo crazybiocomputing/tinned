@@ -79,6 +79,17 @@ export const searchBox = (parent,tags) => {
       displayNode(filteredTagsV2,NodeList);
     });
   }
+
+  function Hide (id) { document.getElementById(id).style.visibility = "hidden";	}
+
+  function Show (id) { document.getElementById(id).style.visibility = "visible";	}
   
   parent.appendChild(displaySearchbox());
+  
+  if (document.getElementById("searchbox").style.visibility == "hidden"){
+    parent.onmousedown(Show("searchbox"));
+  }
+  else {
+    parent.onmousedown(Hide("searchbox"));
+  }
 }
