@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf8">
-<title>TINNED MOL - All Nodes</title>
+<title>connections</title>
 <link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet"> 
 <link rel="stylesheet" href="../css/font-awesome-4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="../css/tinned.css">
@@ -20,6 +20,7 @@
   import {TINNED} from '../src/tinned.js';
   import {Board} from '../src/core/board.js';
   import {components} from '../components/mol/components.js';
+  import {Edge} from '../src/core/edge.js';
 
   ////// MAIN //////
 
@@ -40,11 +41,7 @@
       },
       {
         eid: 2,
-        sockets: ['value@11','yin@15'],
-      },
-      {
-        eid: 3,
-        sockets: ['value@15','data@5'],
+        sockets: [],
       }
     ],
     nodes: [
@@ -97,8 +94,19 @@
     ]
   };
 
+
+function AppendEd (graph,srcID,tgtID){
+  graph.push(srcID,tgtID);
+}
+
+
+console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+AppendEd(graph.edges[1].sockets,'value@11','yin@15');
+console.log(graph.edges[0].sockets);
+//let ed= new Edge(3,'value@15','data@5');
+//console.log(ed);
+
 board.load(graph);
-console.log(graph);
 board.run();
 
 
