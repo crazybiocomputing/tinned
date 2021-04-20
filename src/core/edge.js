@@ -57,7 +57,7 @@ export class Edge {
    * srcID - Source ID
    * tgtID - Target ID
    * input - Input Socket
-   * output - Output Socket
+   * output - Output Socket Faut faire un create Edges (new Edge)
    */
   _createEdge(edgID,srcID,tgtID) {
     // Source
