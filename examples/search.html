@@ -27,12 +27,21 @@
   let board = new Board(main,components);  
   
   // Create SearchBox
+  function Hide (id) { document.getElementById(id).style.visibility = "hidden";	}
+
+  function Show (id) { document.getElementById(id).style.visibility = "visible";	}
+
+  function toggle(anId)
+  {
+    if (document.getElementById(anId).style.visibility == "hidden")	{	Show(anId);	}
+    else															{	Hide(anId);	}
+  }
   searchBox(main,components);
 
 </script>
 </head>
 <body>
-<main onmousedown="toggle('searchWrapper');">
+<main onmousedown="toggle('searchbox');">
 </main>
 </body>
 </html>
