@@ -83,7 +83,7 @@ export const searchBox = (parent,tags) => {
   const Hide = (classe) => {
     document.getElementsByClassName(classe).style.display = "none";
   }
-  const Hide = (classe) => {
+  const Show = (classe) => {
     document.getElementsByClassName(classe).style.display = "contents";
   }
 
