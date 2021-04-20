@@ -91,10 +91,11 @@
   
   
   function Appendnodes(edges,srcID,tgtID){
-    edges.sockets.append(srcID,tgtID); //srcID,tgtID
+    edges.append(srcID,tgtID); //srcID,tgtID
   };
 
-  Appendnodes(graph.edges,'value@11','yin@15')
+ graph.edges.sockets.append('value@11')
+ graph.edges.sockets.append('yin@15')
   board.load(graph);
   board.run();
   
