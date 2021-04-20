@@ -59,7 +59,7 @@ export const searchBox = (parent,tags) => {
       </div>`;
       searchbox.innerHTML = html;
     return searchbox;
-  }
+  };
 
   // **WARNING**. Check if there is no other event in Board!!
   // Add Events
@@ -78,18 +78,24 @@ export const searchBox = (parent,tags) => {
       const filteredTagsV2 = filteredTags.slice(0, 5);
       displayNode(filteredTagsV2,NodeList);
     });
+  };
+
+  const Hide = (classe) => {
+    document.getElementsByClassName(classe).style.display = "none";
+  }
+  const Hide = (classe) => {
+    document.getElementsByClassName(classe).style.display = "contents";
   }
 
-  function Hide (id) { document.getElementById(id).style.visibility = "hidden";	}
+  const check_mouse_down = (classe) => {
+    if (document.getElementsByClassName(classe).style.display == "contents"){
+      parent.onmousedown(Show("searchbox"));
+    }
+    else {
+      parent.onmousedown(Hide("searchbox"));
+    }
+  }
 
-  function Show (id) { document.getElementById(id).style.visibility = "visible";	}
-  
   parent.appendChild(displaySearchbox());
-  
-  if (document.getElementById("searchbox").style.visibility == "hidden"){
-    parent.onmousedown(Show("searchbox"));
-  }
-  else {
-    parent.onmousedown(Hide("searchbox"));
-  }
+  check_mouse_down("searchbox");
 }
