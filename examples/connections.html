@@ -94,8 +94,8 @@
     edges.append(srcID,tgtID); //srcID,tgtID
   };
 
-  graph.edges.sockets.push('value@11');
-  graph.edges.sockets.push('yin@15');
+  graph.edges[sockets].push('value@11');
+  graph.edges[sockets].push('yin@15');
   board.load(graph);
   board.run();
   
