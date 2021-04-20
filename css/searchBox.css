@@ -21,6 +21,7 @@ div.searchbox {
 
 #searchWrapper{
   padding-left : 50px;
+  visibility: hidden;
 }
 
 #NodeList {

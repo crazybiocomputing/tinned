@@ -63,8 +63,14 @@ export const searchBox = (parent,tags) => {
 
   // **WARNING**. Check if there is no other event in Board!!
   // Add Events
-  parent.onmousedown = function(){
-      parent.appendChild(displaySearchbox() );
+  function Hide (id) { document.getElementById(id).style.visibility = "hidden";	}
+
+  function Show (id) { document.getElementById(id).style.visibility = "visible";	}
+
+  function toggle(anId)
+  {
+    if (document.getElementById(anId).style.visibility == "hidden")	{	Show(anId);	}
+    else															{	Hide(anId);	}
   }
 
   parent.onmouseup = function (){
@@ -83,4 +89,6 @@ export const searchBox = (parent,tags) => {
       displayNode(filteredTagsV2,NodeList);
     });
   }
+  
+  parent.appendChild(displaySearchbox());
 }
