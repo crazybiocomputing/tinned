@@ -58,8 +58,8 @@ export class Node extends Draggable {
       })
     );
     // Fill with new data
-    Object.keys(data.meta).forEach( key => this.data.meta[key] = data.meta[key]);
-    Object.keys(data.state).forEach( key => this.data.state[key] = data.state[key]);
+    //Object.keys(data.meta).forEach( key => this.data.meta[key] = data.meta[key]);
+    //Object.keys(data.state).forEach( key => this.data.state[key] = data.state[key]);
     
     this.element = document.createElement('section');
 

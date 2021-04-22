@@ -35,7 +35,7 @@ export const searchBox = (parent,tags) => {
         .map((tag) => {
             return `
             <li class="Node">
-                <h2><a href=# onclick=return >${tag.description}</a></h2>
+                <h2><a href=# onclick=return board.graph.appendNode(${tag.id});>${tag.description}</a></h2>
                 <p>${tag.tags.join(",")}</p>
             </li>
         `;

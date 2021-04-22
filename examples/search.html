@@ -27,7 +27,10 @@
   let board = new Board(main,components);  
   
   // Create SearchBox
-  searchBox(main,components);
+  console.log(board.graph);
+  board.graph.appendNode("MOL_COLOR");
+  board.run();
+  board.load(board.graph);
 
 </script>
 </head>

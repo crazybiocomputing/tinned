@@ -38,10 +38,6 @@
       {
         eid: 1,
         sockets: ['value@1','x@15'],
-      },
-      {
-        eid: 2,
-        sockets: [],
       }
     ],
     nodes: [
@@ -102,8 +98,7 @@ function AppendEd (graph,edgID,srcID,tgtID){
 
 
 console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-AppendEd(graph,3,'value@11','yin@15');
-console.log(graph.edges[0].sockets);
+//AppendEd(graph,3,'value@11','yin@15');
 board.load(graph);
 board.run();
 
