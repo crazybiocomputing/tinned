@@ -33,7 +33,7 @@
   let board = new Board(main,components);
 
   // Load Graph
-  let graph = {
+  let graph= {
     edges :[
       {
         eid: 1,
@@ -91,16 +91,16 @@
   };
 
 
-function AppendEd (graph,edgID,srcID,tgtID){
-  let ed= new Edge(edgID,srcID,tgtID);
-  graph.edges.push(ed);
-}
-
 
 console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-//AppendEd(graph,3,'value@11','yin@15');
-board.load(graph);
+board.graph.nodes.push(graph.nodes[0]);
+board.graph.nodes.push(graph.nodes[1]);
+board.graph.nodes.push(graph.nodes[2]);
+board.graph.nodes.push(graph.nodes[3]);
 board.run();
+board.graph.appendEdge('value@11','yin@15');
+board.load(board.graph);
+
 
 
 </script>

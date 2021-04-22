@@ -78,7 +78,13 @@ export class Graph {
 
   appendEdge(start_id,end_id) {
     let ctx = this.context; 
-    let eid = this.edges[this.edges.length - 1].eid++;
+    let eid;
+    if (this.edges.length==0){
+      eid=1;
+    }
+    else{
+      eid = this.edges[this.edges.length - 1].eid++;
+    }
     let e = new Edge(eid,start_id,end_id);
     this.edges.push(e);
     ctx.append(e.line);
