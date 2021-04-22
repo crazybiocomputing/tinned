@@ -64,7 +64,9 @@ export class Edge {
     let words = srcID.split('@'); 
     let sourceID = {index: words[1],variable: words[0]};
     let nodeS = document.querySelector(`#${sourceID.variable}__OUT__${sourceID.index}`); //`#node_${srcID} #o_${output} button`);
-    console.log(srcID,nodeS);
+    console.log(sourceID.variable);
+    console.log("lililililililili");
+    console.log(nodeS);
     console.log('EDGE',srcID.match(/@(\d+)/));
     let shrinkNodeS = document.querySelector(`#node_${sourceID.index} .out_socket`);
     let tmp = [edgID];

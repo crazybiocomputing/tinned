@@ -95,17 +95,15 @@
   };
 
 
-function AppendEd (graph,srcID,tgtID){
-  graph.push(srcID,tgtID);
+function AppendEd (graph,edgID,srcID,tgtID){
+  let ed= new Edge(edgID,srcID,tgtID);
+  graph.edges.push(ed);
 }
 
 
 console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-AppendEd(graph.edges[1].sockets,'value@11','yin@15');
+AppendEd(graph,3,'value@11','yin@15');
 console.log(graph.edges[0].sockets);
-//let ed= new Edge(3,'value@15','data@5');
-//console.log(ed);
-
 board.load(graph);
 board.run();
 
