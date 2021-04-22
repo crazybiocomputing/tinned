@@ -158,7 +158,7 @@ export  const edgeEnd = (event) => {
     console.log(event.target);
     // Add an edge to the graph
     console.log(DRAG.edge,getID(event.target.id) );
-    TINNED.graph.appendEdge(DRAG.edge,getID(event.target.id) );//DRAG.edges renvoie l'ID du noeud de départ OR nous voulons l'ID de la variable (ex: value@1) 
+    TINNED.graph.appendEdge(DRAG.edge,getID(event.target.id) );//DRAG.edges renvoie l'ID du noeud de départ OR nous voulons l'ID de la variable (ex: value@1) idem pour getID
     // Otherwise delete line
     document.getElementById('rubberband').remove();
     console.log('EDGE end',event.target);
