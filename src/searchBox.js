@@ -36,7 +36,6 @@ export const searchBox = (parent,tags) => {
             return `
             <li class="Node">
                 <h2><a href=# onclick=return board.graph.appendNode(${tag.id});>${tag.description}</a></h2>
-                <p>${tag.tags.join(",")}</p>
             </li>
         `;
         })
@@ -47,7 +46,7 @@ export const searchBox = (parent,tags) => {
   const displaySearchbox = () => {
     const searchbox = document.createElement('div');
     searchbox.className = "searchbox"; 
-    const html = `<div id="searchWrapper">
+    const html = `<div id="searchWrapper" class = "header search">
           <input
             type="text"
             name="searchbar"
@@ -55,8 +54,12 @@ export const searchBox = (parent,tags) => {
             placeholder="search for a Node"
           />
         </div>
-        <ul id="NodeList"></ul>
-      </div>`;
+        <div class = "body">
+          <ul id="NodeList"></ul>
+        </div>
+        <div class = "footer">
+          <a href=# >fermer la searchbox</a>
+        <div/>`;
       searchbox.innerHTML = html;
     return searchbox;
   };
