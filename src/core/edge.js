@@ -67,7 +67,6 @@ export class Edge {
     console.log(sourceID.variable);
     console.log(sourceID.index);
     console.log("lililililililili");
-    console.log(nodeS.dataset);
     console.log('EDGE',srcID.match(/@(\d+)/));
     let shrinkNodeS = document.querySelector(`#node_${sourceID.index} .out_socket`);
     let tmp = [edgID];
