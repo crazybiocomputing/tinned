@@ -123,5 +123,20 @@ body {
 }
 
 .global>h1{
-    padding-bottom:50px;
+  padding-bottom:50px;
+}
+
+.global>a{
+  color :black;
+  text-decoration:none
+}
+
+.global>a:hover{
+  color :black;
+  text-decoration:none
+}
+
+.global>a:visited{
+  color :black;
+  text-decoration:none
 }
