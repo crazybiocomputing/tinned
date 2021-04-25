@@ -21,7 +21,7 @@ li.Node{
 }
 
 .search{
-  background-color: purple;
+  background-color: rgba(128, 0, 128, 0.746);
 }
 
 .searchWrapper{
@@ -29,7 +29,17 @@ li.Node{
 }
 
 .searchbox .footer a{
-  position :relative
+  position :relative;
+  color:white;
+}
+
+.searchbox .footer a:hover{
+  color:rgb(172, 189, 246);
+  cursor:default;
+}
+.searchbox .footer a:visited{
+  color:rgba(68, 111, 251, 0.959)
+  
 }
 
 #searchbar{
