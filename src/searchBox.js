@@ -46,7 +46,7 @@ export const searchBox = (parent,tags) => {
   const displaySearchbox = () => {
     const searchbox = document.createElement('div');
     searchbox.className = "searchbox"; 
-    const html = `<div id="searchWrapper" class = "header search">
+    const html = `<div id="searchWrapper" class = "header search movable">
           <input
             type="text"
             name="searchbar"
@@ -59,7 +59,7 @@ export const searchBox = (parent,tags) => {
         </div>
         <div class = "footer">
           <a href=# >fermer la searchbox</a>
-        <div/>`;
+        </div>`;
       searchbox.innerHTML = html;
     return searchbox;
   };

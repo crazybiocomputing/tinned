@@ -1,24 +1,39 @@
 body {
-font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 #NodeList {
-  background-color: rgba(63, 62, 62, 0.466);
-  font-size: small;
-  padding: 10px 10px 10px 10px;
+  font-size:xx-small;
+  padding: 5px 5px 5px 5px;
 }
 
 li.Node{
-  margin-top : 5px;
+  margin-top : 4px;
   margin-bottom: 4px;
-  padding-left: 10px;
-  border-width: 1px;
-  border-style: solid;
-  border-color:white;
-  border-radius: 10px;
 }
 
 .searchbox{
   width:200px;
   height: auto;
+  border: solid;
+  border-width: 1px;
+  border-radius: 4px;
+}
+
+.search{
+  background-color: purple;
+}
+
+.searchWrapper{
+  padding-left:20px;
+}
+
+.searchbox .footer a{
+  position :relative
+}
+
+#searchbar{
+  padding-left : 10px;
+  margin-left: 9px;
+  margin-right: 9px;
 }
