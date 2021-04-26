@@ -26,51 +26,40 @@
 
 import {Observable} from '../../src/core/observable.js';
 
-const range = (node) => (stream) => {
-  // Params
-  let start = node.data.state?.start || 0;
-  let stop = node.data.state?.stop || 0;
-  let step = node.data.state?.step || 1;
-  const len = Math.ceil((stop - start) / step);
-  let array = Array.from({length: len}, (_,i) => start + i*step);
-
+const interval = (node) => (stream) => {
+  let period = node.data.state.period;
   // Create observable
-  node.targets.forEach( key => {
-      stream[key] = new Observable(observer => {
-      array.forEach(val => observer.next(val));
-      observer.complete();
+  const obs = new Observable(observer => {
+      let counter = 0;
+      const id = setInterval(() => observer.next(++counter), period);
       return () => {
         console.log('Teardown');
+        clearInterval(id);
       }
-
     });
+  
+  // Set in stream
+  node.targets.forEach( key => {
+    stream[key] = obs;
   });
   // Return stream
   return stream;
 }
 
-export const range_ui =   {
-  id: "BASX_RANGE",
+export const interval_ui =   {
+  id: "PROG_INTERVAL",
   class: "programming",
-  description: "Range",
-  tags: ["array","series","list"],
-  func: range,
+  description: "interval",
+  tags: ["time","timeout","asynchronous"],
+  func: interval,
   ui: [
     [
       {widget:"label",title: "Data"}, 
       {widget: "output",name:"stream:stream"}
     ],
     [
-      {widget: "label", title: "Start"},
-      {widget: "numerical", state: 0,name: "start:number"}
-    ],
-    [
-      {widget: "label", title: "Stop"},
-      {widget: "numerical", state: 10,name: "stop:number"}
-    ],
-    [
-      {widget: "label", title: "Step"},
-      {widget: "numerical", state: 1,name: "step:number"}
+      {widget: "label", title: "Interval(ms)"},
+      {widget: "numerical", state: 500,name: "period:number"}
     ]
   ]
 };

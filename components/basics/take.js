@@ -26,52 +26,55 @@
 
 import {Observable} from '../../src/core/observable.js';
 
-const range = (node) => (stream) => {
+const takeFunc = (node) => (stream) => {
+
+  // Get source
+  let sourceObservable = stream[node.sources[0]];
   // Params
-  let start = node.data.state?.start || 0;
-  let stop = node.data.state?.stop || 0;
-  let step = node.data.state?.step || 1;
-  const len = Math.ceil((stop - start) / step);
-  let array = Array.from({length: len}, (_,i) => start + i*step);
+  const howMany = node.data.state.value;
 
-  // Create observable
+  const obs = new Observable(observer => {
+    let counter = 0;
+    const sourceSubscription = sourceObservable.subscribe({
+      next: (val) => {
+        counter++;
+        observer.next(val);
+        if (counter >= howMany) {
+          observer.complete();
+        }
+      },
+      error: (err) => observer.error(err),
+      complete: () => observer.complete()
+    })
+    return () => sourceSubscription.unsubscribe();
+  });
+
+  // Set stream
   node.targets.forEach( key => {
-      stream[key] = new Observable(observer => {
-      array.forEach(val => observer.next(val));
-      observer.complete();
-      return () => {
-        console.log('Teardown');
-      }
-
-    });
+    stream[key] = obs;  
   });
   // Return stream
   return stream;
 }
 
-export const range_ui =   {
-  id: "BASX_RANGE",
+export const take_ui =   {
+  id: "PROG_TAKE",
   class: "programming",
-  description: "Range",
-  tags: ["array","series","list"],
-  func: range,
+  description: "Take",
+  tags: ["first"],
+  func: takeFunc,
   ui: [
     [
       {widget:"label",title: "Data"}, 
-      {widget: "output",name:"stream:stream"}
+      {widget: "output",name:"dataout:any"}
     ],
     [
-      {widget: "label", title: "Start"},
-      {widget: "numerical", state: 0,name: "start:number"}
+      {widget:"label",title: "Value"}, 
+      {widget: "numerical", state: 5,name: "value:number"}
     ],
     [
-      {widget: "label", title: "Stop"},
-      {widget: "numerical", state: 10,name: "stop:number"}
-    ],
-    [
-      {widget: "label", title: "Step"},
-      {widget: "numerical", state: 1,name: "step:number"}
+      {widget: "input",name: "datain:any"},
+      {widget:"label",title: "Data"}
     ]
   ]
 };
-

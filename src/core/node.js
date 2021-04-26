@@ -45,13 +45,15 @@ export class Node extends Draggable {
     super();
     this.id = id;
     console.log('NODE',id);
+    this.sources = [];
+    this.targets = [];
     this.template = template; // Useful?
 
     // Step #1 - Set states
     // Init default states
     this.data = {meta: {pos:[0,0]},state:{}};
     template.ui.forEach( row => row.forEach(widget => {
-        if (!['output','input'].includes(widget.widget)  && widget.name) {
+        if (!['output','input'].includes(widget.widget) && widget.name) {
           const [_var,_type] = widget.name.split(':');
           this.data.state[_var] = widget.state;
         }

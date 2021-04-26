@@ -33,9 +33,11 @@ const mul = (x,y) => x * y;
 const div = (x,y) => x / y;
 const operators = [none,add,sub,mul,div];
 
-const math = (node) => (sourceObservable) => {
-  // return a new Observable
-  return new Observable(observer => {
+const math = (node) => (stream) => {
+  // Get source(s)
+  let sourceObservable = stream[node.sources[0]];
+  // Create a new Observable
+  const obs =  new Observable(observer => {
     const sourceSubscription = sourceObservable.subscribe({
       next: (x) => {
         let next;  
@@ -59,7 +61,12 @@ const math = (node) => (sourceObservable) => {
       sourceSubscription.unsubscribe();
     }
   });
-
+  // Create observable
+  node.targets.forEach( key => {
+    stream[key] = obs;  
+  });
+  // Return stream
+  return stream;
 }
 
 

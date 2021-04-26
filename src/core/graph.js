@@ -37,11 +37,12 @@ export class Graph {
    */
   constructor(templates) {
     this.templates = templates;
-    this.nodes = [];
+    this.vertices = [];
     this.edges = [];
+    this.adjacencyList = {};
     this.flow = new DataFlow(this); // ??
     this.context; // svg or canvas/webgl?
-    this.root; // HTML Parent node for all the nodes
+    this.root; // HTML Parent node for all the vertices
   }
 
   build(json) {
@@ -50,7 +51,7 @@ export class Graph {
   }
 
   lastID() {
-    return (this.nodes.length > 0) ? this.nodes[this.nodes.length - 1].id : 0;
+    return (this.vertices.length > 0) ? this.vertices[this.vertices.length - 1].id : 0;
   }
 
   appendNode(templateID,nodeID = -1,data={}) {
@@ -58,7 +59,7 @@ export class Graph {
     // Create the Node (the `Producer`)
     let template = this.templates.find( n => n.id === templateID);
     let node =  new Node(newid,template,data);
-    this.nodes.push(node);
+    this.vertices.push(node);
     this.root.appendChild(node.element);
     // Add the engine in the queue waiting for execution (the `Consumer`).
     this.flow.add(node);
@@ -87,12 +88,13 @@ export class Graph {
     }
     let e = new Edge(eid,start_id,end_id);
     this.edges.push(e);
+    this.adjacencyList[start_id].push(end_id);
     ctx.append(e.line);
     this.flow.append(e);
   }
 
   /**
-   * Create Nodes of the given graph from components
+   * Create vertices of the given graph from JSON components
    *
    * @author Jean-Christophe Taveau
    */
@@ -106,12 +108,18 @@ export class Graph {
       // Step #2:  Create GUI
       console.log('NODE',node.id,node.template,component);
       component.node = new Node(node.id,template_ui,node.data);
-      this.nodes.push(component.node);
+      this.vertices.push(component.node);
       this.root.appendChild(component.node.element);
       // Step #3:  Update states if any or in data
       if (node.data.state) {
         component.node.setState(node.data.state);
       }
+      // Step #3 - Create graph
+      if (!this.adjacencyList[node.id]) {
+        this.adjacencyList[node.id] = [];
+      }
+
+
       // Add the engine in the queue waiting for execution (the `Consumer`).
       // TODO this.flow.add(component);
       // this.appendNode(component);
@@ -121,7 +129,7 @@ export class Graph {
       console.log(node.template,node.id,node.data);
       console.log(this.components.find( n => n.id === node.template));
       let n = new Node(node.id,this.components.find( n => n.id === node.template),node.data);
-      this.nodes.push(n);
+      this.vertices.push(n);
       root.appendChild(n.element);
       */
     });
@@ -137,11 +145,15 @@ export class Graph {
     edges.forEach( (edge) => {
       let e = new Edge(edge.eid,...edge.sockets);
       this.edges.push(e);
+      this.adjacencyList[e.sourceID].push(e.targetID);
+      this.getNode(+e.sourceID).targets.push(e.target);
+      this.getNode(+e.targetID).sources.push(e.target);
       ctx.append(e.line);
       this.flow.append(e);
     });
     console.log(this.flow);
-    this.flow.run();
+    console.log(this.adjacencyList);
+    this.run();
   }
 
   /**
@@ -155,7 +167,7 @@ export class Graph {
   }
   
   getNode(node_id) {
-    return this.nodes.find( n => n.id === node_id);
+    return this.vertices.find( n => n.id === node_id);
   }
   
   getEdge(id) {
@@ -173,19 +185,60 @@ export class Graph {
   show() {
   }
 
+  /*
+   * Topological Sort - DFS Algorithm
+   * From https://adelachao.medium.com/graph-topological-sort-javascript-implementation-1cc04e10f181
+   */
+  topSortDFS() {
+
+    function topSortDFSHelper(v, n, visited, topNums) {
+      visited[v] = true;
+      const neighbors = _graph.adjacencyList[v];
+      for (const neighbor of neighbors) {
+        if (!visited[neighbor]) {
+            n = topSortDFSHelper(neighbor, n, visited, topNums);
+        }
+      }
+      topNums[n] = v;
+      return n - 1;
+    }
+
+    const _graph = this;
+    const vertices = Object.keys(this.adjacencyList);
+    const visited = {};
+    const topNums = new Array(vertices.length).fill(0);
+    let n = vertices.length - 1;
+    for (const v of vertices) {
+        if (!visited[v]) {
+            n = topSortDFSHelper(v, n, visited, topNums);
+        }
+    }
+    return topNums;
+  }
+
   /**
-   * Executes the active nodes in this graph
+   * Executes the active vertices in this graph
    *
    * @author Jean-Christophe Taveau
    */
-  run() {
-    this.flow.forEach( func => func() );
+  async run() {
+    // Deprecated this.flow.run();
+    // New version
+    const pipeline = this.topSortDFS();
+    console.log(pipeline);
+    let stream = {};
+    pipeline.reduce( (stream,vtx) => {
+      const nod = this.vertices.find(n => n.id === +vtx);
+      stream = nod.template.func(nod)(stream);
+      console.log(stream);
+      return stream;
+    },{}); // new Map()?
   }
 
   /**
    * Update the node `id` and following
    *
-   * @param {array} nodes - Array of nodes whose edges must be updated
+   * @param {array} vertices - Array of vertices whose edges must be updated
    *
    * @author Jean-Christophe Taveau
    */
@@ -195,15 +248,15 @@ export class Graph {
   }
 
   /**
-   * Update edges of All the nodes defined in an array
+   * Update edges of All the vertices defined in an array
    *
-   * @param {array} nodes - Array of nodes whose edges must be updated
+   * @param {array} vertices - Array of vertices whose edges must be updated
    *
    * @author Jean-Christophe Taveau
    */
-  updateAllEdges(nodes) {
-    // console.log(nodes);
-    nodes.forEach( n => {
+  updateAllEdges(vertices) {
+    // console.log(vertices);
+    vertices.forEach( n => {
       this.updateEdges(n, n.classList.contains('shrink') );
     });
   }

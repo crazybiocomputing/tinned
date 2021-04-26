@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf8">
-<title>TINNED - Range</title>
+<title>TINNED - Interval</title>
 <link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet"> 
 <link rel="stylesheet" href="../css/font-awesome-4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="../css/tinned.css">
@@ -34,17 +34,37 @@
   // Load Graph
   let test = {
     nodes: [
-      {
+    {
         id: 1,
-        template:"BASX_RANGE",
+        template:"PROG_INTERVAL",
         data: {
           meta: {
-            pos: [100,195],
+            pos: [236,195],
           },
           state: {
-            start: 1,
-            stop: 20,
-            step: 2
+            period: 1000
+          }
+        }
+      },
+      {
+        id: 2,
+        template:"PROG_TAP",
+        data: {
+          meta: {
+            pos: [432,210],
+          },
+          state: {}
+        }
+      },
+      {
+        id: 3,
+        template:"PROG_TAKE",
+        data: {
+          meta: {
+            pos: [649,210],
+          },
+          state: {
+            value: 10
           }
         }
       },
@@ -53,81 +73,25 @@
         template:"BASX_MONITOR",
         data: {
           meta: {
-            pos: [1050,207],
+            pos: [849,207],
           },
           state: {}
-        }
-      },
-      {
-        id: 10,
-        template:"PROG_TAP",
-        data: {
-          meta: {
-            pos: [263,203],
-          },
-          state: {}
-        }
-      },
-      {
-        id: 15,
-        template:"BASX_MATH",
-        data: {
-          meta: {
-            pos: [456,210],
-          },
-          state: {
-            op: 1, // Add
-            y : 10
-          }
-        }
-      },
-      {
-        id: 17,
-        template:"PROG_TAKE",
-        data: {
-          meta: {
-            pos: [851,206],
-          },
-          state: {
-            value: 3
-          }
-        }
-      },
-      {
-        id: 20,
-        template:"BASX_MAP",
-        data: {
-          meta: {
-            pos: [614,210],
-          },
-          state: {
-            code: '(x) => Math.floor(x / 2);'
-          }
         }
       }
     ],
     edges : [
       {
         eid: 1,
-        sockets: ['stream@1','datain@10']
+        sockets: ['stream@1','datain@2']
       },
       {
         eid: 2,
-        sockets: ['value@15','x@20']
+        sockets: ['dataout@2','datain@3']
       },
       {
         eid: 3,
-        sockets: ['result@20','datain@17']
-      },
-      {
-        eid: 4,
-        sockets: ['dataout@17','datain@5']
-      },
-      {
-        eid: 5,
-        sockets: ['dataout@10','x@15']
+        sockets: ['dataout@3','datain@5']
       }
- 
     ]
   };
 

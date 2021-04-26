@@ -8,9 +8,12 @@ import {Observable} from '../../src/core/observable.js';
 
 // MAP operator
 
-const map = (node) => (sourceObservable) => {
-  // return a new Observable
-  return new Observable(observer => {
+const map = (node) => (stream) => {
+
+  let sourceObservable = stream[node.sources[0]];
+
+  // Create a new Observable
+  const obs = new Observable(observer => {
     const sourceSubscription = sourceObservable.subscribe({
       next(val) {
         let next;
@@ -21,8 +24,8 @@ const map = (node) => (sourceObservable) => {
           const mapFunc = new Function('x','const foo = ' + code + '\nreturn foo(x);');
           next = mapFunc(val);
         } catch (e) {
-          this.error(e);
-          this.complete();
+          observer.error(e);
+          observer.complete();
         }
         observer.next(next);
       },
@@ -32,16 +35,22 @@ const map = (node) => (sourceObservable) => {
       complete() {
         observer.complete();
       }
-    })
+    });
     return () => {
       sourceSubscription.unsubscribe();
     }
   });
+  // Create observable
+  node.targets.forEach( key => {
+    stream[key] = obs;  
+  });
+  // Return stream
+  return stream;
 }
 
 export const map_ui =  {
   id: "BASX_MAP",
-  class: "programming",
+  class: "tool",
   description: "Map",
   tags: ["map","forEach"],
   help: ["For each input `x`, calculate f(x)"],

@@ -37,7 +37,11 @@ export class Edge {
   constructor(edge_id,source_id,target_id) {
     this.eid = edge_id;
     this.source = source_id;
+    [this.sourceName,this.sourceID] = this.source.split('@');
+    this.sourceID = parseInt(this.sourceID);
     this.target = target_id;
+    [this.targetName,this.targetID] = this.target.split('@');
+    this.targetID = parseInt(this.targetID);
     this.line = this._createEdge(edge_id,source_id,target_id);
   }
 

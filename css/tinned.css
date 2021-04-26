@@ -320,8 +320,11 @@ svg {
   background-color: #cab2d6;
 }
 
-.tool,.rendering {
+.tool,.plot {
   background-color: #66c4ff;
+}
+
+.rendering {
   background-color: #fb9a99;
 }
 

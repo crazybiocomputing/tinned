@@ -26,34 +26,52 @@
 
 import {Observable} from '../../src/core/observable.js';
 
-const monitor = (node) => (stream) => {
+const tap = (node) => (stream) => {
   // Get source
   let sourceObservable = stream[node.sources[0]];
   const textarea = document.querySelector(`#node_${node.id} textarea`);
 
-  sourceObservable.subscribe({
-    next: (val) => {
-      // Update node
-      node.data.state.log += val + '\n';
-      textarea.innerHTML = node.data.state?.log;
-    },
-    error: (err) => alert(err),
-    complete: () => {
-      node.data.state.log += 'Completed!\n';
-      textarea.innerHTML = node.data.state?.log;
-    }
+  // Create observable
+  const obs = new Observable(observer => {
+    const sourceSubscription = sourceObservable.subscribe({
+      next: (val) => {
+        // Update node
+        node.data.state.log += val + '\n';
+        textarea.innerHTML = node.data.state?.log;
+        observer.next(val);
+      },
+      error: (err) => observer.error(err),
+      complete: () => {
+        // Update node
+        node.data.state.log += 'Completed!\n';
+        textarea.innerHTML = node.data.state?.log;
+        observer.complete();
+      }
+    });
+    return () => sourceSubscription.unsubscribe();
   });
 
+  // Dispatch observable
+  node.targets.forEach( key => {
+    stream[key] = obs;
+  });
+  // Return stream
+  return stream;
 }
 
-export const monitor_ui = {
-  id: "BASX_MONITOR",
+export const tap_ui = {
+  id: "PROG_TAP",
   class: "information",
-  description: "Monitor",
+  description: "Tap",
   tags: ["console","display","log","print","show"],
-  help: ["Data subscriber"],
-  func: monitor,
+  help: ["Look at data through the pipeline"],
+  comment: ["Network tap https://en.wikipedia.org/wiki/Network_tap"],
+  func: tap,
   ui: [
+    [
+      {widget:"label",title: "Data"}, 
+      {widget: "output",name:"dataout:any"}
+    ],
     [
       {widget: "input",name: "datain:any"},
       {widget:"label",title: "Data"}
