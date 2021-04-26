@@ -26,14 +26,16 @@
   // Create Board + Graph
   let board = new Board(main,components);  
   
-  searchBox(main,components);
+  // Init empty graph
+  board.load({nodes:[],edges:[]});
+  board.run();
 
-  // Create SearchBox
+
   //console.log(board.graph);
   //board.graph.appendNode("MOL_COLOR");
-  //board.run();
-  //board.load(board.graph);
 
+  // Create SearchBox
+  searchBox(main,components);
 </script>
 </head>
 <body>
