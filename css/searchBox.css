@@ -36,6 +36,7 @@ li.Node{
 .searchbox .footer a:hover{
   color:rgb(172, 189, 246);
   cursor:default;
+  z-index: 1000;
 }
 .searchbox .footer a:visited{
   color:rgba(68, 111, 251, 0.959)
