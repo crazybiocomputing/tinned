@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+  <script type="module">
+    import * as fp from '../src/functional/common.js';
+    import * as rxp from '../src/functional/reactive.js';
+    
+    // Test # 1
+    const src1 = rxp.interval(500);
+    const ob1 = fp.pipe(
+      rxp.map((x) => 3 * x),
+      rxp.filter( (x) => x%2 === 1),
+      rxp.take(5),
+      rxp.reduce( (accu,x) => accu + x,0)
+      )(src1);
+      
+    ob1.subscribe(
+      {
+        next: (val) => console.log(`Test #1 - Reduce SUM :  ${val}`),
+        error: (e) => console.error(e),
+        complete: () => console.log('Completed!')
+      }
+    );
+ 
+    /*
+    // Test # 2
+    const src = rxp.interval(1000);
+    const ob2 = fp.pipe(
+      rxp.map(x => {
+        console.log('Processing: ', x);
+        return x*x;
+      }),
+      rxp.take(10),
+      rxp.share()
+      )(src);
+
+    ob2.subscribe(
+      {
+        next: (val) => console.log(`Subs.1: ${val}`),
+        error: (e) => console.error(e),
+        complete: () => console.log('Completed!')
+      }
+    );  
+    ob2.subscribe(
+      {
+        next: (val) => console.log(`Subs.2: ${val}`),
+        error: (e) => console.error(e),
+        complete: () => console.log('Completed!')
+      }
+    );  
+*/
+
+     // Test # 3
+    const src3 = rxp.interval(1000);
+    const ob3 = fp.pipe(
+      rxp.buffer(5),
+      rxp.take(3),
+      )(src3);
+
+    ob3.subscribe(
+      {
+        next: (val) => console.log(`Next: ${val}`),
+        error: (e) => console.error(e),
+        complete: () => console.log('Completed!')
+      }
+    );  
+
+    
+    </script>
+</head>
+<body>
+
+</body>
+</html>
+

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf8">
+<title>TINNED - Scan</title>
+<link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet"> 
+<link rel="stylesheet" href="../css/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/tinned.css">
+<script type="module" src="../components/mol/components.js"></script>
+
+</head>
+<body>
+<main>
+</main>
+
+<script type="module">
+
+  'use strict';
+
+  import {TINNED} from '../src/tinned.js';
+  import {Board} from '../src/core/board.js';
+  import {components} from '../components/basics/components.js';
+
+  ////// MAIN //////
+
+  let main = document.querySelector('main');
+
+  // Init Board
+  TINNED.init();
+  
+  // Create Board + Graph
+  let board = new Board(main,components);
+
+  // Load Graph
+  let test = {
+    nodes: [
+    {
+        id: 1,
+        template:"PROG_INTERVAL",
+        data: {
+          meta: {
+            pos: [236,195],
+          },
+          state: {
+            period: 1000
+          }
+        }
+      },
+      {
+        id: 2,
+        template:"PROG_TAP",
+        data: {
+          meta: {
+            pos: [432,210],
+          },
+          state: {}
+        }
+      },
+      {
+        id: 3,
+        template:"PROG_TAKE",
+        data: {
+          meta: {
+            pos: [649,210],
+          },
+          state: {
+            value: 5
+          }
+        }
+      },
+      {
+        id: 5,
+        template:"PROG_SCAN",
+        data: {
+          meta: {
+            pos: [849,207],
+          },
+          state: {
+            code: "function (accu,x) {\n  return accu + x;\n}\n"
+          }
+        }
+      },
+      {
+        id: 7,
+        template:"BASX_MONITOR",
+        data: {
+          meta: {
+            pos: [1044,207],
+          },
+          state: {}
+        }
+      },
+      {
+        id: 8,
+        template:"BASX_MONITOR",
+        data: {
+          meta: {
+            pos: [1044,207],
+          },
+          state: {}
+        }
+      },
+      {
+        id: 9,
+        template:"BASX_NUMBER",
+        data: {
+          meta: {
+            pos: [658,355],
+          },
+          state: {
+            value: 100
+          }
+        }
+      }
+    ],
+    edges : [
+      {
+        eid: 1,
+        sockets: ['stream@1','datain@2']
+      },
+      {
+        eid: 2,
+        sockets: ['dataout@2','datain@3']
+      },
+      {
+        eid: 3,
+        sockets: ['dataout@3','x@5']
+      },
+      {
+        eid: 4,
+        sockets: ['value@5','datain@7']
+      },
+      {
+        eid: 5,
+        sockets: ['value@9','init@5']
+      },
+      {
+        eid: 6,
+        sockets: ['stream@1','datain@8']
+      }
+    ]
+  };
+
+  board.load(test);
+  board.run();
+
+
+</script>
+</body>
+</html>

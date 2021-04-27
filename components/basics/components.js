@@ -27,12 +27,15 @@
 import {components as plots} from '../plot/components.js';
 
 import {countby_ui} from './countby.js';
+import {filter_ui} from './filter.js';
 import {interval_ui} from './interval.js';
 import {map_ui} from './map.js';
 import {math_ui} from './math.js';
 import {number_ui} from './number.js';
 import {monitor_ui} from './monitor.js';
 import {range_ui} from './range.js';
+import {reduce_ui} from './reduce.js';
+import {scan_ui} from './scan.js';
 import {string_ui} from './string.js';
 import {take_ui} from './take.js';
 import {tap_ui} from './tap.js';
@@ -46,12 +49,15 @@ const action = (node) => (obs) => {
 
 const _basics = [
   countby_ui,
+  filter_ui,
   interval_ui,
   map_ui, 
   math_ui, 
   monitor_ui,
   number_ui,
   range_ui,
+  reduce_ui,
+  scan_ui,
   string_ui,
   take_ui,
   tap_ui,

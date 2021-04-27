@@ -55,6 +55,7 @@ const tap = (node) => (stream) => {
   node.targets.forEach( key => {
     stream[key] = obs;
   });
+  
   // Return stream
   return stream;
 }

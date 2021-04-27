@@ -320,7 +320,7 @@ svg {
   background-color: #cab2d6;
 }
 
-.tool,.plot {
+.tool,.reactive {
   background-color: #66c4ff;
 }
 
@@ -328,11 +328,11 @@ svg {
   background-color: #fb9a99;
 }
 
-.information {
+.information,.consumer {
   background-color: #749797;
 }
 
-.io {
+.io,.producer,.plot {
   background-color: #e68745;
   background-color: #ff7f00;
 }

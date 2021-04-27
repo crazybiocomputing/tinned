@@ -42,7 +42,6 @@ const range = (node) => (stream) => {
       return () => {
         console.log('Teardown');
       }
-
     });
   });
   // Return stream
@@ -51,7 +50,7 @@ const range = (node) => (stream) => {
 
 export const range_ui =   {
   id: "BASX_RANGE",
-  class: "programming",
+  class: "producer",
   description: "Range",
   tags: ["array","series","list"],
   func: range,

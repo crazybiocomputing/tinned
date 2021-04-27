@@ -24,7 +24,7 @@
 
 'use strict';
 
-import {Observable} from '../../src/core/observable.js';
+import {take as rxp_take} from '../../src/functional/reactive.js';
 
 const takeFunc = (node) => (stream) => {
 
@@ -33,21 +33,7 @@ const takeFunc = (node) => (stream) => {
   // Params
   const howMany = node.data.state.value;
 
-  const obs = new Observable(observer => {
-    let counter = 0;
-    const sourceSubscription = sourceObservable.subscribe({
-      next: (val) => {
-        counter++;
-        observer.next(val);
-        if (counter >= howMany) {
-          observer.complete();
-        }
-      },
-      error: (err) => observer.error(err),
-      complete: () => observer.complete()
-    })
-    return () => sourceSubscription.unsubscribe();
-  });
+  const obs = rxp_take(howMany)(sourceObservable);
 
   // Set stream
   node.targets.forEach( key => {

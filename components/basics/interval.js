@@ -24,19 +24,12 @@
 
 'use strict';
 
-import {Observable} from '../../src/core/observable.js';
+import {interval as rxp_interval} from '../../src/functional/reactive.js';
 
 const interval = (node) => (stream) => {
   let period = node.data.state.period;
   // Create observable
-  const obs = new Observable(observer => {
-      let counter = 0;
-      const id = setInterval(() => observer.next(++counter), period);
-      return () => {
-        console.log('Teardown');
-        clearInterval(id);
-      }
-    });
+  const obs = rxp_interval(period);
   
   // Set in stream
   node.targets.forEach( key => {
@@ -48,7 +41,7 @@ const interval = (node) => (stream) => {
 
 export const interval_ui =   {
   id: "PROG_INTERVAL",
-  class: "programming",
+  class: "producer",
   description: "interval",
   tags: ["time","timeout","asynchronous"],
   func: interval,

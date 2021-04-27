@@ -26,12 +26,21 @@
 
 import {Observable} from '../../src/core/observable.js';
 
-const numberPub = (node) => () => {
-  // Return observable
-  return new Observable(observer => {
-    observer.next(node.data.state.value);
-    observer.complete();
+const numberPub = (node) => (stream) => {
+  // Get param
+  let val = node.data.state.value;
+  // Set observable in stream
+  node.targets.forEach( key => {
+    stream[key] = new Observable(observer => {
+      observer.next(val);
+      observer.complete();
+      return () => {
+        console.log('Teardown');
+      }
+    });
   });
+  // Return stream
+  return stream;
 }
 
 export const number_ui = {

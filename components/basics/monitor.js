@@ -44,11 +44,12 @@ const monitor = (node) => (stream) => {
     }
   });
 
+  return stream;
 }
 
 export const monitor_ui = {
   id: "BASX_MONITOR",
-  class: "information",
+  class: "consumer",
   description: "Monitor",
   tags: ["console","display","log","print","show"],
   help: ["Data subscriber"],
