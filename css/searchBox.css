@@ -48,3 +48,11 @@ li.Node{
   margin-left: 9px;
   margin-right: 9px;
 }
+
+.header.search p {
+  display:inline-block
+}
+
+.header a.close {
+  font-size:small;
+}

@@ -33,6 +33,7 @@ import * as DOM from './dom/dom.js';
  */
 export const searchBox = (parent,tags) => {
 
+  let board_id = document.querySelector("#board");
   let searchbox;
   let posX;
   let posY;
@@ -42,6 +43,8 @@ export const searchBox = (parent,tags) => {
     // New node
     const newNode = (e) => {
       // Step #1 - Add new nod
+      document.querySelector("#searchbar").value = "";
+      id.innerHTML = "";
       TINNED.graph.appendNode(e.target.attributes[1].nodeValue,-1,{meta: {pos:[posX,posY]},state: {}});
       // Step #2 - Add new eventlistener for drawing edge between sockets
       // Step #3 - Close searchbox
@@ -66,7 +69,8 @@ export const searchBox = (parent,tags) => {
             nodeid: t.id
           }
         },
-        t.description)
+        t.description),
+        DOM.h('p',t.tags.join(", "))
       ]);
       id.appendChild(el);
     });
@@ -78,6 +82,9 @@ export const searchBox = (parent,tags) => {
       const nodeList = document.querySelector("#nodeList");
       const searchString = e.target.value.toLowerCase();
       const filteredTags = tags.filter((tag) => {
+          if (searchString === ""){
+            return;
+          }
           return (
               tag.tags.join(",").includes(searchString) ||
               tag.description.toLowerCase().includes(searchString) ||
@@ -93,7 +100,7 @@ export const searchBox = (parent,tags) => {
     searchbox.style.display = 'none';
     searchbox.style.position = 'absolute';    
     searchbox.addEventListener('click',(e) => e.stopPropagation());
-    let header = DOM.div('.header.search',[DOM.h('p','Searchbox')]);
+    let header = DOM.div('.header.search',[DOM.h('p','Searchbox'),DOM.a('.close','X')]);
     let body = DOM.div('.body');
     let wrapper=DOM.input('#searchbar',
         {
@@ -107,23 +114,35 @@ export const searchBox = (parent,tags) => {
     let list = DOM.h('ul#nodeList',{},[]);
     body.appendChild(wrapper);
     body.appendChild(list);
-    let footer = DOM.div('.footer',[DOM.h('p','X')]);
+    let footer = DOM.div('.footer',[DOM.h('p','Search')]);
     searchbox.appendChild(header);
     searchbox.appendChild(body);
     searchbox.appendChild(footer);
     return searchbox;
   };
 
-  const toggleDisplay = (ev) => {
+  const openSearchbox = (ev) => {
+    if (searchbox.style.display == 'block'){
+      return false;
+    }
     console.log(ev);
     posX = ev.clientX;
     posY = ev.clientY;
     searchbox.style.top = `${ev.clientY}px`;
     searchbox.style.left = `${ev.clientX}px`;
-    searchbox.style.display = (searchbox.style.display === 'none') ? 'block' : 'none';
+    searchbox.style.display = 'block';
     return false;
   }
 
-  parent.appendChild(displaySearchbox());
-  parent.addEventListener('click',toggleDisplay);
+  const closeSearchbox = (ev) => {
+    searchbox.style.display = 'none';
+    document.querySelector("#searchbar").value = "";
+    document.querySelector("ul#nodeList").innerHTML = "";
+  }
+
+  board_id.appendChild(displaySearchbox());
+  parent.addEventListener('click',openSearchbox);
+  if (document.querySelector(".close")){
+    document.querySelector(".close").addEventListener('click',closeSearchbox)
+  }
 };
