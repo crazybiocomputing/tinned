@@ -17,7 +17,7 @@ li.Node{
   height: auto;
   border: solid;
   border-width: 1px;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 
 .search{
@@ -28,22 +28,20 @@ li.Node{
   padding-left:20px;
 }
 
-.searchbox .footer a{
-  position :relative;
-  color:white;
-}
-
-.searchbox .footer a:hover{
-  color:rgb(172, 189, 246);
-  cursor:default;
-}
-.searchbox .footer a:visited{
-  color:rgba(68, 111, 251, 0.959)
-  
+.searchbox .footer p{
+  padding-left:2px
 }
 
 #searchbar{
   padding-left : 10px;
   margin-left: 9px;
   margin-right: 9px;
+}
+
+.header.search p {
+  display:inline-block
+}
+
+.header a.close {
+  font-size:small;
 }

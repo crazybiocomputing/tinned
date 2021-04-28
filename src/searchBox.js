@@ -33,24 +33,27 @@ import * as DOM from './dom/dom.js';
  */
 export const searchBox = (parent,tags) => {
 
+  let board_id = document.querySelector("#board");
   let searchbox;
   let posX;
   let posY;
 
-  const displayNode = (parent,_tags) => {
+  const displayNode = (id,_tags) => {
 
     // New node
     const newNode = (e) => {
-      // Step #1 - Add new node
-      TINNED.graph.appendNode(t.id,-1,{meta: {pos:[posX,posY]},state: {}});
+      // Step #1 - Add new nod
+      document.querySelector("#searchbar").value = "";
+      id.innerHTML = "";
+      TINNED.graph.appendNode(e.target.attributes[1].nodeValue,-1,{meta: {pos:[posX,posY]},state: {}});
       // Step #2 - Add new eventlistener for drawing edge between sockets
       // Step #3 - Close searchbox
-      searchbox.display.style = 'none';
-    }
+      searchbox.style.display = 'none';
+    };
 
 
     // MAIN
-    parent.innerHTML = '';
+    id.innerHTML = '';
     _tags.forEach((t) => {
       let el = DOM.h('li.filtered', {},
       [
@@ -66,26 +69,22 @@ export const searchBox = (parent,tags) => {
             nodeid: t.id
           }
         },
-        t.description)
+        t.description),
+        DOM.h('p',t.tags.join(", "))
       ]);
-      parent.appendChild(el);
+      id.appendChild(el);
     });
-/*
-            return `
-            <li class="Node">
-                <h2><a href=# onclick=return board.graph.appendNode(${tag.id});>${tag.description}</a></h2>
-            </li>
-        `;
-       */ 
-
   };
 
   const displaySearchbox = () => {
 
     const searchNodes = (e) => {
-      const nodeList = document.getElementById("nodeList");
+      const nodeList = document.querySelector("#nodeList");
       const searchString = e.target.value.toLowerCase();
       const filteredTags = tags.filter((tag) => {
+          if (searchString === "" || searchString.length <= 2){
+            return;
+          }
           return (
               tag.tags.join(",").includes(searchString) ||
               tag.description.toLowerCase().includes(searchString) ||
@@ -101,102 +100,53 @@ export const searchBox = (parent,tags) => {
     searchbox.style.display = 'none';
     searchbox.style.position = 'absolute';    
     searchbox.addEventListener('click',(e) => e.stopPropagation());
-    let search = DOM.input('#searchbar',
-    {
-      attrs: { 
-        type: "text",
-        name: 'searchbar',
-        placeholder: "search for a Node",
-        value: 0
-      },
-      on: {keyup: searchNodes}
-    },
-    []);
-    let ulist = DOM.h('ul#nodeList',{},[]);
-
-    searchbox.appendChild(search);
-    searchbox.appendChild(ulist);
-
-    /*
-    let searchbox = DOM.div(
-      '.header.search',
-      {},
-      [
-        p('Searchbox'),
-        div(.'body',[
-          div('#searchWrapper',
-          [search])
-        ])
-      ]
-    );
-          <p> Searchbox </p>
-        </div>
-        <div class = "body">
-        <div id="searchWrapper">
-          <input
-            type="text"
-            name="searchbar"
-            id="searchbar"
-            placeholder="search for a Node"
-          />
-        </div>
-          <ul id="NodeList"></ul>
-        </div>
-        <div class = "footer">
-          <a href=# >fermer la searchbox</a>
-        </div>`;
-      searchbox.innerHTML = html;
-      */
-
+    let header = DOM.div('.header.search',[DOM.h('p','Searchbox'),DOM.a('.close','X')]);
+    let body = DOM.div('.body');
+    let wrapper=DOM.input('#searchbar',
+        {
+          attrs: { 
+            type: "text",
+            name: 'searchbar',
+            placeholder: "search for a Node"
+          },
+          on: {keyup: searchNodes}
+          },[]);
+    let list = DOM.h('ul#nodeList',{},[]);
+    body.appendChild(wrapper);
+    body.appendChild(list);
+    let footer = DOM.div('.footer',[DOM.h('p','Search')]);
+    searchbox.appendChild(header);
+    searchbox.appendChild(body);
+    searchbox.appendChild(footer);
     return searchbox;
   };
 
-  const toggleDisplay = (ev) => {
+  const openSearchbox = (ev) => {
+    console.log(ev.path[0].id);
+    if (searchbox.style.display == 'block' || ev.path[0].id !== "board"){
+      return false;
+    }
     console.log(ev);
     posX = ev.clientX;
     posY = ev.clientY;
     searchbox.style.top = `${ev.clientY}px`;
     searchbox.style.left = `${ev.clientX}px`;
-    searchbox.style.display = (searchbox.style.display === 'none') ? 'block' : 'none';
+    searchbox.style.display = 'block';
     return false;
   }
 
-  /*
-  const Hide = (classe) => {
-    document.getElementsByClassName(classe).style.display = "none";
-  }
-  const Show = (classe) => {
-    document.getElementsByClassName(classe).style.display = "contents";
+  const closeSearchbox = (ev) => {
+    searchbox.style.display = 'none';
+    document.querySelector("#searchbar").value = "";
+    document.querySelector("ul#nodeList").innerHTML = "";
   }
 
-  const check_mouse_down = (classe) => {
-    if (document.getElementsByClassName(classe).style.display == "contents"){
-      parent.onmousedown(Show("searchbox"));
-    }
-    else {
-      parent.onmousedown(Hide("searchbox"));
-    }
+  board_id.appendChild(displaySearchbox());
+  parent.addEventListener('click',openSearchbox);
+  if (document.querySelector(".close")){
+    document.querySelector(".close").addEventListener('click',closeSearchbox);
   }
-*/
-
-/*
-const searchbar = document.getElementById("searchbar");
-searchbar.addEventListener('keyup', (e) => {
-  const NodeList = document.getElementById("NodeList");
-  const searchString = e.target.value.toLowerCase();
-  const filteredTags = tags.filter((tag) => {
-      return (
-          tag.tags.join(",").includes(searchString) ||
-          tag.description.toLowerCase().includes(searchString) ||
-          tag.class.toLowerCase().includes(searchString)
-      );
-    });
-  const filteredTagsV2 = filteredTags.slice(0, 5);
-  displayNode(filteredTagsV2,NodeList);
-});
-*/
-
-  parent.appendChild(displaySearchbox());
-  parent.addEventListener('click',toggleDisplay);
-  // check_mouse_down("searchbox");
-}
+  /*if (document.querySelector(".movable")){
+    document.querySelector(".movable").addEventListener('click',closeSearchbox);
+  }*/
+};
