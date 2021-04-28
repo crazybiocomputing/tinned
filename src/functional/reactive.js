@@ -33,7 +33,7 @@ import {Observable} from './observable.js';
  * From https://dev.to/mr_bertoli/rxjs-from-scratch-pipeable-operators-1g18
  *  
  */ 
-export const map = (mapFunc) => (sourceObservable) => {
+ export const map = (mapFunc) => (sourceObservable) => {
   // return a new Observable
   return new Observable(observer => {
     const sourceSubscription = sourceObservable.subscribe({
@@ -151,6 +151,36 @@ export const map = (mapFunc) => (sourceObservable) => {
 } 
 
 /**
+ * GroupBy operator
+ * @param selectFunc - A function returning a boolean
+ *  
+ */ 
+ export const groupBy = (selectFunc) => (sourceObservable) => {
+   let groups = {};
+  return new Observable(observer => {
+    const sourceSubscription = sourceObservable.subscribe({
+      next: (val) => {
+          const key = selectFunc(val);
+          if (!groups[key]) {
+            groups[key] = [];
+          }
+          groups[key].push(val);
+      },
+      error: (err) => observer.error(err),
+      complete: () => {
+        // Object.keys(groups).forEach( k => console.log(groups[k]));
+        Object.keys(groups).forEach( k => observer.next(groups[k]));
+        observer.complete();
+      }
+    });
+    return () => {
+      sourceSubscription.unsubscribe();
+    }
+  });
+}
+
+
+/**
  * Zip operator - TODO
  * @param sources - Various source Observables
  *  
@@ -194,6 +224,42 @@ export const map = (mapFunc) => (sourceObservable) => {
         try {
           buf.push(val);
           if (buf.length > size) {
+            observer.next(buf);
+            buf = [];
+          }
+        } catch (e) {
+          observer.error(e);
+          observer.complete();
+        }
+      },
+      error(err) {
+        observer.error(err);
+      },
+      complete() {
+        observer.complete();
+      }
+    });
+    return () => {
+      sourceSubscription.unsubscribe();
+    }
+  });
+} 
+
+/**
+ * BufferWhen operator
+ * @param predicate - Function terminating the Buffer accumulation
+ * @param sourceObservable - Source
+ *  
+ */ 
+ export const bufferWhen = (predicate) => (sourceObservable) => {
+  // TODO
+  let buf = [];
+  return new Observable(observer => {
+    const sourceSubscription = sourceObservable.subscribe({
+      next(val) {
+        try {
+          buf.push(val);
+          if (predicate(val)) {
             observer.next(buf);
             buf = [];
           }

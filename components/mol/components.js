@@ -25,7 +25,9 @@
 'use strict';
 
 import {components as basics} from '../basics/components.js';
+import {fetchmol_ui} from './fetchmol.js';
 import {openmol} from './openmol.js';
+import {sequence_ui} from './sequence.js';
 
 // Test Actions
 const action = (...params) => (data) => {
@@ -52,7 +54,8 @@ const sink = (params) => (input) => {
 */
 
 export const components = basics.concat([
-
+  fetchmol_ui,
+  sequence_ui,
   {
     id: "MOL_COLOR",
     class: "rendering",
@@ -114,23 +117,6 @@ export const components = basics.concat([
       [
         {widget: "label", title: "Prop."},
         {widget: "text", state: '*',name: "name:string"}
-      ],
-      [
-        {widget: "input", name: "molin:mol"},
-        {widget: "label", title: "Atoms"}
-      ]
-    ]
-  },
-  {
-    id: "MOL_FASTA",
-    class: "processing",
-    description: "FASTA",
-    tags: ["sequence","protein","nucleic"],
-    func: action,
-    ui: [
-      [
-        {widget: "label", title: "Sequence"},
-        {widget: "output", name: "fasta:string" }
       ],
       [
         {widget: "input", name: "molin:mol"},

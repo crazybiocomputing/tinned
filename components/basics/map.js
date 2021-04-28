@@ -9,7 +9,6 @@ import {map as rxp_map} from '../../src/functional/reactive.js';
 // MAP operator
 
 const map = (node) => (stream) => {
-
   // Get params + source.s
   let sourceObservable = stream[node.sources[0]];
   const code = node.data.state.code;

@@ -34,6 +34,9 @@ const monitor = (node) => (stream) => {
   sourceObservable.subscribe({
     next: (val) => {
       // Update node
+      if (typeof val === 'object') {
+        val = JSON.stringify(val);
+      }
       node.data.state.log += val + '\n';
       textarea.innerHTML = node.data.state?.log;
     },

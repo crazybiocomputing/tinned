@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf8">
+<title>TINNED - AND/OR Select</title>
+<link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet"> 
+<link rel="stylesheet" href="../css/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/tinned.css">
+<script type="module" src="../mol/components.js"></script>
+
+</head>
+<body>
+<main>
+</main>
+
+<script type="module">
+
+  'use strict';
+
+  import {TINNED} from '../src/tinned.js';
+  import {Board} from '../src/core/board.js';
+  import {components} from '../components/mol/components.js';
+
+  ////// MAIN //////
+
+  let main = document.querySelector('main');
+
+  // Init Board
+  TINNED.init();
+  
+  // Create Board + Graph
+  let board = new Board(main,components);
+
+  // Load Graph
+  let workflow = {
+    nodes: [
+    {
+        id: 1,
+        template:"MOL_FETCH",
+        data: {
+          meta: {
+            pos: [97,223],
+          },
+          state: {
+            pdbid: '1eog'
+          }
+        }
+      },
+      {
+        id: 3,
+        template:"MOL_SEQUENCE",
+        data: {
+          meta: {
+            pos: [268,100],
+          },
+          state: {
+            fasta: true
+          }
+        }
+      },
+      {
+        id: 5,
+        template:"BASX_MONITOR",
+        data: {
+          meta: {
+            pos: [425,100],
+          },
+          state: {}
+        }
+      }
+    ],
+    edges : [
+      {
+        eid: 1,
+        sockets: ['molout@1','molin@3'],
+      },
+      {
+        eid: 2,
+        sockets: ['sequence@3','datain@5'],
+      }
+    ]
+  };
+
+  board.load(workflow);
+  board.run();
+
+
+</script>
+</body>
+</html>
