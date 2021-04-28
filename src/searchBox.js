@@ -82,7 +82,7 @@ export const searchBox = (parent,tags) => {
       const nodeList = document.querySelector("#nodeList");
       const searchString = e.target.value.toLowerCase();
       const filteredTags = tags.filter((tag) => {
-          if (searchString === ""){
+          if (searchString === "" || searchString.length <= 2){
             return;
           }
           return (
@@ -122,7 +122,8 @@ export const searchBox = (parent,tags) => {
   };
 
   const openSearchbox = (ev) => {
-    if (searchbox.style.display == 'block'){
+    console.log(ev.path[0].id);
+    if (searchbox.style.display == 'block' || ev.path[0].id !== "board"){
       return false;
     }
     console.log(ev);
@@ -143,6 +144,9 @@ export const searchBox = (parent,tags) => {
   board_id.appendChild(displaySearchbox());
   parent.addEventListener('click',openSearchbox);
   if (document.querySelector(".close")){
-    document.querySelector(".close").addEventListener('click',closeSearchbox)
+    document.querySelector(".close").addEventListener('click',closeSearchbox);
   }
+  /*if (document.querySelector(".movable")){
+    document.querySelector(".movable").addEventListener('click',closeSearchbox);
+  }*/
 };
