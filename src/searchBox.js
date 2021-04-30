@@ -122,8 +122,8 @@ export const searchBox = (parent,tags) => {
   };
 
   const openSearchbox = (ev) => {
-    console.log(ev.path[0].id);
-    if (searchbox.style.display == 'block' || ev.path[0].id !== "board"){
+    console.log("Event : ",ev.target.id);
+    if (searchbox.style.display == 'block' || ev.target.id !== "board"){
       return false;
     }
     console.log(ev);
