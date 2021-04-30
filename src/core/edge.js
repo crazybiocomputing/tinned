@@ -70,7 +70,6 @@ export class Edge {
     let nodeS = document.querySelector(`#${sourceID.variable}__OUT__${sourceID.index}`); //`#node_${srcID} #o_${output} button`);
     console.log(sourceID.variable);
     console.log(sourceID.index);
-    console.log("lililililililili");
     console.log('EDGE',srcID.match(/@(\d+)/));
     let shrinkNodeS = document.querySelector(`#node_${sourceID.index} .out_socket`);
     let tmp = [edgID];
@@ -94,7 +93,7 @@ export class Edge {
     words = tgtID.split('@'); 
     let targetID = {index: words[1],variable: words[0]};
     let nodeT = document.querySelector(`#${tgtID.replace('@','__IN__')}`);
-    console.log(tgtID);
+    console.log(`#${tgtID.replace('@','__IN__')}`);
     let shrinkNodeT = document.querySelector(`#node_${targetID.index}  .in_socket`);
     nodeT.dataset.edge = edgID;
     if (shrinkNodeT.dataset.edge !== undefined) {

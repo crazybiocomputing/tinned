@@ -127,7 +127,7 @@ export class Draggable {
    */
 export const edgeStart = (event) => {
     console.log('EDGE start',event.target);
-    DRAG.edge = getID(event.target.id);
+    DRAG.edge = event.target.id;
     event.preventDefault();
     // Get canvas
     let ctx = document.querySelector('main svg');
@@ -157,8 +157,22 @@ export  const edgeEnd = (event) => {
     // Check if target is a complementary node (output/input) to source (input/output) node
     console.log(event.target);
     // Add an edge to the graph
-    console.log(DRAG.edge,getID(event.target.id) );
-    TINNED.graph.appendEdge(DRAG.edge,getID(event.target.id) );//DRAG.edges renvoie l'ID du noeud de départ OR nous voulons l'ID de la variable (ex: value@1) idem pour getID
+    console.log(DRAG.edge,event.target.id);
+    let one = {
+      type:DRAG.edge.includes('__OUT__')?0:1,
+      name:DRAG.edge.replace(/__.*__/,"@")
+    };
+    let two = {
+      type:event.target.id.includes('__OUT__')?0:1,
+      name:event.target.id.replace(/__.*__/,"@")
+    };
+    console.log(one,two);
+    if (one.type + two.type === 1){
+        TINNED.graph.appendEdge(
+          one.type === 0 ? one.name : two.name,
+          one.type === 1 ? one.name : two.name
+        );
+      }
     // Otherwise delete line
     document.getElementById('rubberband').remove();
     console.log('EDGE end',event.target);

@@ -62,7 +62,11 @@ export class Graph {
     this.vertices.push(node);
     this.root.appendChild(node.element);
     // Add the engine in the queue waiting for execution (the `Consumer`).
-    this.flow.add(node);
+    //this.flow.add(node);
+    // Step #3 - Create graph
+    if (!this.adjacencyList[newid]) {
+      this.adjacencyList[newid] = [];
+    }
     return node;
   }
 
@@ -80,15 +84,17 @@ export class Graph {
   appendEdge(start_id,end_id) {
     let ctx = this.context; 
     let eid;
-    if (this.edges.length==0){
+    if (this.edges.length===0){
       eid=1;
     }
     else{
-      eid = this.edges[this.edges.length - 1].eid++;
+      eid = this.edges[this.edges.length - 1].eid+1;
     }
+    console.log("Edge ID : ", eid);
     let e = new Edge(eid,start_id,end_id);
     this.edges.push(e);
-    this.adjacencyList[start_id].push(end_id);
+    console.log(start_id.split("@")[1]);
+    this.adjacencyList[start_id.split("@")[1]].push(end_id);
     ctx.append(e.line);
     this.flow.append(e);
   }
