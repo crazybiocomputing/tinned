@@ -3,8 +3,6 @@
 
 'use strict';
 
-import {filter as rxp_filter} from '../../src/functional/reactive.js';
-
 // Filter operator
 const filter = (node) => (stream) => {
   // Get params + source.s
@@ -12,7 +10,7 @@ const filter = (node) => (stream) => {
   const code = node.data.state.code;
   const predicate = new Function('x','const foo = ' + code + '\nreturn foo(x);');
   // Create Observable
-  const obs = rxp_filter(predicate)(sourceObservable);
+  const obs = sourceObservable.filter(predicate)();
   // Store observable in stream
   node.targets.forEach( key => {
     stream[key] = obs;  

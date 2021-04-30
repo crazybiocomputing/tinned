@@ -24,32 +24,21 @@
 
 'use strict';
 
-import {Observable} from '../../src/core/observable.js';
+import {tap as cbag_tap} from '../../callbags/callbag-tap.js';
 
 const tap = (node) => (stream) => {
   // Get source
   let sourceObservable = stream[node.sources[0]];
   const textarea = document.querySelector(`#node_${node.id} textarea`);
 
+  console.log(sourceObservable);
+
   // Create observable
-  const obs = new Observable(observer => {
-    const sourceSubscription = sourceObservable.subscribe({
-      next: (val) => {
-        // Update node
-        node.data.state.log += val + '\n';
-        textarea.innerHTML = node.data.state?.log;
-        observer.next(val);
-      },
-      error: (err) => observer.error(err),
-      complete: () => {
-        // Update node
-        node.data.state.log += 'Completed!\n';
-        textarea.innerHTML = node.data.state?.log;
-        observer.complete();
-      }
-    });
-    return () => sourceSubscription.unsubscribe();
-  });
+  const obs = cbag_tap( (val) => {
+    // Update node
+    node.data.state.log += val + '\n';
+    textarea.innerHTML = node.data.state?.log;
+  })(sourceObservable);
 
   // Dispatch observable
   node.targets.forEach( key => {

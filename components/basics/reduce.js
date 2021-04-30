@@ -1,9 +1,32 @@
-
-// From https://dev.to/mr_bertoli/rxjs-from-scratch-pipeable-operators-1g18
+/*
+ *  TINNED: TINy Node EDitor
+ *  Copyright (C) 2021  Jean-Christophe Taveau.
+ *
+ *  This file is part of TINNED
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with TINNED.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *
+ * Authors:
+ * Jean-Christophe Taveau
+ */
 
 'use strict';
 
-import {reduce as rxp_reduce} from '../../src/functional/reactive.js';
+import {scan} from '../../callbags/callbag-scan.js';
+import {last} from '../../callbags/callbag-last.js';
+import {pipe} from '../../callbags/callbag-pipe.js';
 
 // Filter operator
 const reduce = (node) => (stream) => {
@@ -12,7 +35,7 @@ const reduce = (node) => (stream) => {
   const code = node.data.state.code;
   const redux = new Function('accu','x','const foo = ' + code + '\nreturn foo(accu,x);');
   // Create Observable
-  const obs = rxp_reduce(redux)(sourceObservable);
+  const obs = pipe(scan(redux,init),last)(sourceObservable);
   // Store observable in stream
   node.targets.forEach( key => {
     stream[key] = obs;  

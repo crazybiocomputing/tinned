@@ -24,32 +24,34 @@
 
 'use strict';
 
-import {Observable} from '../../src/core/observable.js';
+import {forEach as cbag_forEach} from '../../callbags/callbag-for-each.js';
 
 const monitor = (node) => (stream) => {
   // Get source
   let sourceObservable = stream[node.sources[0]];
   const textarea = document.querySelector(`#node_${node.id} textarea`);
 
-  sourceObservable.subscribe({
-    next: (val) => {
+  cbag_forEach((val) => {
       // Update node
       if (typeof val === 'object') {
         val = JSON.stringify(val);
       }
       node.data.state.log += val + '\n';
       textarea.innerHTML = node.data.state?.log;
-    },
+    })(sourceObservable);
+
+  return stream;
+}
+
+/*
+,
     error: (err) => alert(err),
     complete: () => {
       node.data.state.log += 'Completed!\n';
       textarea.innerHTML = node.data.state?.log;
     }
-  });
-
-  return stream;
-}
-
+  }
+ */
 export const monitor_ui = {
   id: "BASX_MONITOR",
   class: "consumer",

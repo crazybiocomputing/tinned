@@ -26,7 +26,7 @@
 
 // import {FuncFactory} from '../core/funcFactory.js';
 import {TINNED} from '../tinned.js';
-import {pipe} from '../core/common.js';
+import {pipe} from '../functional/common.js';
 
 export class DataFlow {
 
@@ -43,7 +43,7 @@ export class DataFlow {
 
   /**
    * Append node functions in DataFlow from edge
-   * @param {object} edge - The edge connecting an output node to a input node
+   * @param {object} edge - The edge connecting an output node to an input node
    * @author Jean-Christophe Taveau
    */
   append(edge) {
@@ -56,8 +56,8 @@ export class DataFlow {
     const indexOut = this.streams[0].path.indexOf(+nodeout);
     const indexIn = this.streams[0].path.indexOf(+nodein);
     console.log(indexOut,indexIn);
-    const nodin = this.graph.nodes.find(n => n.id === +nodein);
-    const nodout = this.graph.nodes.find(n => n.id === +nodeout);
+    const nodin = this.graph.vertices.find(n => n.id === +nodein);
+    const nodout = this.graph.vertices.find(n => n.id === +nodeout);
     if (indexOut == -1 && indexIn === -1) {
       // Add node(s)
       this.streams[0].path.push(+nodeout);
@@ -147,7 +147,7 @@ export class DataFlow {
    * @author Jean-Christophe Taveau
    */
   async run(pipeline,root) {
-    let result = pipe(...this.streams[0].funcs)(this.graph.nodes[0]);
+    let result = pipe(...this.streams[0].funcs)(this.graph.vertices[0]);
 
     // Sink for Debug
     console.log(result);

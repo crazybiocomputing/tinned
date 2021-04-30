@@ -24,12 +24,14 @@
 
 'use strict';
 
-import {interval as rxp_interval} from '../../src/functional/reactive.js';
+import {interval as cbag_interval} from '../../callbags/callbag-interval.js';
+import {share} from '../../callbags/callbag-share.js';
+import {pipe} from '../../callbags/callbag-pipe.js';
 
 const interval = (node) => (stream) => {
   let period = node.data.state.period;
-  // Create observable
-  const obs = rxp_interval(period);
+  // Create multicast callbag
+  const obs = pipe(cbag_interval(period),share);
   
   // Set in stream
   node.targets.forEach( key => {
@@ -43,7 +45,7 @@ export const interval_ui =   {
   id: "PROG_INTERVAL",
   class: "producer",
   description: "interval",
-  tags: ["time","timeout","asynchronous"],
+  tags: ["periodic","time","timeout","asynchronous"],
   func: interval,
   ui: [
     [

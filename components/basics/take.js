@@ -24,7 +24,7 @@
 
 'use strict';
 
-import {take as rxp_take} from '../../src/functional/reactive.js';
+import {take as cbag_take} from '../../callbags/callbag-take.js';
 
 const takeFunc = (node) => (stream) => {
 
@@ -33,7 +33,7 @@ const takeFunc = (node) => (stream) => {
   // Params
   const howMany = node.data.state.value;
 
-  const obs = rxp_take(howMany)(sourceObservable);
+  const obs = cbag_take(howMany)(sourceObservable);
 
   // Set stream
   node.targets.forEach( key => {

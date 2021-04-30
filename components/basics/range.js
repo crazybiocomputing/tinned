@@ -24,7 +24,10 @@
 
 'use strict';
 
-import {Observable} from '../../src/core/observable.js';
+import {fromIter} from '../../callbags/callbag-from-iter.js';
+import {share} from '../../callbags/callbag-share.js';
+import {map} from '../../callbags/callbag-map.js';
+import {pipe} from '../../callbags/callbag-pipe.js';
 
 const range = (node) => (stream) => {
   // Params
@@ -34,16 +37,10 @@ const range = (node) => (stream) => {
   const len = Math.ceil((stop - start) / step);
   let array = Array.from({length: len}, (_,i) => start + i*step);
 
-  // Create observable
-  node.targets.forEach( key => {
-      stream[key] = new Observable(observer => {
-      array.forEach(val => observer.next(val));
-      observer.complete();
-      return () => {
-        console.log('Teardown');
-      }
-    });
-  });
+  const obs = share(fromIter(array));
+
+  // Create multicast observable
+  node.targets.forEach( key => stream[key] = obs);
   // Return stream
   return stream;
 }

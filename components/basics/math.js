@@ -24,7 +24,7 @@
 
 'use strict';
 
-import {Observable} from '../../src/core/observable.js';
+import {map as cbag_map} from '../../callbags/callbag-map.js';
 
 const none = (x,y) => x;
 const add = (x,y) => x + y;
@@ -37,30 +37,11 @@ const math = (node) => (stream) => {
   // Get source(s)
   let sourceObservable = stream[node.sources[0]];
   // Create a new Observable
-  const obs =  new Observable(observer => {
-    const sourceSubscription = sourceObservable.subscribe({
-      next: (x) => {
-        let next;  
-        let y = node.data.state?.yin || node.data.state?.y || 0;     
-        try {
-          // Get mapFunc from node
-          next = operators[+node.data.state?.op || 0](x,y);
-        } catch (e) {
-          this.error(e);
-          this.complete();
-        }
-        observer.next(next);
-      },
-      error: (err) => observer.error(err),
-      complete: () => observer.complete()
-    })
-    return () => {
-      // --- operator specific TEARDOWN LOGIC
-      // when the new Obx is unsubscribed
-      // simply unsubscribe from the source Obx
-      sourceSubscription.unsubscribe();
-    }
-  });
+  const obs =  cbag_map(x => {
+    let y = node.data.state?.yin || node.data.state?.y || 0;     
+      // Get mapFunc from node
+    return operators[+node.data.state?.op || 0](x,y);
+  })(sourceObservable);
   // Create observable
   node.targets.forEach( key => {
     stream[key] = obs;  

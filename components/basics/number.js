@@ -24,20 +24,14 @@
 
 'use strict';
 
-import {Observable} from '../../src/core/observable.js';
+import {of} from '../../callbags/callbag-of.js';
 
 const numberPub = (node) => (stream) => {
   // Get param
   let val = node.data.state.value;
   // Set observable in stream
   node.targets.forEach( key => {
-    stream[key] = new Observable(observer => {
-      observer.next(val);
-      observer.complete();
-      return () => {
-        console.log('Teardown');
-      }
-    });
+    stream[key] = of(val);
   });
   // Return stream
   return stream;
