@@ -25,30 +25,58 @@
 'use strict';
 
 
-import {Observable} from '../../src/core/observable.js';
-import {_barchart} from './_barchart.js';
+import {forEach} from '../../callbags/callbag-for-each.js';
+import { _barchart } from './_barchart.js';
 
 /*
  * Barchart 
  * Expecting data as an array of points [{x0,y0},{x1,y1},....,{xn,yn}]
  */
-const barchart = (node) => (sourceObservable) => {
-  // Update node
+const barchart = (node) => (stream) => {
+  // Get source
+  let sourceObservable = stream[node.sources[0]];
+  // Calc barchart
+  forEach((data) => {
+    console.log(node.id,`#node_${node.id} canvas`);
+    // Convert array of points in two arrays containing x and y separately
+    const dataset = data.reduce( (set,point) => {
+      set.x.push(point.x);
+      set.y.push(point.y);
+      return set;
+    },{x:[],y:[]});
+
+    // HACK
+    document.querySelector(`#node_${node.id} canvas`).remove();
+
+    // Draw Barchart
+    _barchart( 
+      document.querySelector(`#node_${node.id} .graphics`),
+      [dataset],
+      {
+        mode:["vertical"],
+        margin: [10,20,10,20], // N, E, S, W
+        width: 450, 
+        height: 200,
+        font: {
+          size: 10
+        },
+        bar : {
+          margin: [0,4,4,0], // N, E, S, W
+          color: '#ff0a10'
+        }
+      }
+    );
+
+  })(sourceObservable);
+
+return stream;
   
-  // Do it!!
-  sourceObservable.subscribe({
-    next: (val) => {
-      // Convert data into two arrays of x and y
-    },
-    error: (err) => console.error(err),
-    complete: () => console.log('Complete')
-  });
 };
 
 
 export const barchart_ui = {
   id: "PLOT_BARCHART",
-  class: "io",
+  class: "plot",
   description: "BarChart",
   tags: ["plot","drawing","scheme","histogram"],
   func: barchart,
@@ -62,10 +90,10 @@ export const barchart_ui = {
       {widget: "numerical", state: 0,name: "max:number"}
     ],
     [
-      {widget: "canvas",name:"data:any"}
+      {widget: "canvas",name:"canvas:any"}
     ],
     [
-      {widget: "input",name: "data:[point]"},
+      {widget: "input",name: "datain:[point]"},
       {widget:"label",title: "Data"}
     ]
   ]

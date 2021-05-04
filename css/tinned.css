@@ -826,7 +826,7 @@ textarea {
 
 .body canvas {
   background-image: url(background.png);
-  width: 94%;
+  /*width: 94%; */
   margin: 4px;
   border: solid 1px black;
 }

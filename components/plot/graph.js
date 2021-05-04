@@ -65,7 +65,7 @@ export const newGeometry = (x,y,w,h) => ({
     w: w,
     h: h,
   },
-  pad : [0,5,0,5]
+  pad : [0,2,0,2]
 });
 
 export const bandwidth = (minmax,data) => Array.from({length: data.length}, _ => (minmax[1] - minmax[0]) / data.length);
