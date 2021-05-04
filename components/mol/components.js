@@ -25,8 +25,12 @@
 'use strict';
 
 import {components as basics} from '../basics/components.js';
+import {components as plots} from '../plot/components.js';
 import {fetchmol_ui} from './fetchmol.js';
+import {mol_groupby_ui} from './groupByStruct.js';
 import {openmol} from './openmol.js';
+import {pepstats_ui} from './pepstats.js';
+import {selectbyid_ui} from './selectbyid.js';
 import {sequence_ui} from './sequence.js';
 
 // Test Actions
@@ -35,26 +39,12 @@ const action = (...params) => (data) => {
   return data;
 }
 
-/*
-const produce = (params) => {
-  console.log("Run...",params);
-  return {data: [1,2,3,4,5], params};
-}
-
-// Could be transducer
-const operation = (params) => (input) => {
-  input.params = [...input.params,...params];
-  return input;
-}
-
-const sink = (params) => (input) => {
-  console.log(JSON.stringify(input));
-}
-
-*/
-
 export const components = basics.concat([
+  ...plots,
   fetchmol_ui,
+  mol_groupby_ui,
+  pepstats_ui,
+  selectbyid_ui,
   sequence_ui,
   {
     id: "MOL_COLOR",
@@ -150,48 +140,7 @@ export const components = basics.concat([
       ]
     ]
   },
-  {
-    id: "MOL_ID",
-    class: "selection",
-    description: "ID",
-    help: "Select by ID",
-    tags: ["select","atom","symbol","chainID"],
-    func: action,
-    ui: [
-      [
-        {widget: "label", title: "Atoms"},
-        {widget: "output", name: "molout:mol" }
-      ],
-      [
-        {widget: "label", title: "Serial"},
-        {widget: "numerical", state: 0,name: "serial:number"}
-      ],
-      [
-        {widget: "label", title: "Name"},
-        {widget: "text", state: '*',name: "name:string"}
-      ],
-      [
-        {widget: "label", title: "ResName"},
-        {widget: "text", state: '*',name: "resname:string"}
-      ],
-      [
-        {widget: "label", title: "ResSeq"},
-        {widget: "numerical", state: 0,name: "resseq:string"}
-      ],
-      [
-        {widget: "label", title: "ChainID"},
-        {widget: "text", state: '*',name: "chainid:string"}
-      ],
-      [
-        {widget: "label", title: "Chemical"},
-        {widget: "text", state: '*',name: "symbol:string"}
-      ],
-      [
-        {widget: "input", name: "molin:mol"},
-        {widget: "label", title: "Atoms"}
-      ]
-    ]
-  },
+
   {
     id: "MOL_KABSCH",
     class: "processing",

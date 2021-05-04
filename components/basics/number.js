@@ -39,7 +39,7 @@ const numberPub = (node) => (stream) => {
 
 export const number_ui = {
   id: "BASX_NUMBER",
-  class: "programming",
+  class: "primitive",
   description: "Number",
   help: "Numeric node",
   tags: ["programming","value","variable","number", "set"],

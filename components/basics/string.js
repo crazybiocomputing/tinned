@@ -24,14 +24,20 @@
 
 'use strict';
 
-import {Observable} from '../../src/core/observable.js';
+import {of} from '../../callbags/callbag-of.js';
+import {share} from '../../callbags/callbag-share.js';
 
-const stringFunc = (node) => () => {
-  // Return observable
-  return new Observable(observer => {
-    observer.next(node.data.state.value);
-    observer.complete();
+const stringFunc = (node) => (stream) => {
+  // Get param
+  let val = node.data.state.value;
+  // Create multicast callbag
+  const cbag = share(of(val));
+  // Update stream
+  node.targets.forEach( key => {
+    stream[key] = cbag;
   });
+  // Return stream
+  return stream;
 }
 
 export const string_ui =   {

@@ -26,8 +26,6 @@
 
 import {fromIter} from '../../callbags/callbag-from-iter.js';
 import {share} from '../../callbags/callbag-share.js';
-import {map} from '../../callbags/callbag-map.js';
-import {pipe} from '../../callbags/callbag-pipe.js';
 
 const range = (node) => (stream) => {
   // Params

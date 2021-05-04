@@ -140,7 +140,7 @@ main {
 
 section {
   position:absolute;
-  width: min-content;
+  /* width: min-content; */
   /* max-width: 200px; */
   /* background-color: black; */
   border: 1px solid black;
@@ -304,10 +304,11 @@ svg {
   display: none;
 }
 
-
+.primitive {
+  background-color: #e64555;
+}
 
 .loader {
-  background-color: #e64555;
   background-color: #1f78b4;
 }
 

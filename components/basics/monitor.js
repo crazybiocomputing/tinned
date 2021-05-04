@@ -24,14 +24,14 @@
 
 'use strict';
 
-import {forEach as cbag_forEach} from '../../callbags/callbag-for-each.js';
+import {forEach} from '../../callbags/callbag-for-each.js';
 
 const monitor = (node) => (stream) => {
   // Get source
   let sourceObservable = stream[node.sources[0]];
   const textarea = document.querySelector(`#node_${node.id} textarea`);
 
-  cbag_forEach((val) => {
+  forEach((val) => {
       // Update node
       if (typeof val === 'object') {
         val = JSON.stringify(val);
