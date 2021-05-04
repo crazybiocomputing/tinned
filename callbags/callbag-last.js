@@ -20,8 +20,7 @@ export const last = (predicate = kTrue, resultSelector = identity) => source => 
        if (predicate(d)) {
          lastVal = d;
          matched = true;
-       }
- 
+       } 
        talkback(1);
      } else if (t === 2) {
        if (matched) slink(1, resultSelector(lastVal));

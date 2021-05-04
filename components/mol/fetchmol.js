@@ -26,39 +26,19 @@
 
 
 import { fromIter } from '../../callbags/callbag-from-iter.js';
-import { map } from '../../callbags/callbag-map.js';
+import { fromPromise } from '../../callbags/callbag-from-promise.js';
+import { switchMap } from '../../callbags/callbag-switch-map.js';
 import { pipe } from '../../callbags/callbag-pipe.js';
 import {parsePDB} from './io/parsePDB.js';
 
-const parse = (txt)  => {
-  console.log(txt);
-  const mol = parsePDB(txt);
-  return (start, sink) => {
-    if (start !== 0) return;
-
-    let copy = mol.slice();
-    let disposed = false;
-
-    sink(0, type => {
-      if (type !== 2) return;
-      disposed = true;
-      copy.length = 0;
-    })
-
-    while (copy.length !== 0) {
-      sink(1, copy.shift());
-    }
-
-    if (disposed) return;
-
-    sink(2);
-  }
-} 
 const fetchmol = (node) => (stream) => {
 
-  const done = () => console.log('Done');
+  // Params
+  const PATH = 'https://files.rcsb.org/view/';
+  let pdbid = node.data.state?.pdbid;
+  let url = `${PATH}${pdbid.toUpperCase()}.pdb`;
 
-  const fetchPDB = fromPromise(
+  const source = fromPromise(
     fetch(url)
     .then( response => {
       if (response.ok) {
@@ -70,81 +50,20 @@ const fetchmol = (node) => (stream) => {
       }
     })
     .then(txt => {
-      const atoms = txt.split('\n').filter(row => row.slice(0,6).trim() === 'ATOM' ||  row.slice(0,6).trim() === 'HETATM');
-      length = 20;
-      return atoms.slice(1,20);
+      const atoms = parsePDB(txt);
+      return Promise.resolve(atoms);
     })
     .catch( err => console.error(err) )
   );
-  
-  pipe(
-    fetchPDB,
-    switchMap(atoms => fromIter(Array.from({length: atoms.length}, (_,i) => i)), (atoms,num) => ({num,a:atoms[num]}) ),
-    forEach(x => console.log(x))
+
+  const obs = pipe(
+    source,
+    switchMap(atoms => fromIter(Array.from({length: atoms.length}, (_,i) => i)), (atoms,num) => atoms[num])
   );
 
-  
-
-
-  const fetchPDB = (_url) => {
-    // Init
-    let atoms = [];
-    // Fetch data
-    fetch(_url)
-    .then( response => {
-      if (response.ok) {
-        console.log('Download Done...');
-        return response.text();
-      }
-      else {
-        console.log('Wait..');
-      }
-    })
-    .then(txt => {
-      return Promise.resolve(parsePDB(txt));
-    })
-    .then(data => {
-      atoms = data.slice(0,20);
-      console.log(atoms);
-      return atoms;
-    })
-    .catch( err => console.error(err)) // TODO
-
-    return (start,sink) => {
-      if (start !== 0) {
-        return;
-      }
-      let count = 0;
-      let completed = false;
-      sink(0,t => {
-        console.log('count',count);
-        if (completed) return;    
-        if (t === 1) {
-          // Loop        
-          if (count === atoms.length) {
-            sink(2);
-            completed = true;
-          }
-          else {
-            // Next
-            console.log('next');
-            sink(1, atoms[count++]);
-          }  
-          sink(2);
-        } else if (t === 2) {
-          completed = true;
-          sink(2);
-        }
-      });
-    };
-  };
-        
-  // Params
-  const PATH = 'https://files.rcsb.org/view/';
-  let pdbid = node.data.state?.pdbid;
-  let url = `${PATH}${pdbid.toUpperCase()}.pdb`;
   // Set observable in stream
-  node.targets.forEach( key => stream[key] = fetchPDB(url));
+  node.targets.forEach( key => stream[key] = obs);
+
   // Return stream
   return stream;
 }

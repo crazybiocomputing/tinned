@@ -59,6 +59,16 @@
         }
       },
       {
+        id: 7,
+        template:"BASX_MONITOR",
+        data: {
+          meta: {
+            pos: [1050,207],
+          },
+          state: {}
+        }
+      },
+      {
         id: 10,
         template:"PROG_TAP",
         data: {
@@ -95,7 +105,7 @@
       },
       {
         id: 20,
-        template:"BASX_MAP",
+        template:"PROG_MAP",
         data: {
           meta: {
             pos: [614,210],
@@ -126,6 +136,10 @@
       {
         eid: 5,
         sockets: ['dataout@10','x@15']
+      },
+      {
+        eid: 6,
+        sockets: ['stream@1','datain@7']
       }
  
     ]

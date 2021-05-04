@@ -2,12 +2,10 @@
 <html>
 <head>
 <meta charset="utf8">
-<title>TINNED - AND/OR Select</title>
+<title>TINNED - Fetch PDB</title>
 <link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet"> 
 <link rel="stylesheet" href="../css/font-awesome-4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="../css/tinned.css">
-<script type="module" src="../mol/components.js"></script>
-
 </head>
 <body>
 <main>
@@ -39,10 +37,10 @@
         template:"MOL_FETCH",
         data: {
           meta: {
-            pos: [97,223],
+            pos: [28,223],
           },
           state: {
-            pdbid: '1eog'
+            pdbid: '1zni'
           }
         }
       },
@@ -57,15 +55,62 @@
             fasta: true
           }
         }
+      },      ,
+      {
+        id: 4,
+        template:"MOL_GROUPBY",
+        data: {
+          meta: {
+            pos: [733,258],
+          },
+          state: {
+            selector: 3 // By GroupName
+          }
+        }
       },
       {
         id: 5,
         template:"BASX_MONITOR",
         data: {
           meta: {
-            pos: [425,100],
+            pos: [941,49],
           },
           state: {}
+        }
+      },
+      {
+        id: 6,
+        template:"MOL_ID",
+        data: {
+          meta: {
+            pos: [425,290],
+          },
+          state: {
+            type: 1, // ATOM
+            name: 'CA'
+          }
+        }
+      },
+      {
+        id: 7,
+        template:"MOL_PEPSTATS",
+        data: {
+          meta: {
+            pos: [503,155],
+          },
+          state: {
+          }
+        }
+      },
+      {
+        id: 10,
+        template:"PLOT_BARCHART",
+        data: {
+          meta: {
+            pos: [700,155],
+          },
+          state: {
+          }
         }
       }
     ],
@@ -77,6 +122,22 @@
       {
         eid: 2,
         sockets: ['sequence@3','datain@5'],
+      },
+      {
+        eid: 3,
+        sockets: ['molout@1','molin@6'],
+      },
+      {
+        eid: 4,
+        sockets: ['molout@6','molin@4'],
+      },
+      {
+        eid: 5,
+        sockets: ['molout@1','molin@7'],
+      },
+      {
+        eid: 6,
+        sockets: ['molout@6','datain@10'],
       }
     ]
   };

@@ -24,8 +24,14 @@
 
 'use strict';
 
-import {filter as rxp_filter,groupBy as rxp_groupBy,map as rxp_map} from '../../src/functional/reactive.js';
-import {pipe} from '../../src/functional/common.js';
+import {groupBy} from '../../callbags/callbag-group-by.js';
+import {last} from '../../callbags/callbag-last.js';
+import {map} from '../../callbags/callbag-map.js';
+import {filter} from '../../callbags/callbag-filter.js';
+import {pipe} from '../../callbags/callbag-pipe.js';
+import {tap} from '../../callbags/callbag-tap.js';
+
+
 
 const aas = [
   ['alanine','ala','A'],
@@ -68,7 +74,7 @@ const getSequence = (atoms,flag) => {
 
   // Header
   if (atoms[0].serial === 0) {
-    IDCODE = atoms[0].content[0].idCode; 
+    IDCODE = atoms[0].content.head?.idCode || '0xxx'; 
   }
   else {
     // Main
@@ -90,14 +96,15 @@ const sequFasta = (node) => (stream) => {
   // Get Params
   let isFASTA = node.data.state?.fasta || false;
   // Get source.s
-  let sourceObservable = stream[node.sources[0]];
+  let source = stream[node.sources[0]];
 
   // Create Observable
   const obs = pipe(
-    rxp_groupBy( (atom) => atom.chainID),
-    rxp_map( (seq) => getSequence(seq,isFASTA)),
-    rxp_filter( (seq) => seq.length > 1)
-  )(sourceObservable);
+    source,
+    groupBy( (atom) => atom.chainID),
+    map( (seq) => getSequence(seq,isFASTA)),
+    filter( (seq) => seq.length > 1)
+  );
 
   // Store observable in stream BUG!!!
   node.targets.forEach( key => stream[key] = obs);
@@ -119,11 +126,7 @@ export const sequence_ui =   {
       {widget: "output", name: "sequence:string" }
     ],
     [
-      {widget: "label", title: "Atoms"},
-      {widget: "output", name: "molout:molecule" }
-    ],
-    [
-      {widget: "label", title: "FASTA"},
+      {widget: "label", title: "FASTA&nbsp;Format"},
       {widget: "checkbox", state: true, name: "fasta:boolean"},
     ],
     [

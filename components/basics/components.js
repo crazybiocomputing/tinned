@@ -24,14 +24,15 @@
 
 'use strict';
 
-import {components as plots} from '../plot/components.js';
-
+import {array_ui} from './array.js';
+import {chars_ui} from './chars.js';
 import {countby_ui} from './countby.js';
 import {filter_ui} from './filter.js';
 import {interval_ui} from './interval.js';
 import {map_ui} from './map.js';
 import {math_ui} from './math.js';
 import {number_ui} from './number.js';
+import {object_ui} from './object.js';
 import {monitor_ui} from './monitor.js';
 import {range_ui} from './range.js';
 import {reduce_ui} from './reduce.js';
@@ -48,6 +49,8 @@ const action = (node) => (obs) => {
 
 
 const _basics = [
+  array_ui,
+  chars_ui,
   countby_ui,
   filter_ui,
   interval_ui,
@@ -55,6 +58,7 @@ const _basics = [
   math_ui, 
   monitor_ui,
   number_ui,
+  object_ui,
   range_ui,
   reduce_ui,
   scan_ui,
@@ -129,4 +133,4 @@ const _basics = [
 ];
 
 
-export const components = _basics.concat(plots);
+export const components = _basics; // .concat(plots);
