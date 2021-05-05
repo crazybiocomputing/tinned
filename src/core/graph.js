@@ -40,9 +40,8 @@ export class Graph {
     this.vertices = [];
     this.edges = [];
     this.adjacencyList = {};
-    this.flow = new DataFlow(this); // ??
     this.context; // svg or canvas/webgl?
-    this.root; // HTML Parent node for all the vertices
+    this.root; // HTML Parent node for all the vertices??
   }
 
   build(json) {
@@ -93,10 +92,11 @@ export class Graph {
     console.log("Edge ID : ", eid);
     let e = new Edge(eid,start_id,end_id);
     this.edges.push(e);
-    console.log(start_id.split("@")[1]);
-    this.adjacencyList[start_id.split("@")[1]].push(end_id);
+    this.getNode(+e.sourceID).targets.push(e.target);
+    this.getNode(+e.targetID).sources.push(e.target);
+    this.adjacencyList[start_id.split("@")[1]].push(+end_id.split("@")[1]);
     ctx.append(e.line);
-    this.flow.append(e);
+    this.update();
   }
 
   /**
@@ -155,9 +155,7 @@ export class Graph {
       this.getNode(+e.sourceID).targets.push(e.target);
       this.getNode(+e.targetID).sources.push(e.target);
       ctx.append(e.line);
-      this.flow.append(e);
     });
-    console.log(this.flow);
     console.log(this.adjacencyList);
     this.run();
   }
@@ -195,11 +193,11 @@ export class Graph {
    * Topological Sort - DFS Algorithm
    * From https://adelachao.medium.com/graph-topological-sort-javascript-implementation-1cc04e10f181
    */
-  topSortDFS() {
+  topSortDFS(_adjacencyList) {
 
     function topSortDFSHelper(v, n, visited, topNums) {
       visited[v] = true;
-      const neighbors = _graph.adjacencyList[v];
+      const neighbors = _adjacencyList[v];
       for (const neighbor of neighbors) {
         if (!visited[neighbor]) {
             n = topSortDFSHelper(neighbor, n, visited, topNums);
@@ -209,8 +207,7 @@ export class Graph {
       return n - 1;
     }
 
-    const _graph = this;
-    const vertices = Object.keys(this.adjacencyList);
+    const vertices = Object.keys(_adjacencyList);
     const visited = {};
     const topNums = new Array(vertices.length).fill(0);
     let n = vertices.length - 1;
@@ -222,23 +219,37 @@ export class Graph {
     return topNums;
   }
 
+  getConnected(_adjacencyList) {
+    let adj = {..._adjacencyList}; // Clone
+    let sinks = this.vertices.filter( v => v.isSink());
+    // Remove unconnected sinks from pipeline
+    sinks.forEach( sink => {
+      console.log(sink.id);
+      if (!Object.keys(adj).some(i => adj[i].includes(sink.id))) {
+        delete adj[sink.id];
+      }
+    })
+    return adj;
+  }
+
   /**
    * Executes the active vertices in this graph
    *
    * @author Jean-Christophe Taveau
    */
   async run() {
-    // Deprecated this.flow.run();
-    // New version
-    const pipeline = this.topSortDFS();
-    console.log(pipeline);
+    // HACK Clean adjacencyList
+    let adj = this.getConnected(this.adjacencyList);
+    console.log(adj);
+    const pipeline = this.topSortDFS(adj);
+    console.log('Pipe',pipeline);
     let stream = {};
     pipeline.reduce( (stream,vtx) => {
       const nod = this.vertices.find(n => n.id === +vtx);
       stream = nod.template.func(nod)(stream);
       console.log(stream);
       return stream;
-    },{}); // new Map()?
+    },{}); // use of class Map()?
   }
 
   /**
@@ -248,9 +259,20 @@ export class Graph {
    *
    * @author Jean-Christophe Taveau
    */
-  update(node) {
-    console.log(node.id);
-    this.flow.run();
+  async update(node=-1) {
+    if (node === -1) {
+      // Update all the nodes
+      // TODO
+
+    }
+    else {
+      // Only update from this node
+    }
+    this.run();
+    // Flatten the graph
+    //const pipeline = this.topSortDFS();
+    // console.log(pipeline);
+
   }
 
   /**
@@ -276,7 +298,6 @@ export class Graph {
    * @author Jean-Christophe Taveau
    */
   updateEdges(node,shrinkMode = false) {
-    console.log('UPDATE ' + shrinkMode);
     // Get Edge ID
     // let src_eid = document.querySelector(`#${node.id} .input button`);
     let sources = (shrinkMode) ? document.querySelectorAll(`#${node.id} .out_socket`) : document.querySelectorAll(`#${node.id} .output button`);
