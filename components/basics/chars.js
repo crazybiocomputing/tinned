@@ -40,7 +40,7 @@ const charsFunc = (node) => (stream) => {
 
 export const chars_ui =   {
   id: "BASX_CHARS",
-  class: "programming",
+  class: "primitive",
   description: "Chars",
   help: ["Stream of Characters"],
   tags: ["character","list","string"],

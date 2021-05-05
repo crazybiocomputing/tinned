@@ -74,7 +74,7 @@ export const math_ui = {
     [
       {widget: "input", name: "yin:any"},
       {widget: "label", title: "Y"},
-      {widget: "numerical", state: 0,name: "y:number"},
+      // {widget: "numerical", state: 0,name: "y:number"},
     ]
   ]
 };

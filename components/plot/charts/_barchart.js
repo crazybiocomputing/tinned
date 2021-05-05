@@ -24,7 +24,7 @@
 
 'use strict';
 
-import {append,attr,bandwidth,newNode,newGeometry,scaleBand,scaleLinear,show} from './graph.js';
+import {append,attr,bandwidth,newNode,newGeometry,scaleBand,scaleLinear,show} from './graphics.js';
 import {axisBottom,axisLeft,getAxisBox,heckbert} from './axis.js';
 import {canvas_renderer} from './renderer/canvas_renderer.js';
 
@@ -33,10 +33,10 @@ import {canvas_renderer} from './renderer/canvas_renderer.js';
  * Jean-Christophe Taveau
  * 2021/02/09
  */
-export const _barchart = (_canvas,data,layout) => {
+export const _barchart = (graphics,data,layout) => {
   // Create graph
   const graph = {
-    parent: _canvas,
+    parent: graphics,
     renderer: canvas_renderer,
     root: newNode('canvas')
   }

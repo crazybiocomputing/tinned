@@ -42,7 +42,7 @@ import * as DOM from '../../dom/dom.js';
         name: template_row.name || 'unknown',
         minlength: 4,
         maxlength: 40,
-        value: 0
+        value: metadata[template_row.name] || template_row.state
       },
       dataset: {
         type: _type
@@ -60,7 +60,7 @@ import * as DOM from '../../dom/dom.js';
   // input.setAttribute('size',10);
   input.setAttribute('value',metadata[template_row.name] || template_row.state);
 */
-  TINNED.args[input.id] = metadata[template_row.name] || template_row.state;
+  // TINNED.args[input.id] = metadata[template_row.name] || template_row.state;
 
   // Restrict alphabet to numbers and several signs/symbols
   input.addEventListener('input',(event)=> {
@@ -75,11 +75,11 @@ import * as DOM from '../../dom/dom.js';
   //user is "finished typing," do something
   const doneTyping = (event) => () => {
     console.info(`Add the ${event.target.value} in queue`);
-    TINNED.args[input.id] = +event.target.value;
+    // Obsolete - TINNED.args[input.id] = +event.target.value;
     let [key,nid] = input.id.split('__AT__');
     TINNED.graph.getNode(parseInt(nid)).data.state[key] = +event.target.value;
     // Update 
-    // TINNED.graph.update(id); 
+    TINNED.graph.update(id); 
   }
 
   //on keyup, start the countdown

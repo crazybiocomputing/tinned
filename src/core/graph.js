@@ -223,7 +223,7 @@ export class Graph {
   getConnected(_adjacencyList) {
     let adj = {..._adjacencyList}; // Clone
     let sinks = this.vertices.filter( v => v.isSink());
-    // Remove unconnected sinks from pipeline
+    // Remove unconnected sinks from source(s)
     sinks.forEach( sink => {
       console.log(sink.id);
       if (!Object.keys(adj).some(i => adj[i].includes(sink.id))) {
@@ -298,7 +298,7 @@ export class Graph {
     // console.log(vertices);
     vertices.forEach( n => {
       console.log(n.element);
-      this.updateEdges(n, n.element.classList?.contains('shrink') );
+      this.updateEdges(n.element, n.element.classList?.contains('shrink') );
     });
   }
 
@@ -313,7 +313,7 @@ export class Graph {
   updateEdges(node,shrinkMode = false) {
     // Get Edge ID
     // let src_eid = document.querySelector(`#${node.id} .input button`);
-    let sources = (shrinkMode) ? document.querySelectorAll(`#node_${node.id} .out_socket`) : document.querySelectorAll(`#node_${node.id} .output button`);
+    let sources = (shrinkMode) ? document.querySelectorAll(`#${node.id} .out_socket`) : document.querySelectorAll(`#${node.id} .output button`);
     if (sources !== null) {
       sources.forEach( s => {
         if (s.dataset.edge !== undefined) {
@@ -326,7 +326,7 @@ export class Graph {
         }
       });
     }
-    let targets = (shrinkMode) ? document.querySelectorAll(`#node_${node.id} .in_socket`) : document.querySelectorAll(`#node_${node.id} .input button`);
+    let targets = (shrinkMode) ? document.querySelectorAll(`#${node.id} .in_socket`) : document.querySelectorAll(`#${node.id} .input button`);
     if (targets !== null) {
       if (shrinkMode) {
         targets.forEach( t => {

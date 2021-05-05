@@ -24,32 +24,43 @@
 
 'use strict';
 
-import {of} from '../../callbags/callbag-of.js';
-import {share} from '../../callbags/callbag-share.js';
 
-const stringFunc = (node) => (stream) => {
-  // Get param
-  let val = node.data.state.value;
-  // Create multicast callbag
-  const cbag = share(of(val));
-  // Update stream
-  node.targets.forEach( key => {
-    stream[key] = cbag;
-  });
-  // Return stream
-  return stream;
-}
+import {forEach} from '../../callbags/callbag-for-each.js';
 
-export const string_ui =   {
-  id: "BASX_STRING",
-  class: "primitive",
-  description: "String",
-  tags: ["character","list"],
-  func: stringFunc,
+/*
+ * 3D Viewer 
+ * Expecting data as an array of atoms
+ */
+const view3D = (node) => (stream) => {
+  // Get source
+  let sourceObservable = stream[node.sources[0]];
+  // Calc barchart
+  forEach((data) => {
+    console.log(node.id,`#node_${node.id} canvas`);
+    // Pre-processing
+    // Processing
+
+  })(sourceObservable);
+
+return stream;
+  
+};
+
+
+export const mol_view3d_ui = {
+  id: "MOL_VIEW3D",
+  class: "plot",
+  description: "View3D",
+  tags: ["plot","drawing","scheme","3D"],
+  func: view3D,
   ui: [
     [
-      {widget: "text", state: '',name: "value:string"},
-      {widget: "output", title: "String",name: "value:string"}
+      {widget: "canvas",name:"canvas:any"}
+    ],
+    [
+      {widget: "input",name: "molin:molecule"},
+      {widget:"label",title: "Data"}
     ]
   ]
 };
+

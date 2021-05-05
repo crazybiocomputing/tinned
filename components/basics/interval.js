@@ -31,7 +31,10 @@ import {pipe} from '../../callbags/callbag-pipe.js';
 const interval = (node) => (stream) => {
   let period = node.data.state.period;
   // Create multicast callbag
-  const obs = pipe(cbag_interval(period),share);
+  const obs = pipe(
+    cbag_interval(period),
+    // takeUntil(numericalChanged$),
+    share);
   
   // Set in stream
   node.targets.forEach( key => {

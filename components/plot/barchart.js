@@ -26,7 +26,7 @@
 
 
 import {forEach} from '../../callbags/callbag-for-each.js';
-import { _barchart } from './_barchart.js';
+import { _barchart } from './charts/_barchart.js';
 
 /*
  * Barchart 

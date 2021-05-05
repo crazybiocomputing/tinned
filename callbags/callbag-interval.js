@@ -34,4 +34,4 @@ export const interval = period => (start, sink) => {
   });
 };
 
-export default interval;
+

@@ -28,6 +28,8 @@ import {components as basics} from '../basics/components.js';
 import {components as plots} from '../plot/components.js';
 import {fetchmol_ui} from './fetchmol.js';
 import {mol_groupby_ui} from './groupByStruct.js';
+import {mol_renderer_ui} from './renderer.js';
+import {mol_view3d_ui} from './view3d.js';
 import {openmol} from './openmol.js';
 import {pepstats_ui} from './pepstats.js';
 import {selectbyid_ui} from './selectbyid.js';
@@ -43,6 +45,8 @@ export const components = basics.concat([
   ...plots,
   fetchmol_ui,
   mol_groupby_ui,
+  mol_renderer_ui,
+  mol_view3d_ui,
   pepstats_ui,
   selectbyid_ui,
   sequence_ui,
@@ -67,32 +71,7 @@ export const components = basics.concat([
       ]
     ]
   },
-  {
-    id: "MOL_COLORMODE",
-    class: "rendering",
-    description: "Color Mode",
-    tags: ["cpk","lut","rainbow"],
-    func: action,
-    ui: [
-      [
-        {widget: "label", title: "Atoms"},
-        {widget: "output", name: "molout:mol" }
-      ],
-      [        
-        {widget: "label", title: "Mode"},
-        {
-          widget: "select", 
-          state: 0, 
-          name: "mode:string", 
-          items: ['Alt', 'Amino', 'Chain', 'Charge', 'CPK', 'Model', 'Rainbow','Shapely', 'Structure', 'Temperature']
-        },
-      ],
-      [
-        {widget: "input", name: "molin:mol"},
-        {widget: "label", title: "Atoms"}
-      ]
-    ]
-  },
+  
   {
     id: "MOL_EXTRACT",
     class: "processing",
@@ -300,27 +279,6 @@ export const components = basics.concat([
       ],
       [
         {widget: "canvas",name:"data:any"}
-      ],
-      [
-        {widget: "input",name: "molin:molecule"},
-        {widget:"label",title: "Atoms"}
-      ]
-    ]
-  },
-  {
-    id: "MOL_RENDER",
-    class: "rendering",
-    description: "Render",
-    tags: ["wireframe","backbone","trace","cartoon","strands","ball-and-stick"],
-    func: action,
-    ui: [
-      [
-        {widget:"label",title: "Atoms"}, 
-        {widget: "output",name:"molout:molecule"}
-      ],
-      [
-        {widget: "label", title: "Mode"},
-        {widget: "select", state: 0, name: "mode:string", "items": ["Trace","Backbone","Wireframe","Strands","Ball-and-Stick","Cartoon"]},
       ],
       [
         {widget: "input",name: "molin:molecule"},

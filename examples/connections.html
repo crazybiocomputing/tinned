@@ -6,7 +6,6 @@
 <link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet"> 
 <link rel="stylesheet" href="../css/font-awesome-4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="../css/tinned.css">
-<script type="module" src="../mol/components.js"></script>
 
 </head>
 <body>
@@ -34,13 +33,14 @@
 
   // Load Graph
   let graph= {
+    edges: [],
     nodes: [
     {
         id: 1,
         template:"BASX_NUMBER",
         data: {
           meta: {
-            pos: [717,256],
+            pos: [217,156],
           },
           state: {
             value: 37
@@ -52,7 +52,7 @@
         template:"BASX_MONITOR",
         data: {
           meta: {
-            pos: [1167,300],
+            pos: [667,200],
           },
           state: {}
         }
@@ -62,7 +62,7 @@
         template:"BASX_NUMBER",
         data: {
           meta: {
-            pos: [722,412],
+            pos: [222,312],
           },
           state: {
             value: 46
@@ -74,7 +74,7 @@
         template:"BASX_MATH",
         data: {
           meta: {
-            pos: [939,288],
+            pos: [439,188],
           },
           state: {
             op: 1 // Add
@@ -85,14 +85,8 @@
   };
 
 
-
-board.graph.nodes.push(graph.nodes[0]);
-board.graph.nodes.push(graph.nodes[1]);
-board.graph.nodes.push(graph.nodes[2]);
-board.graph.nodes.push(graph.nodes[3]);
-board.load(board.graph);
+board.load(graph);
 board.graph.appendEdge('value@11','yin@15');
-board.load(board.graph);
 board.run();
 
 

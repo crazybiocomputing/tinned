@@ -30,14 +30,14 @@ import {share} from '../../callbags/callbag-share.js';
 const range = (node) => (stream) => {
   // Params
   let start = node.data.state?.start || 0;
-  let stop = node.data.state?.stop || 0;
+  let stop = node.data.state?.stop || 10;
   let step = node.data.state?.step || 1;
   const len = Math.ceil((stop - start) / step);
   let array = Array.from({length: len}, (_,i) => start + i*step);
 
+  // Create multicast observable
   const obs = share(fromIter(array));
 
-  // Create multicast observable
   node.targets.forEach( key => stream[key] = obs);
   // Return stream
   return stream;

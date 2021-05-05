@@ -91,7 +91,7 @@ export class Node extends Draggable {
    * Is this node a `Producer`
    *
    */
-  isProducer() {
+  isSource() {
     return this.hasOutputs && !this.hasInputs;
   }
   

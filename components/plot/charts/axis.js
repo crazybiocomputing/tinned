@@ -24,7 +24,7 @@
 
 'use strict';
 
-import {append,attr,newNode} from './graph.js';
+import {append,attr,newNode} from './graphics.js';
 /**
  * Axis
  * Jean-Christophe Taveau

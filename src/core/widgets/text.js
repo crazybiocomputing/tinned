@@ -42,7 +42,6 @@ import {TINNED} from '../../tinned.js';
   input.setAttribute('maxlength',40);
   // input.setAttribute('size',10);
   input.setAttribute('value',metadata[template_row.name] || template_row.state);
-  TINNED.args[input.id] = metadata[template_row.name] || template_row.state;
   
   input.addEventListener('blur',(event) => {
     console.info(`Add the ${event.srcElement.value} in queue`);

@@ -58,6 +58,7 @@ const aas = [
   ['valine','val','V']
 ];
 
+
 // Global
 let IDCODE='0xxx';
 
