@@ -44,11 +44,30 @@ import {TINNED} from '../../tinned.js';
   input.setAttribute('value',metadata[template_row.name] || template_row.state);
   
   input.addEventListener('blur',(event) => {
-    console.info(`Add the ${event.srcElement.value} in queue`);
-    TINNED.args[input.id] = +event.srcElement.value;
     // Update 
     TINNED.graph.update(id); 
   });
+
+  // Only send modification when typing finished
+  let typingTimer; //timer identifier
+
+  //user is "finished typing," do something
+  const doneTyping = (event) => () => {
+    // Obsolete - TINNED.args[input.id] = +event.target.value;
+    let [key,nid] = input.id.split('__AT__');
+    TINNED.graph.getNode(parseInt(nid)).data.state[key] = event.target.value;
+    // Update 
+    TINNED.graph.update(id); 
+  }
+
+  //on keyup, start the countdown
+  input.addEventListener('keyup', (ev) => {
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(doneTyping(ev), 500); // 500ms
+  });
+
+  //on keydown, clear the countdown 
+  input.addEventListener('keydown', () => clearTimeout(typingTimer));
 
   // TODO Add event onchanged
   return input;

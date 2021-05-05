@@ -223,13 +223,20 @@ export class Graph {
   getConnected(_adjacencyList) {
     let adj = {..._adjacencyList}; // Clone
     let sinks = this.vertices.filter( v => v.isSink());
+    let sources = this.vertices.filter( v => v.isSource());
+    // Remove unconnected sources
+    sources.forEach( source => {
+      if (adj[source.id].length === 0) {
+        delete adj[source.id];
+      }
+    });
     // Remove unconnected sinks from source(s)
     sinks.forEach( sink => {
-      console.log(sink.id);
       if (!Object.keys(adj).some(i => adj[i].includes(sink.id))) {
         delete adj[sink.id];
       }
-    })
+    });
+
     return adj;
   }
 
@@ -264,7 +271,6 @@ export class Graph {
     if (node === -1) {
       // Update all the nodes
       // TODO
-
     }
     else {
       // Only update from this node
