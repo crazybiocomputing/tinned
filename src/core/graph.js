@@ -97,6 +97,7 @@ export class Graph {
     this.adjacencyList[start_id.split("@")[1]].push(end_id);
     ctx.append(e.line);
     this.flow.append(e);
+    return e;
   }
 
   /**
@@ -253,6 +254,17 @@ export class Graph {
     this.flow.run();
   }
 
+  removeDuplicate(e){
+    let dupl = this.edges.findIndex(edge => edge.target === e.target);
+    if (dupl !== -1 && dupl !== this.edges.length -1){
+      console.log(dupl);
+      //Update SVG
+      document.querySelector(`main svg #e_${this.edges[dupl].eid}`).remove();
+      this.edges.splice(dupl,1);
+      this.updateAllEdges(this.vertices);
+    }
+  }
+
   /**
    * Update edges of All the vertices defined in an array
    *
@@ -263,7 +275,8 @@ export class Graph {
   updateAllEdges(vertices) {
     // console.log(vertices);
     vertices.forEach( n => {
-      this.updateEdges(n, n.classList.contains('shrink') );
+      console.log(n.element);
+      this.updateEdges(n, n.element.classList?.contains('shrink') );
     });
   }
 
@@ -279,7 +292,7 @@ export class Graph {
     console.log('UPDATE ' + shrinkMode);
     // Get Edge ID
     // let src_eid = document.querySelector(`#${node.id} .input button`);
-    let sources = (shrinkMode) ? document.querySelectorAll(`#${node.id} .out_socket`) : document.querySelectorAll(`#${node.id} .output button`);
+    let sources = (shrinkMode) ? document.querySelectorAll(`#node_${node.id} .out_socket`) : document.querySelectorAll(`#node_${node.id} .output button`);
     if (sources !== null) {
       sources.forEach( s => {
         if (s.dataset.edge !== undefined) {
@@ -292,7 +305,7 @@ export class Graph {
         }
       });
     }
-    let targets = (shrinkMode) ? document.querySelectorAll(`#${node.id} .in_socket`) : document.querySelectorAll(`#${node.id} .input button`);
+    let targets = (shrinkMode) ? document.querySelectorAll(`#node_${node.id} .in_socket`) : document.querySelectorAll(`#node_${node.id} .input button`);
     if (targets !== null) {
       if (shrinkMode) {
         targets.forEach( t => {
@@ -332,6 +345,8 @@ export class Graph {
       y: (rect.top  + rect.height / 2.0 ) + window.scrollY
     }
   }
+
+
 } // End of class Graph
 
 

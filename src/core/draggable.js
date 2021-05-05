@@ -26,6 +26,7 @@
 
 import {TINNED} from '../tinned.js';
 import {getID,xmlns} from './common.js';
+import { Edge } from './edge.js';
 
 
 const DRAG = {
@@ -168,17 +169,22 @@ export  const edgeEnd = (event) => {
       };
       console.log(one,two);
       if (one.type + two.type === 1){
-        TINNED.graph.edges.forEach(edge => {
-          if (edge.target===(one.type===0 ? two.name : one.name)){
+       /* if (event.target.id.includes ('__IN__') && event.target.dataset.edge){
+          let edgeID=parseInt(event.target.dataset.edge);
+          let edge=TINNED.graph.edges.find(e => e.eid===edgeID);
+          console.log('arara',edge);
           TINNED.graph.edges.splice(TINNED.graph.edges.indexOf(edge),1);
           TINNED.graph.adjacencyList[edge.sourceID].pop();
           document.querySelector(`svg #e_${edge.eid}`).remove();
-          }
-        });
-          TINNED.graph.appendEdge(
+          //const arr=JSON.parse(event.target.dataset.edge).filter(i=>i!==edge.eid);
+          //event.target.dataset.edge=JSON.stringify (arr);
+          event.target.dataset.edge=edge.eid;
+        }; */
+        const newEdg = TINNED.graph.appendEdge(
             one.type === 0 ? one.name : two.name,
             one.type === 1 ? one.name : two.name
           );
+          TINNED.graph.removeDuplicate(newEdg);
           }
         }
       }
@@ -188,7 +194,7 @@ export  const edgeEnd = (event) => {
     // Otherwise delete line
     document.getElementById('rubberband').remove();
     event.preventDefault();
-    console.log('liiiiiiiiiiiiiiiiiiiiiiieieieieieeee',TINNED.graph);
+    console.info(TINNED.graph);
   }
 
   /*
