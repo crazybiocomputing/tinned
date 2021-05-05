@@ -148,7 +148,12 @@ export const searchBox = (parent,tags) => {
     }
     ev.preventDefault();
   }*/
-  parent.addEventListener('mousedown',openSearchbox);
+  parent.onmousedown= (ev) =>{
+    if (ev.which===1){
+      openSearchbox(ev);
+      }
+    }
+
   if (document.querySelector(".close")){
     document.querySelector(".close").addEventListener('click',closeSearchbox);
   }
