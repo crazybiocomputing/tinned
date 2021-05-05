@@ -142,7 +142,13 @@ export const searchBox = (parent,tags) => {
   }
 
   board_id.appendChild(displaySearchbox());
-  parent.addEventListener('click',openSearchbox);
+  /*document.onkeydown= (ev) =>{
+  if (ev.keyCode===32){
+    parent.addEventListener('mousedown',openSearchbox);
+    }
+    ev.preventDefault();
+  }*/
+  parent.addEventListener('mousedown',openSearchbox);
   if (document.querySelector(".close")){
     document.querySelector(".close").addEventListener('click',closeSearchbox);
   }

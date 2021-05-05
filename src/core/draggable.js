@@ -119,7 +119,6 @@ export class Draggable {
 
 } // End of class Draggable
 
-
   /*
    * Functions used for click and drag of `edge`
    *
@@ -127,7 +126,7 @@ export class Draggable {
    */
 export const edgeStart = (event) => {
     console.log('EDGE start',event.target);
-    DRAG.edge = event.target.id;
+    DRAG.edge = event.target;
     event.preventDefault();
     // Get canvas
     let ctx = document.querySelector('main svg');
@@ -155,28 +154,41 @@ export  const edgeDrag = (event) => {
 
 export  const edgeEnd = (event) => {
     // Check if target is a complementary node (output/input) to source (input/output) node
-    console.log(event.target);
     // Add an edge to the graph
-    console.log(DRAG.edge,event.target.id);
-    let one = {
-      type:DRAG.edge.includes('__OUT__')?0:1,
-      name:DRAG.edge.replace(/__.*__/,"@")
-    };
-    let two = {
-      type:event.target.id.includes('__OUT__')?0:1,
-      name:event.target.id.replace(/__.*__/,"@")
-    };
-    console.log(one,two);
-    if (one.type + two.type === 1){
-        TINNED.graph.appendEdge(
-          one.type === 0 ? one.name : two.name,
-          one.type === 1 ? one.name : two.name
-        );
+    if ((event.target.id.includes('__OUT__') || event.target.id.includes('__IN__'))){     
+      if(getID(DRAG.edge.id)!==getID(event.target.id)){
+        if (DRAG.edge.dataset.type==="any"||event.target.dataset.type==="any"||DRAG.edge.dataset.type===event.target.dataset.type){
+      let one = {
+        type:DRAG.edge.id.includes('__OUT__')?0:1,
+        name:DRAG.edge.id.replace(/__.*__/,"@")
+      };
+      let two = {
+        type:event.target.id.includes('__OUT__')?0:1,
+        name:event.target.id.replace(/__.*__/,"@")
+      };
+      console.log(one,two);
+      if (one.type + two.type === 1){
+        TINNED.graph.edges.forEach(edge => {
+          if (edge.target===(one.type===0 ? two.name : one.name)){
+          TINNED.graph.edges.splice(TINNED.graph.edges.indexOf(edge),1);
+          TINNED.graph.adjacencyList[edge.sourceID].pop();
+          document.querySelector(`svg #e_${edge.eid}`).remove();
+          }
+        });
+          TINNED.graph.appendEdge(
+            one.type === 0 ? one.name : two.name,
+            one.type === 1 ? one.name : two.name
+          );
+          }
+        }
       }
+    }
+    
+    else{ }
     // Otherwise delete line
     document.getElementById('rubberband').remove();
-    console.log('EDGE end',event.target);
     event.preventDefault();
+    console.log('liiiiiiiiiiiiiiiiiiiiiiieieieieieeee',TINNED.graph);
   }
 
   /*
@@ -295,5 +307,5 @@ export const translEnd = (event) => {
   TINNED.translate.x += DRAG.newDX;
   TINNED.translate.y += DRAG.newDY;
   event.preventDefault();
-}
+  }
 

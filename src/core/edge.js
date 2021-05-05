@@ -113,12 +113,12 @@ export class Edge {
     line.dataset.source = `node_${sourceID.index}`;
     line.dataset.target = `node_${targetID.index}`;
     line.setAttribute('id',`e_${edgID}`);
-    line.setAttribute('stroke-wtgtIDh',2.0);
+    line.setAttribute('stroke-width',2.0);
     line.setAttribute('x1',start.x);
     line.setAttribute('y1',start.y);
     line.setAttribute('x2',end.x);
     line.setAttribute('y2',end.y);
-    line.setAttribute("stroke", "#dfdfdf")
+    line.setAttribute("stroke", "#dfdfdf");
     return line;
   }
 

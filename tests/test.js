@@ -47,14 +47,16 @@ describe("Atome de carbone et Tyrosine", function(){
 
 describe("Atome de carbone, Tyrosine et Carbone Alpha", function(){
     it("should transform flag to 1", function() {
-        let res = select_and(mol_1zni,select_and(mol_1zni,select(mol_1zni,"element","C"),select(mol_1zni,"name","CA")),select(mol_1zni,"resName","TYR"));
+        let res = select_and(mol_1zni,select_and(mol_1zni,select(mol_1zni,"element","C"),
+        select(mol_1zni,"name","CA")),select(mol_1zni,"resName","TYR"));
         expect(res.flag[1]).toBe(1);
     });
 });
 
 describe("Atome de carbone, Tyrosine ou Carbone Alpha", function(){
     it("should transform flag to 1", function() {
-        let res = select_or(mol_1zni,select_or(mol_1zni,select(mol_1zni,"element","C"),select(mol_1zni,"name","CA")),select(mol_1zni,"resName","TYR"));
+        let res = select_or(mol_1zni,select_or(mol_1zni,select(mol_1zni,"element","C"),
+        select(mol_1zni,"name","CA")),select(mol_1zni,"resName","TYR"));
         expect(res.flag[1]).toBe(1);
     });
 });
