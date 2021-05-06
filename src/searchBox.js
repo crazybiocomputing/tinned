@@ -82,7 +82,7 @@ export const searchBox = (parent,tags) => {
       const nodeList = document.querySelector("#nodeList");
       const searchString = e.target.value.toLowerCase();
       const filteredTags = tags.filter((tag) => {
-          if (searchString === "" || searchString.length <= 2){
+          if (searchString === "" || searchString.length <= 1){
             return;
           }
           return (
