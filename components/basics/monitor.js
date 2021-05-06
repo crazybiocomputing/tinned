@@ -50,15 +50,6 @@ const monitor = (node) => (stream) => {
   return stream;
 }
 
-/*
-,
-    error: (err) => alert(err),
-    complete: () => {
-      node.data.state.log += 'Completed!\n';
-      textarea.innerHTML = node.data.state?.log;
-    }
-  }
- */
 export const monitor_ui = {
   id: "BASX_MONITOR",
   class: "consumer",
