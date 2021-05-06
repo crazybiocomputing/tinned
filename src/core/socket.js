@@ -24,7 +24,8 @@
 
 'use strict';
 
-import {Draggable,edgeStart,edgeDrag,edgeEnd} from './draggable.js';
+import {Draggable} from './draggable.js';
+import {edgeStart,edgeDrag,edgeEnd} from './dragEdge.js';
 
 export class Socket extends Draggable {
   

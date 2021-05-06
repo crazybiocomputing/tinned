@@ -26,6 +26,16 @@
 
 export const xmlns = "http://www.w3.org/2000/svg";
 
+export const DRAG = {
+  BBox:null,
+  orgX: 0,
+  orgY: 0,
+  dx: 0,
+  dy: 0,
+  newDX: 0,
+  newDY: 0
+}
+
 /**
  * Return Numerical ID used by graph from node ID (in DOM)
  *
@@ -33,3 +43,29 @@ export const xmlns = "http://www.w3.org/2000/svg";
  */
 export const getID = (nodeid) => nodeid.match(/\d+/)[0];
 
+/**
+ * Get Transformed coordinates
+ */
+export const getMatrix = (element) => {
+  const parseMatrix = (transform) => transform.split(/\(|,|\)/).slice(1,-1).map( v => parseFloat(v) );
+
+  let transform = window.getComputedStyle(element,null).transform;
+  console.log(transform);
+  return (transform === 'none') ?  parseMatrix('matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)') : parseMatrix(transform);
+}
+
+export const getBoardTranslations = () => {
+  let matrix = getMatrix(document.getElementById('board') );
+  return [matrix[4],matrix[5]];
+}
+
+export const getClickedCoords = (event) => [event.pageX,event.pageY];
+
+export const getViewportCenter = () => {
+  let cx = document.documentElement.clientWidth/2.0;
+  let cy = document.documentElement.clientHeight/2.0;
+  return [cx,cy];
+}
+
+
+export const getBoundingBox = (element) => element.getBoundingClientRect(); 

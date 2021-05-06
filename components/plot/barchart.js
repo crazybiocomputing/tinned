@@ -26,6 +26,7 @@
 
 
 import {forEach} from '../../callbags/callbag-for-each.js';
+import { TINNED } from '../../src/tinned.js';
 import { _barchart } from './charts/_barchart.js';
 
 /*
@@ -37,7 +38,7 @@ const barchart = (node) => (stream) => {
   let sourceObservable = stream[node.sources[0]];
   // Calc barchart
   forEach((data) => {
-    console.log(node.id,`#node_${node.id} canvas`);
+    console.log(node.id,`#node_${node.id} figure`);
     // Convert array of points in two arrays containing x and y separately
     const dataset = data.reduce( (set,point) => {
       set.x.push(point.x);
@@ -45,12 +46,12 @@ const barchart = (node) => (stream) => {
       return set;
     },{x:[],y:[]});
 
-    // HACK
-    document.querySelector(`#node_${node.id} canvas`).remove();
+    // Check if previous diagram
+    document.querySelector(`#node_${node.id} figure svg`)?.remove();
 
     // Draw Barchart
     _barchart( 
-      document.querySelector(`#node_${node.id} .graphics`),
+      document.querySelector(`#node_${node.id} figure`),
       [dataset],
       {
         mode:["vertical"],
@@ -67,7 +68,12 @@ const barchart = (node) => (stream) => {
       }
     );
 
+    // Update Edges
+    TINNED.graph.updateEdges(node.element,false);
+
   })(sourceObservable);
+
+
 
 return stream;
   

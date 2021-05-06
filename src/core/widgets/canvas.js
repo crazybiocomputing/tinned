@@ -31,10 +31,7 @@
 export const canvas = (id,row,metadata,action_func) => {
   // <div class="graphics"><canvas></canvas></div>
   // Check if canvas is already created TODO
-  let container = document.createElement('div');
+  let container = document.createElement('figure');
   container.className = 'graphics';
-  let cnvs = document.createElement('canvas');
-  cnvs.className = 'preview';
-  container.appendChild(cnvs);
   return container;
 }

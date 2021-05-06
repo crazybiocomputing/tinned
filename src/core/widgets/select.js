@@ -24,6 +24,8 @@
 
 'use strict';
 
+import {TINNED} from '../../tinned.js';
+
 /**
    * Widget 
    * @author Jean-Christophe Taveau
@@ -34,8 +36,18 @@
   let select = document.createElement('select');
   select.id = `${row.name.split(':')[0] || 'unknown'}__AT__${id}`;
 
-  let options = row.items.reduce( (html,item,index) => html + `<option value="${index}">${item}</option>`,'');
+  let options = row.items.reduce( (html,item,index) => html + `<option value="${item}">${item}</option>`,'');
   select.innerHTML = options;
   container.appendChild(select);
+
+  select.addEventListener('change',(event)=> {
+    console.log(event);
+    const selectedItem = row.items[event.target.selectedIndex];
+    let [key,nid] = select.id.split('__AT__');
+    TINNED.graph.getNode(parseInt(nid)).data.state[key] = selectedItem;
+    // Update 
+    TINNED.graph.update(id); 
+    return false;
+  });
   return container;
 }

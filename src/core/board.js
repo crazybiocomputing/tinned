@@ -25,7 +25,8 @@
 'use strict';
 
 import {TINNED} from '../tinned.js';
-import {Draggable,translStart,translOver,translEnd} from './draggable.js';
+import {Draggable} from './draggable.js';
+import {translStart,translOver,translEnd} from './dragBoard.js';
 import {Graph} from './graph.js';
 import {xmlns} from './common.js';
 
@@ -68,7 +69,7 @@ export class Board extends Draggable {
         translate(${TINNED.translate.x}px,${TINNED.translate.y}px) 
         translate(-50%,-50%) 
       `;
-      this.graph.updateAllEdges(document.querySelectorAll('section'));
+      this.graph.updateAllEdges();
       event.preventDefault();
     });
     
@@ -89,17 +90,19 @@ export class Board extends Draggable {
    */
   load(graph) {
     
-     // Create Edges
+     // Create Edges Layer
     let svg = document.createElementNS(xmlns,'svg');
     svg.setAttribute('width','100%');
     svg.setAttribute('height','100%');
 
     this.parent.prepend(svg);
+
+    // Create Board
     this.boardgame = document.createElement('div');
     this.boardgame.id = 'board';
     this.boardgame.className = 'board';
     this.parent.appendChild(this.boardgame);
-    
+ 
     // Define popup for dialog windows, menus, splash screen, etc.
     let popup = document.createElement('div');
     popup.id = 'popup';
@@ -113,6 +116,18 @@ export class Board extends Draggable {
     this.graph.setRootNode(this.boardgame);
     this.graph.setGraphicsContext(svg);
     
+    // Board Params
+    TINNED.zoom = graph.board?.zoom || 1.0;
+    TINNED.tx = graph.board?.tx || 0.0;
+    TINNED.ty = graph.board?.tx || 0.0;
+    TINNED.translate = graph.board?.translate || {x:0,y:0};
+    // Apply
+    this.boardgame.style.transform = `
+    translate(50%,50%) 
+    scale(${TINNED.zoom}) 
+    translate(${TINNED.translate.x}px,${TINNED.translate.y}px) 
+    translate(-50%,-50%)`;
+
     // Create Nodes
     TINNED.graph = this.graph;
     this.graph.build(graph);

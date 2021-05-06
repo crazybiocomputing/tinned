@@ -25,15 +25,18 @@
 'use strict';
 
 import {interval as cbag_interval} from '../../callbags/callbag-interval.js';
+import {fromEvent} from '../../callbags/callbag-from-event.js';
+import {takeUntil} from '../../callbags/callbag-take-until.js';
 import {share} from '../../callbags/callbag-share.js';
 import {pipe} from '../../callbags/callbag-pipe.js';
 
 const interval = (node) => (stream) => {
+  const numericalChanged$ = document.querySelector(`#node_${node.id} input`);
   let period = node.data.state.period;
   // Create multicast callbag
   const obs = pipe(
     cbag_interval(period),
-    // takeUntil(numericalChanged$),
+    takeUntil(fromEvent(numericalChanged$,'focus')),
     share);
   
   // Set in stream

@@ -26,7 +26,7 @@
 
 import {append,attr,bandwidth,newNode,newGeometry,scaleBand,scaleLinear,show} from './graphics.js';
 import {axisBottom,axisLeft,getAxisBox,heckbert} from './axis.js';
-import {canvas_renderer} from './renderer/canvas_renderer.js';
+import {svg_renderer} from './renderer/svg_renderer.js';
 
 /**
  * Simple barchart
@@ -37,8 +37,8 @@ export const _barchart = (graphics,data,layout) => {
   // Create graph
   const graph = {
     parent: graphics,
-    renderer: canvas_renderer,
-    root: newNode('canvas')
+    renderer: svg_renderer,
+    root: newNode('svg')
   }
   
   attr(graph.root,'width',layout.width);
