@@ -34,7 +34,7 @@
   // Load Graph
   let test = {
     nodes: [
-      {
+    {
         id: 1,
         template:"BASX_RANGE",
         data: {
@@ -45,6 +45,18 @@
             start: 1,
             stop: 20,
             step: 2
+          }
+        }
+      },
+      {
+        id: 2,
+        template:"BASX_NUMBER",
+        data: {
+          meta: {
+            pos: [100,195],
+          },
+          state: {
+            value: 10
           }
         }
       },
@@ -86,8 +98,7 @@
             pos: [456,210],
           },
           state: {
-            op: 1, // Add
-            y : 10
+            op: 1 // Add
           }
         }
       },
@@ -140,6 +151,10 @@
       {
         eid: 6,
         sockets: ['stream@1','datain@7']
+      },
+      {
+        eid: 7,
+        sockets: ['value@2','y@15']
       }
  
     ]

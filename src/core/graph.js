@@ -289,7 +289,7 @@ export class Graph {
       //Update SVG
       document.querySelector(`main svg #e_${this.edges[dupl].eid}`).remove();
       this.edges.splice(dupl,1);
-      this.updateAllEdges(this.vertices);
+      this.updateAllEdges();
     }
   }
 
@@ -300,9 +300,9 @@ export class Graph {
    *
    * @author Jean-Christophe Taveau
    */
-  updateAllEdges(vertices) {
+  updateAllEdges() {
     // console.log(vertices);
-    vertices.forEach( n => {
+    this.vertices.forEach( n => {
       console.log(n.element);
       this.updateEdges(n.element, n.element.classList?.contains('shrink') );
     });

@@ -25,7 +25,8 @@
 'use strict';
 
 import {TINNED} from '../tinned.js';
-import {Draggable,translStart,translOver,translEnd} from './draggable.js';
+import {Draggable} from './draggable.js';
+import {translStart,translOver,translEnd} from './dragBoard.js';
 import {Graph} from './graph.js';
 import {xmlns} from './common.js';
 
@@ -68,7 +69,7 @@ export class Board extends Draggable {
         translate(${TINNED.translate.x}px,${TINNED.translate.y}px) 
         translate(-50%,-50%) 
       `;
-      this.graph.updateAllEdges(document.querySelectorAll('section'));
+      this.graph.updateAllEdges();
       event.preventDefault();
     });
     

@@ -72,7 +72,7 @@ export const math_ui = {
       {widget: "label", title: "X"},
     ],
     [
-      {widget: "input", name: "yin:any"},
+      {widget: "input", name: "y:any"},
       {widget: "label", title: "Y"},
       // {widget: "numerical", state: 0,name: "y:number"},
     ]

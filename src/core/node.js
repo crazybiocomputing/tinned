@@ -25,7 +25,8 @@
 'use strict';
 
 import {TINNED} from '../tinned.js';
-import {Draggable,dragStartNode,dragOverNode, dragEndNode} from './draggable.js';
+import {Draggable} from './draggable.js';
+import {dragStartNode,dragOverNode, dragEndNode}  from './dragNode.js';
 import {NodeCreator} from './nodeCreator.js';
 import {WidgetFactory} from './widgetFactory.js';
 import * as DOM from '../dom/dom.js';
