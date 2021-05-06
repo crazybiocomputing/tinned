@@ -52,11 +52,12 @@ export class Node extends Draggable {
 
     // Step #1 - Set states
     // Init default states
-    this.data = {meta: {pos:[0,0]},state:{}};
+    this.data = {meta: {pos:[0,0]},state:{},types:[]};
     template.ui.forEach( row => row.forEach(widget => {
         if (!['output','input'].includes(widget.widget) && widget.name) {
           const [_var,_type] = widget.name.split(':');
           this.data.state[_var] = widget.state;
+          this.data.types.push(widget.widget);
         }
       })
     );
@@ -152,8 +153,35 @@ export class Node extends Draggable {
     nodeH.appendChild(body);
     nodeH.appendChild(foot);
 
+    if (data.meta?.shrink) {
+      this.shrink(nodeH);
+    }
   }
 
+  shrink(element) {
+    element.classList.toggle('shrink');
+
+    // Update banner
+    const banner = element.querySelector('.banner .description');
+    if (element.classList.contains('shrink')) {
+      const args = Object.keys(this.data.state).reduce( (txt,key,i) => {
+        let msg = this.data.state[key];
+        let type = this.data.types[i] || '';
+        if (['checkbox','numerical','select','text','textarea'].includes(type)) {
+          msg = (typeof msg === 'string' && [...msg].filter(ch => ch === '\n').length > 1) ? '..' : msg;
+          txt = (i === 0) ? txt + msg : txt + ',' + msg; 
+        }
+        return txt;
+      },'');
+      banner.textContent = `${banner.dataset.desc}(${(args.length === 0)? '..' : args})`;
+    }
+    else {
+      banner.textContent = banner.dataset.desc;
+    }
+    // Shrink mode is changed (false or true)
+    TINNED.graph.updateEdges(element,element.classList.contains('shrink'));
+
+  }
   /*
    * Create Header
    *
@@ -165,13 +193,7 @@ export class Node extends Draggable {
       // Hide body, footer
       let id = evt.target.parentNode.id.match(/\d+/)[0];
       let node = document.getElementById(`node_${id}`);
-      // DEBUG console.log(evt.target.parentNode.id,id);
-      // DEBUG console.log(node);
-      node.classList.toggle('shrink');
-
-      // Shrink mode is true
-      TINNED.graph.updateEdges(node,node.classList.contains('shrink'));
-      // DEBUG console.log(node);
+      this.shrink(node);
       evt.preventDefault();
     }
     
@@ -189,7 +211,8 @@ export class Node extends Draggable {
       `.header.${template.class.replace('.','_').toLowerCase()}`,
       [
         // Banner
-        DOM.p({
+        DOM.p('.banner',
+        {
           props: {title: `${(template.help) ? template.help : "No Help"}`},
           dataset: {nodeid: id}
         },
@@ -201,7 +224,7 @@ export class Node extends Draggable {
             DOM.span('.shrinkB','▸')
           ]),
           // Part II - Description/Title
-          template.description,
+          DOM.span('.description',{dataset:{desc: template.description}},template.description),
           // Part III - Hamburger Menu
           DOM.span('.toolset',
           [
@@ -246,6 +269,7 @@ export class Node extends Draggable {
 
     // Add event
     this.draggable( head,dragStartNode,dragOverNode, dragEndNode);
+
     return head;
   }
 

@@ -33,6 +33,10 @@
 
   // Load Graph
   let test = {
+    board : {
+      zoom: 1.5,
+      translate: {x: 98,y: 0}
+    },
     nodes: [
     {
         id: 1,
@@ -51,7 +55,8 @@
         template:"PROG_TAP",
         data: {
           meta: {
-            pos: [432,210],
+            pos: [560,290],
+            shrink: true
           },
           state: {}
         }
@@ -61,7 +66,8 @@
         template:"PROG_TAKE",
         data: {
           meta: {
-            pos: [649,210],
+            pos: [560,330],
+            shrink: true
           },
           state: {
             value: 10
@@ -83,7 +89,7 @@
         template:"BASX_MONITOR",
         data: {
           meta: {
-            pos: [849,207],
+            pos: [560,126],
           },
           state: {}
         }

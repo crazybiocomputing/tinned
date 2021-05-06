@@ -47,6 +47,7 @@ export class Graph {
   build(json) {
     this.createNodes(json.nodes);
     this.createEdges(json.edges);
+    this.updateAllEdges();
   }
 
   lastID() {
@@ -236,7 +237,7 @@ export class Graph {
         delete adj[sink.id];
       }
     });
-
+    // Find a source connected to a sink
     return adj;
   }
 
@@ -251,7 +252,6 @@ export class Graph {
     console.log(adj);
     const pipeline = this.topSortDFS(adj);
     console.log('Pipe',pipeline);
-    let stream = {};
     pipeline.reduce( (stream,vtx) => {
       const nod = this.vertices.find(n => n.id === +vtx);
       stream = nod.template.func(nod)(stream);
@@ -301,9 +301,7 @@ export class Graph {
    * @author Jean-Christophe Taveau
    */
   updateAllEdges() {
-    // console.log(vertices);
     this.vertices.forEach( n => {
-      console.log(n.element);
       this.updateEdges(n.element, n.element.classList?.contains('shrink') );
     });
   }

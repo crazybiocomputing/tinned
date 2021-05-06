@@ -24,22 +24,29 @@
 
 'use strict';
 
-import {forEach} from '../../callbags/callbag-for-each.js';
+import {subscribe} from '../../callbags/callbag-subscribe.js';
 
 const monitor = (node) => (stream) => {
   // Get source
-  let sourceObservable = stream[node.sources[0]];
+  let source$ = stream[node.sources[0]];
   const textarea = document.querySelector(`#node_${node.id} textarea`);
 
-  forEach((val) => {
+  subscribe({
+    next: val => {
       // Update node
       if (typeof val === 'object') {
         val = JSON.stringify(val);
       }
       node.data.state.log += val + '\n';
       textarea.innerHTML = node.data.state?.log;
-    })(sourceObservable);
-
+    },
+    complete: () => {
+      node.data.state.log += 'Completed!\n';
+      textarea.innerHTML = node.data.state?.log;
+    },
+    error: err => alert( err )
+  })(source$);
+ 
   return stream;
 }
 
@@ -66,6 +73,9 @@ export const monitor_ui = {
     ],
     [
       {widget:"textarea", state: "",name: "log:string"}
+    ],
+    [
+      {widget:'button', state: 0, button:'Refresh <i class="fa fa-refresh"></i>',name: 'refresh:string'}
     ]
   ]
 };

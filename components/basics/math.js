@@ -24,27 +24,29 @@
 
 'use strict';
 
-import {map as cbag_map} from '../../callbags/callbag-map.js';
+import {pipe} from '../../callbags/callbag-pipe.js';
+import {flatMap} from '../../callbags/callbag-flat-map.js';
 
 const none = (x,y) => x;
 const add = (x,y) => x + y;
 const sub = (x,y) => x - y;
 const mul = (x,y) => x * y;
 const div = (x,y) => x / y;
-const operators = [none,add,sub,mul,div];
+const operators = {None: none,Add: add,Subtract: sub,Multiply: mul,Divide: div};
 
 const math = (node) => (stream) => {
   // Get source(s)
-  let sourceObservable = stream[node.sources[0]];
+  const sourceX$ = stream[node.sources[0]];
+  const sourceY$ = stream[node.sources[1]];
   // Create a new Observable
-  const obs =  cbag_map(x => {
-    let y = node.data.state?.yin || node.data.state?.y || 0;     
-      // Get mapFunc from node
-    return operators[+node.data.state?.op || 0](x,y);
-  })(sourceObservable);
+  const source$ =  pipe(
+    sourceX$,
+    flatMap(y => sourceY$,(x,y) => operators[node.data.state?.op || 'None'](x,y) )
+  );
+
   // Create observable
   node.targets.forEach( key => {
-    stream[key] = obs;  
+    stream[key] = source$;  
   });
   // Return stream
   return stream;
