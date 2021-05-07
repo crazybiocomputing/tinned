@@ -4,7 +4,7 @@ _Pullable node emitting a text line_
 
 | ![string Node](img/string.png) |
 |------------------------|
-|Legend|
+|Screenshot of a _String_ Node|
 
 
 ## Inputs
