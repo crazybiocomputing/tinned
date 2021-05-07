@@ -23,9 +23,9 @@
 
 - [Filter](basics/filter.md)
 - [Map](basics/map.md)
-- [Reduce] (basics/reduce.md)
-- [Scan] (basics/scan.md)
-- [Tap] (basics/tap.md)
+- [Reduce](basics/reduce.md)
+- [Scan](basics/scan.md)
+- [Tap](basics/tap.md)
 
 ## 2. Plot Nodes
 
