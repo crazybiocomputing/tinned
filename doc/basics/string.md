@@ -27,4 +27,4 @@ _A String_
 
 ## Example
 
-!(img/string_example.png)
+![example](img/string_example.png)
