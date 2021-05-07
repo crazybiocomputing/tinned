@@ -30,6 +30,11 @@ import {share} from '../../callbags/callbag-share.js';
 const iterate = (node) => (stream) => {
   // Params
   console.log(node.data.state?.list);
+  if (node.data.state.save) {
+    // Update code from textarea
+    node.data.state.list = document.querySelector(`#list__AT__${node.id}`).value;
+    node.data.state.save = false;
+  }
   let arr = new Function( `return ${node.data.state?.list || '[]'}`)();
 console.log(arr);
   // Create multicast observable
@@ -51,6 +56,9 @@ export const array_ui =  {
     [
       {widget:"label",title: "Result"}, 
       {widget: "output",name:"value:any"}
+    ],
+    [
+      {widget:"button", state: "",icon: 'floppy-o',title: 'Save',name: "save:boolean"}
     ],
     [
       {widget:"textarea", state: "[1,\"2\",{x: 10.0,y:11}]",name: "list:[any]"}

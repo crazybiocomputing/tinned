@@ -35,8 +35,13 @@
   input.className = "textarea";
   input.setAttribute("type", "text");
   input.setAttribute('name',_var || 'unknown');
-  input.setAttribute('readonly',true);
   input.textContent = row.state || '';
 
+  console.log('META');
+  console.log(row);
+  
+  if (row.attrs) {
+    Object.keys(row.attrs).forEach( key => input.setAttribute(key,row.attrs[key]));
+  }
   return input;
 }

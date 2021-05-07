@@ -26,7 +26,7 @@
 
 import {array_ui} from './array.js';
 import {chars_ui} from './chars.js';
-import {countby_ui} from './countby.js';
+import {count_ui} from './count.js';
 import {filter_ui} from './filter.js';
 import {interval_ui} from './interval.js';
 import {map_ui} from './map.js';
@@ -51,7 +51,7 @@ const action = (node) => (obs) => {
 const _basics = [
   array_ui,
   chars_ui,
-  countby_ui,
+  count_ui,
   filter_ui,
   interval_ui,
   map_ui, 

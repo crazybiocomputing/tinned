@@ -317,8 +317,8 @@ svg {
   /* background-color: #a6cee3; */
 }
 
-.viewer {
-  background-color: #cab2d6;
+.viewer,.consumer,.plot {
+  background-color: #646dc2;
 }
 
 .tool,.reactive {
@@ -329,11 +329,11 @@ svg {
   background-color: #fb9a99;
 }
 
-.information,.consumer {
+.information {
   background-color: #749797;
 }
 
-.io,.producer,.plot {
+.io,.producer {
   background-color: #e68745;
   background-color: #ff7f00;
 }
@@ -632,19 +632,19 @@ a.button,label.button {
   display:inline-block;
   font-family: 'Lato', sans-serif;
   font-size:12px;
-  background-color: #fefefe;
+  background-color: #ddd;
   color: #555;
-  width: 90%;
+  width: min-content;
   border: solid 1px #ccc;
   border-radius: 4px;
-  padding-left: 4px;
+  padding: 2px 4px;
   text-decoration: none;
   text-align:center;
   transition: all 0.2s;
 }
 a.button:hover,label.button:hover{
   /*border: 1px solid black;*/
-  background-color: #ccc;
+  background-color: #eee;
   color: black;
 }
 

@@ -36,6 +36,9 @@ const tap = (node) => (stream) => {
   // Create observable
   const obs = cbag_tap( (val) => {
     // Update node
+    if (typeof val === 'object') {
+      val = JSON.stringify(val);
+    }
     node.data.state.log += val + '\n';
     textarea.innerHTML = node.data.state?.log;
   })(sourceObservable);

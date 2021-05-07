@@ -24,25 +24,21 @@
 
 'use strict';
 
-import {of} from '../../callbags/callbag-of.js';
-import {scan as cbag_scan} from '../../callbags/callbag-scan.js';
-import {observe} from '../../callbags/callbag-observe.js';
+import {count} from '../../callbags/callbag-count.js';
 
-// Filter operator
-const scan = (node) => (stream) => {
+// MAP operator
+const count_items = (node) => (stream) => {
   // Get params + source.s
-  let sourceObservable = stream[node.sources[0]];
-  let init;
-  observe((x) => init = x)(stream[node.sources[1]]  || of(0));
+  const source$ = stream[node.sources[0]];
   if (node.data.state.save) {
     // Update code from textarea
     node.data.state.code = document.querySelector(`#code__AT__${node.id}`).value;
     node.data.state.save = false;
   }
   const code = node.data.state.code;
-  const redux = new Function('accu','x','const foo = ' + code + '\nreturn foo(accu,x);');
+  const predicate = new Function('x','const foo = ' + code + '\nreturn foo(x);');
   // Create Observable
-  const obs = cbag_scan(redux,init)(sourceObservable);
+  const obs = count(predicate)(source$);
   // Store observable in stream
   node.targets.forEach( key => {
     stream[key] = obs;  
@@ -51,31 +47,27 @@ const scan = (node) => (stream) => {
   return stream;
 }
 
-export const scan_ui =  {
-  id: "PROG_SCAN",
-  class: "reactive",
-  description: "Scan",
-  tags: ["fold","accumulate","reduce"],
-  help: ["For each input `x`, calculate f(x) and accumulate result"],
-  func: scan,
+export const count_ui =  {
+  id: "PROG_COUNT",
+  class: "tool",
+  description: "Count",
+  tags: ["length","size"],
+  help: ["Count the number of values in the stream depending of the predicate"],
+  func: count_items,
   ui: [
     [
       {widget:"label",title: "Result"}, 
-      {widget: "output",name:"value:any"}
+      {widget: "output",name:"result:any"}
     ],
     [
       {widget: "input",name: "x:any"},
       {widget:"label",title: "x"}
     ],
     [
-      {widget: "input",state: 0,name: "init:any"},
-      {widget:"label",title: "Init"}
-    ],
-    [
       {widget:"button", state: "",icon: 'floppy-o',title: 'Save',name: "save:boolean"}
     ],
     [
-      {widget:"textarea", state: "(accu,x) => (accu = x);\n",name: "code:string"}
+      {widget:"textarea", state: "(x) => true\n",name: "code:string"}
     ]
   ]
 };

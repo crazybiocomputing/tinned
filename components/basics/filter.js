@@ -28,6 +28,11 @@
 const filter = (node) => (stream) => {
   // Get params + source.s
   let sourceObservable = stream[node.sources[0]];
+  if (node.data.state.save) {
+    // Update code from textarea
+    node.data.state.code = document.querySelector(`#code__AT__${node.id}`).value;
+    node.data.state.save = false;
+  }
   const code = node.data.state.code;
   const predicate = new Function('x','const foo = ' + code + '\nreturn foo(x);');
   // Create Observable
@@ -57,7 +62,10 @@ export const filter_ui =  {
       {widget:"label",title: "x"}
     ],
     [
-      {widget:"textarea", state: "(x) => x;\n",name: "code:string"}
+      {widget:"button", state: "",icon: 'floppy-o',title: 'Save',name: "save:boolean"}
+    ],
+    [
+      {widget:"textarea", state: "(x) => true;\n",name: "code:string"}
     ]
   ]
 };
