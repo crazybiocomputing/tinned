@@ -2,7 +2,7 @@
 
 _Pullable node emitting a text line_
 
-| !(img/string.png) |
+| ![string Node](img/string.png) |
 |------------------------|
 |Legend|
 
