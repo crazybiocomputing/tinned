@@ -29,11 +29,16 @@ import {map as cbag_map} from '../../callbags/callbag-map.js';
 // MAP operator
 const map = (node) => (stream) => {
   // Get params + source.s
-  let sourceObservable = stream[node.sources[0]];
+  const source$ = stream[node.sources[0]];
+  if (node.data.state.save) {
+    // Update code from textarea
+    node.data.state.code = document.querySelector(`#code__AT__${node.id}`).value;
+    node.data.state.save = false;
+  }
   const code = node.data.state.code;
   const mapFunc = new Function('x','const foo = ' + code + '\nreturn foo(x);');
   // Create Observable
-  const obs = cbag_map(mapFunc)(sourceObservable);
+  const obs = cbag_map(mapFunc)(source$);
   // Store observable in stream
   node.targets.forEach( key => {
     stream[key] = obs;  
@@ -57,6 +62,9 @@ export const map_ui =  {
     [
       {widget: "input",name: "x:any"},
       {widget:"label",title: "x"}
+    ],
+    [
+      {widget:"button", state: "",icon: 'floppy-o',title: 'Save',name: "save:boolean"}
     ],
     [
       {widget:"textarea", state: "(x) => x;\n",name: "code:string"}

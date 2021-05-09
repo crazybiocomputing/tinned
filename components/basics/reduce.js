@@ -24,18 +24,29 @@
 
 'use strict';
 
+import {of} from '../../callbags/callbag-of.js';
 import {scan} from '../../callbags/callbag-scan.js';
 import {last} from '../../callbags/callbag-last.js';
 import {pipe} from '../../callbags/callbag-pipe.js';
+import {observe} from '../../callbags/callbag-observe.js';
+
 
 // Filter operator
 const reduce = (node) => (stream) => {
   // Get params + source.s
-  let sourceObservable = stream[node.sources[0]];
+  let source$ = stream[node.sources[0]];
+  let init;
+  observe((x) => init = x)(stream[node.sources[1]] || of(0));
+  // Update code if required
+  if (node.data.state.save) {
+    // Update code from textarea
+    node.data.state.code = document.querySelector(`#code__AT__${node.id}`).value;
+    node.data.state.save = false;
+  }
   const code = node.data.state.code;
   const redux = new Function('accu','x','const foo = ' + code + '\nreturn foo(accu,x);');
   // Create Observable
-  const obs = pipe(scan(redux,init),last)(sourceObservable);
+  const obs = pipe(source$,scan(redux,init),last());
   // Store observable in stream
   node.targets.forEach( key => {
     stream[key] = obs;  
@@ -63,6 +74,9 @@ export const reduce_ui =  {
     [
       {widget: "input",name: "init:any"},
       {widget:"label",title: "Init"}
+    ],
+    [
+      {widget:"button", state: "",icon: 'floppy-o',title: 'Save',name: "save:boolean"}
     ],
     [
       {widget:"textarea", state: "(accu,x) => (accu = x);\n",name: "code:string"}

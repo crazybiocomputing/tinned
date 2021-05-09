@@ -25,23 +25,27 @@
 'use strict';
 
 import {pipe} from '../../callbags/callbag-pipe.js';
-import {flatMap} from '../../callbags/callbag-flat-map.js';
+import {fromIter} from '../../callbags/callbag-from-iter.js';
+import {switchMap} from '../../callbags/callbag-switch-map.js';
 
 const none = (x,y) => x;
 const add = (x,y) => x + y;
 const sub = (x,y) => x - y;
 const mul = (x,y) => x * y;
 const div = (x,y) => x / y;
-const operators = {None: none,Add: add,Subtract: sub,Multiply: mul,Divide: div};
+const modulo = (x,y) => x % y;
+const diff = (x,y) => Math.abs(x - y);
+
+const operators = {None: none,Add: add,Subtract: sub,Multiply: mul,Divide: div,Modulo: modulo};
 
 const math = (node) => (stream) => {
   // Get source(s)
   const sourceX$ = stream[node.sources[0]];
-  const sourceY$ = stream[node.sources[1]];
+  const sourceY$ = stream[node.sources[1]] || ((node.data.state.op === 'Divide') ? fromIter([1]) : fromIter([0]) );
   // Create a new Observable
   const source$ =  pipe(
     sourceX$,
-    flatMap(y => sourceY$,(x,y) => operators[node.data.state?.op || 'None'](x,y) )
+    switchMap(y => sourceY$,(x,y) => {console.log(x,y); return operators[node.data.state?.op || 'None'](x,y) }),
   );
 
   // Create observable
@@ -58,7 +62,7 @@ export const math_ui = {
   class: "programming",
   description: "Arithmetic",
   help: "Arithmetic operations",
-  tags: ["programming","maths","add", "subtract", "multiply", "divide"],
+  tags: ["programming","maths","add", "subtract", "multiply", "divide","modulo"],
   func: math,
   ui: [
     [
@@ -67,7 +71,7 @@ export const math_ui = {
     ],
     [
       {widget: "label", title: "Op."},
-      {widget: "select", state: 0, name: "op:string", "items": ["None","Add","Subtract","Multiply","Divide","AND","OR","XOR"]},
+      {widget: "select", state: 0, name: "op:string", "items": ["None","Add","Subtract","Multiply","Divide","Modulo"]},
     ],
     [
       {widget: "input", name: "x:any"},

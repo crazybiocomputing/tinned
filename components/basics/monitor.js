@@ -24,28 +24,45 @@
 
 'use strict';
 
+import {pipe} from '../../callbags/callbag-pipe.js';
+import {map} from '../../callbags/callbag-map.js';
 import {subscribe} from '../../callbags/callbag-subscribe.js';
 
 const monitor = (node) => (stream) => {
   // Get source
   let source$ = stream[node.sources[0]];
   const textarea = document.querySelector(`#node_${node.id} textarea`);
+  const button = document.querySelector(`#refresh__AT__${node.id}`);
 
-  subscribe({
-    next: val => {
-      // Update node
-      if (typeof val === 'object') {
-        val = JSON.stringify(val);
-      }
-      node.data.state.log += val + '\n';
-      textarea.innerHTML = node.data.state?.log;
-    },
-    complete: () => {
-      node.data.state.log += 'Completed!\n';
-      textarea.innerHTML = node.data.state?.log;
-    },
-    error: err => alert( err )
-  })(source$);
+  const refreshLog = () => {
+    if (node.data.state.refresh) {
+      // Update code from textarea
+      node.data.state.log = ''; // Reset
+      node.data.state.refresh = false;
+    }
+  }
+
+
+  pipe(
+    source$,
+    subscribe({
+      next: val => {
+        // Refresh if required
+        // TODO refreshLog();
+        // Update node
+        if (typeof val === 'object') {
+          val = JSON.stringify(val);
+        }
+        node.data.state.log += val + '\n';
+        textarea.innerHTML = node.data.state?.log;
+      },
+      complete: () => {
+        node.data.state.log += 'Completed!\n';
+        textarea.innerHTML = node.data.state?.log;
+      },
+      error: err => alert( err )
+    })
+  );
  
   return stream;
 }
@@ -63,10 +80,38 @@ export const monitor_ui = {
       {widget:"label",title: "Data"}
     ],
     [
-      {widget:"textarea", state: "",name: "log:string"}
+      {widget:'button', state: false, icon:'refresh',title: 'Refresh',name: 'refresh:boolean'}
     ],
     [
-      {widget:'button', state: 0, button:'Refresh <i class="fa fa-refresh"></i>',name: 'refresh:string'}
-    ]
+      {widget:"textarea", state: "",attrs: {readonly:true}, name: "log:string"}
+    ],
+
   ]
 };
+
+/*
+Other possible syntaxes ....
+ui: [
+  {
+    widget:"textarea", 
+    name: "log:string", 
+    state: '',
+    attrs: {readonly:true}
+  }
+]
+
+  DOM.div('.insocket',
+    {},
+    [
+      DOM.button(
+        '#datain.movable',
+        {
+          dataset: {type: any}
+        },
+        [DOM.h('i.fa.fa-chevron-circle-right')]
+      )
+    ]
+  )
+]
+
+*/

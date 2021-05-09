@@ -24,11 +24,34 @@
 
 'use strict';
 
+import {TINNED} from '../../tinned.js';
+import * as DOM from '../../dom/dom.js';
+
 /**
    * Widget 
    * @author Jean-Christophe Taveau
    */
 export const button = (id,template_row,metadata,action_func) => {
+
+  let [_key,_type] = template_row.name.split(':');
+  let _button = DOM.h(
+    `a#${_key}__AT__${id}.button`,
+    {
+      attrs: { 
+        name: template_row.name || 'unknown',
+        href: '#',
+        title: template_row.title || 'No Tooltip'
+      },
+      style: {
+        display: template_row.display
+      },
+      dataset: {
+        type: _type
+      }
+    },
+    (template_row.icon) ? [DOM.h(`i.fa.fa-${template_row.icon}`)] : template_row.button);
+    
+/*
   let e = document.createElement('a');
   e.id = `${template_row.name || 'unknown'}__AT__${id}`;
   e.className = 'button';
@@ -47,6 +70,15 @@ export const button = (id,template_row,metadata,action_func) => {
   if ( template_row.display) {
     e.style.display = template_row.display;
   }
-  e.addEventListener('click',action_func);
-  return e;
+*/
+  let clicked = false;
+
+  _button.addEventListener('click',(ev) => {
+    const element = ev.target;
+    let [key,nid] = element.id.split('__AT__');
+    TINNED.graph.getNode(parseInt(nid)).data.state[key] = !clicked;
+    // Update 
+    TINNED.graph.update(id);
+  });
+  return _button;
 }

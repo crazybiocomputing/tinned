@@ -29,7 +29,11 @@ import {share} from '../../callbags/callbag-share.js';
 
 const objectNew = (node) => (stream) => {
   // Params
-  console.log(node.data.state?.list);
+  if (node.data.state.save) {
+    // Update code from textarea
+    node.data.state.data = document.querySelector(`#data__AT__${node.id}`).value;
+    node.data.state.save = false;
+  }
   let obj = new Function( `return ${node.data.state?.data || '{}'}`)();
   // Create multicast observable
   const obs = share(of(obj));
@@ -50,6 +54,9 @@ export const object_ui =  {
     [
       {widget:"label",title: "Result"}, 
       {widget: "output",name:"value:any"}
+    ],
+    [
+      {widget:"button", state: "",icon: 'floppy-o',title: 'Save',name: "save:boolean"}
     ],
     [
       {widget:"textarea", state: "{\n  project: 'tinned',\n  lang: 'JS'\n}",name: "data:object"}

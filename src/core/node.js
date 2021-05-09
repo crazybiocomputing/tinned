@@ -167,6 +167,7 @@ export class Node extends Draggable {
       const args = Object.keys(this.data.state).reduce( (txt,key,i) => {
         let msg = this.data.state[key];
         let type = this.data.types[i] || '';
+        // Create a new title in the banner including arguments of main widgets
         if (['checkbox','numerical','select','text','textarea'].includes(type)) {
           msg = (typeof msg === 'string' && [...msg].filter(ch => ch === '\n').length > 1) ? '..' : msg;
           txt = (i === 0) ? txt + msg : txt + ',' + msg; 
