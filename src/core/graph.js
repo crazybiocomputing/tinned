@@ -282,6 +282,32 @@ export class Graph {
 
   }
 
+  removeNode(_id) {
+    const index = this.vertices.findIndex( n => n.id === _id);
+    const vertex = this.vertices[index];
+    // Remove HTML element
+    vertex.element.remove();
+    // Remove Edges connected to this vertex/node
+    this.removeEdgesFrom(_id);
+    // Remove node from DB
+    this.vertices.splice(index,1);
+  }
+
+  removeEdgesFrom(_id) {
+    const index = this.vertices.findIndex( n => n.id === _id);
+    const vertex = this.vertices[index];
+    const insocks = vertex.getSockets(1);
+    const outsocks = vertex.getSockets(2);
+    console.log(insocks);
+    insocks.forEach( sock => 
+      this.edges.forEach( (e,i) => {
+        if (sock.name === e.target) {
+          this.edges.splice(i,1);
+        }
+      })
+    )
+  }
+
   removeDuplicate(e){
     let dupl = this.edges.findIndex(edge => edge.target === e.target);
     if (dupl !== -1 && dupl !== this.edges.length -1){
