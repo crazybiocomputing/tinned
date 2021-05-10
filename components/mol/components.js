@@ -59,14 +59,14 @@ export const components = basics.concat([
     ui: [
       [
         {widget: "label", title: "Atoms"},
-        {widget: "output", name: "molout:mol" }
+        {widget: "output", name: "molout:molecule" }
       ],
       [
         {widget: "label", title: "Color"},
         {widget: "color", state: "0xff0000",name: "color:string"},
       ],
       [
-        {widget: "input", name: "molin:mol"},
+        {widget: "input", name: "molin:molecule"},
         {widget: "label", title: "Atoms"}
       ]
     ]
@@ -88,7 +88,7 @@ export const components = basics.concat([
         {widget: "text", state: '*',name: "name:string"}
       ],
       [
-        {widget: "input", name: "molin:mol"},
+        {widget: "input", name: "molin:molecule"},
         {widget: "label", title: "Atoms"}
       ]
     ]

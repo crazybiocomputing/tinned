@@ -67,7 +67,7 @@ export const mol_renderer_ui =   {
   ui: [
     [
       {widget: "label", title: "Atoms"},
-      {widget: "output", name: "molout:mol" }
+      {widget: "output", name: "molout:molecule" }
     ],
     [        
       {widget: "label", title: "Color"},
@@ -83,7 +83,7 @@ export const mol_renderer_ui =   {
       {widget: "select", state: 0, name: "rendermode:string", "items": ["Trace","Backbone","Wireframe","Strands","Ball-and-Stick","Cartoon"]},
     ],
     [
-      {widget: "input", name: "molin:mol"},
+      {widget: "input", name: "molin:molecule"},
       {widget: "label", title: "Atoms"}
     ]
   ]
