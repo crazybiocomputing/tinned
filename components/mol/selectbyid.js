@@ -116,7 +116,7 @@ export const selectbyid_ui =     {
   ui: [
     [
       {widget: "label", title: "Atoms"},
-      {widget: "output", name: "molout:mol" }
+      {widget: "output", name: "molout:molecule" }
     ],
     [        
       {widget: "label", title: "Type"},
@@ -152,7 +152,7 @@ export const selectbyid_ui =     {
       {widget: "text", state: '*',name: "symbol:string"}
     ],
     [
-      {widget: "input", name: "molin:mol"},
+      {widget: "input", name: "molin:molecule"},
       {widget: "label", title: "Atoms"}
     ]
   ]

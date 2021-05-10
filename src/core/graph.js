@@ -341,7 +341,6 @@ export class Graph {
       //Update SVG
       document.querySelector(`main svg #e_${this.edges[dupl].eid}`).remove();
       this.edges.splice(dupl,1);
-      this.updateAllEdges();
     }
   }
 
@@ -418,9 +417,11 @@ export class Graph {
         if (s.dataset.edge !== undefined) {
           JSON.parse(s.dataset.edge).forEach( (e) => {
             let line = document.getElementById( `e_${e}`);
-            let start = this.getCoords(s);
-            line.setAttribute('x1',start.x);
-            line.setAttribute('y1',start.y);
+            if (line){
+              let start = this.getCoords(s);
+              line.setAttribute('x1',start.x);
+              line.setAttribute('y1',start.y);
+            }
           });
         }
       });
@@ -432,9 +433,11 @@ export class Graph {
           if (t.dataset.edge !== undefined) {
             JSON.parse(t.dataset.edge).forEach( (e) => {
               let line = document.getElementById(`e_${e}`);
-              let end = this.getCoords(t);
-              line.setAttribute('x2',end.x);
-              line.setAttribute('y2',end.y);
+              if (line){
+                let end = this.getCoords(t);
+                line.setAttribute('x2',end.x);
+                line.setAttribute('y2',end.y);
+              }
             });
           }
         });
@@ -443,10 +446,12 @@ export class Graph {
         targets.forEach( t => {
           if (t.dataset.edge !== undefined) {
             let line = document.getElementById(`e_${t.dataset.edge}`);
-            let end = this.getCoords(t);
-            line.setAttribute('x2',end.x);
-            line.setAttribute('y2',end.y);
-          }
+            if (line){
+              let end = this.getCoords(t);
+              line.setAttribute('x2',end.x);
+              line.setAttribute('y2',end.y);
+            }
+        }
         });
       }
     }
