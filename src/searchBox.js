@@ -42,7 +42,7 @@ export const searchBox = (parent,tags) => {
 
     // New node
     const newNode = (e) => {
-      // Step #1 - Add new nod
+      // Step #1 - Add new node
       document.querySelector("#searchbar").value = "";
       id.innerHTML = "";
       TINNED.graph.appendNode(e.target.attributes[1].nodeValue,-1,{meta: {pos:[posX,posY]},state: {}});
