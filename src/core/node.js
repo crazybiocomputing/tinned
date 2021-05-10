@@ -47,8 +47,9 @@ export class Node extends Draggable {
     this.id = id;
     console.log('NODE',id);
     this.sources = [];
-    this.targets = [];
+    this.targets = []; // TODO
     this.template = template; // Useful?
+    this.shrinkMode = false;
 
     // Step #1 - Set states
     // Init default states
@@ -102,6 +103,15 @@ export class Node extends Draggable {
       const type = (p.input)  ? 'TO' : ( (p.output) ? 'FROM': 'AT');
       return `${p.name}__${type}__${this.id}`;
     });
+  }
+
+  getSockets(type = 3) {
+    // type = 1 input
+    // type = 2 output
+    // type = 3 input + output
+    let socks = ( (type & 1) === 1) ? this.template.ui.flat().filter( p => p.widget === 'input') : [];
+    socks = ( (type & 2) === 2) ? this.template.ui.flat().filter( p => p.widget === 'output') : socks;
+    return socks;
   }
 
   /**
@@ -159,18 +169,21 @@ export class Node extends Draggable {
   }
 
   shrink(element) {
+    this.shrinkMode = !this.shrinkMode;
     element.classList.toggle('shrink');
 
     // Update banner
     const banner = element.querySelector('.banner .description');
     if (element.classList.contains('shrink')) {
+      let count = 0;
       const args = Object.keys(this.data.state).reduce( (txt,key,i) => {
         let msg = this.data.state[key];
         let type = this.data.types[i] || '';
         // Create a new title in the banner including arguments of main widgets
         if (['checkbox','numerical','select','text','textarea'].includes(type)) {
           msg = (typeof msg === 'string' && [...msg].filter(ch => ch === '\n').length > 1) ? '..' : msg;
-          txt = (i === 0) ? txt + msg : txt + ',' + msg; 
+          txt = (count === 0) ? txt + msg : txt + ',' + msg; 
+          count++;
         }
         return txt;
       },'');
@@ -203,6 +216,8 @@ export class Node extends Draggable {
       NodeCreator.createHamburger(nodeElement,preview);
     }
     
+    const removeNode = (_id) => (event) => TINNED.graph.removeNode(_id);
+
     // M A I N
     
     let nodeH = this.element;
@@ -231,12 +246,12 @@ export class Node extends Draggable {
           [
             DOM.div('.flex-cell',
             [
-              DOM.a('#hambuger__AT__bars',
+              DOM.a('#close__AT__bars',
               {
-                props: {href: '#',title: "Tools"},
-                on: {click: openTools(template.preview)}           
+                props: {href: '#',title: "Remove..."},
+                on: {click: removeNode(id)}           
               },
-              [DOM.h('i.fa.fa-bars')]
+              [DOM.h('i.fa.fa-times')]
               )
             ])
           ])

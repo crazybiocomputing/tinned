@@ -285,27 +285,53 @@ export class Graph {
   removeNode(_id) {
     const index = this.vertices.findIndex( n => n.id === _id);
     const vertex = this.vertices[index];
-    // Remove HTML element
+    // Step #1 - Remove HTML element
     vertex.element.remove();
-    // Remove Edges connected to this vertex/node
-    this.removeEdgesFrom(_id);
-    // Remove node from DB
+    // Step #2 - Remove Edges connected to this vertex/node
+    this.removeEdgesAt(_id);
+    // Step #3 - Remove node from DB
     this.vertices.splice(index,1);
+    console.log(this);
+    // Step #4 - Remove vertex in adjacencyList
+    delete this.adjacencyList[_id];
+    // Object.keys(this.adjacencyList).forEach( key => this.adjacencyList[key]);
+    //this.updateAllEdges();
   }
 
-  removeEdgesFrom(_id) {
+  removeEdgesAt(_id) {
     const index = this.vertices.findIndex( n => n.id === _id);
     const vertex = this.vertices[index];
-    const insocks = vertex.getSockets(1);
-    const outsocks = vertex.getSockets(2);
-    console.log(insocks);
-    insocks.forEach( sock => 
+    const insocks = vertex.getSockets(1); // Input socket(s)
+    const outsocks = vertex.getSockets(2); // Output socket(s)
+    // Input sockets
+    insocks.forEach( sock => {
+      let sname = `${sock.name.split(':')[0]}@${_id}`;
       this.edges.forEach( (e,i) => {
-        if (sock.name === e.target) {
+        if (sname === e.target) {
+          // Remove in svg
+          document.querySelector(`svg #e_${e.eid}`).remove();
+          // Remove in targets
+          vertex.targets.push(e.target);
           this.edges.splice(i,1);
         }
-      })
-    )
+      });
+    });
+    // Output sockets
+    console.log('SOCKS',insocks,outsocks);
+    outsocks.forEach( sock => {
+      let sname = `${sock.name.split(':')[0]}@${_id}`;
+      this.edges.forEach( (e,i) => {
+        console.log(i);
+        if (sname === e.source) {
+          console.log('REMOVE EDGE@SOCK',sock.name,sname,i);
+          // Remove in svg
+          document.querySelector(`svg #e_${e.eid}`).remove();
+          // Remove in targets
+          vertex.sources.push(e.source);
+          this.edges.splice(i,1);
+        }
+      });
+    });
   }
 
   removeDuplicate(e){
@@ -327,9 +353,12 @@ export class Graph {
    * @author Jean-Christophe Taveau
    */
   updateAllEdges() {
+    this.edges.forEach(edge => this.updateEdge(edge));
+    /*
     this.vertices.forEach( n => {
       this.updateEdges(n.element, n.element.classList?.contains('shrink') );
     });
+    */
   }
 
   /**
@@ -340,7 +369,47 @@ export class Graph {
    *
    * @author Jean-Christophe Taveau
    */
-  updateEdges(node,shrinkMode = false) {
+   updateEdges(node,shrinkMode = false) {
+    // Find edges connected to node
+    const vID = +node.id.split('_')[1];
+    const connected = this.edges.filter(e => e.sourceID === vID || e.targetID === vID);
+    // Draw edge.s
+    connected.forEach(edge => this.updateEdge(edge) );
+   }
+
+  updateEdge(edge) {
+    // source
+    const [socketS,vertexS] = edge.source.split('@');
+    // target
+    const [socketT,vertexT] = edge.target.split('@');
+    // Get HTML elements (input socket and output socket)
+    let shrinkMode = this.getNode(+vertexS).shrinkMode;
+    const s = (shrinkMode) ? 
+      document.querySelector(`#node_${vertexS} .out_socket`) : 
+      document.querySelector(`#${socketS}__OUT__${vertexS}`);
+    shrinkMode = this.getNode(+vertexT).shrinkMode;
+    const t = (shrinkMode) ? 
+      document.querySelector(`#node_${vertexT} .in_socket`) : 
+      document.querySelector(`#${socketT}__IN__${vertexT}`);
+    // Draw line
+    let line = document.getElementById( `e_${edge.eid}`);
+    let start = this.getCoords(s);
+    line.setAttribute('x1',start.x);
+    line.setAttribute('y1',start.y);
+    let end = this.getCoords(t);
+    line.setAttribute('x2',end.x);
+    line.setAttribute('y2',end.y);
+  }
+
+  /**
+   * Update edges of a specific node
+   *
+   * @param {node} node - Node whose edges must be updated
+   * @param {boolean} shrinkMode - State of the node appearance (shrinked or expanded)
+   *
+   * @author Jean-Christophe Taveau
+   */
+   updateEdges_Obsolete(node,shrinkMode = false) {
     // Get Edge ID
     // let src_eid = document.querySelector(`#${node.id} .input button`);
     let sources = (shrinkMode) ? document.querySelectorAll(`#${node.id} .out_socket`) : document.querySelectorAll(`#${node.id} .output button`);

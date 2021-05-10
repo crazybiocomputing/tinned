@@ -83,14 +83,15 @@ export class NodeCreator {
   }
 
 
+ 
   /**
    * Create Hamburger Menu of Node
    *
    * @author Jean-Christophe Taveau
    */
-  static createHamburger(parent,preview) {
+   static createHamburger(parent,preview) {
   
-        // Preview Action
+    // Preview Action
       const preview_action = (evt) => {
         let eye = document.querySelector('.hamburger #hamburger__AT__eye');
         let eye_shut = document.querySelector('.hamburger #hamburger__AT__eye-slash');

@@ -38,7 +38,7 @@ export const button = (id,template_row,metadata,action_func) => {
     `a#${_key}__AT__${id}.button`,
     {
       attrs: { 
-        name: template_row.name || 'unknown',
+        name: _key || 'unknown',
         href: '#',
         title: template_row.title || 'No Tooltip'
       },

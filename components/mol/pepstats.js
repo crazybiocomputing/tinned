@@ -77,7 +77,7 @@ export const pepstats_ui =   {
     ],
     [
       {widget: "label", title: "Distribution"},
-      {widget: "output", name: "aacounts:string" }
+      {widget: "output", name: "aacounts:[point]" }
     ],
     [
       {widget: "label", title: "Props Distribution"},
