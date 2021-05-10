@@ -51,7 +51,6 @@ export const searchBox = (parent,tags) => {
       searchbox.style.display = 'none';
     };
 
-
     // MAIN
     id.innerHTML = '';
     _tags.forEach((t) => {
@@ -149,7 +148,7 @@ export const searchBox = (parent,tags) => {
     ev.preventDefault();
   }*/
   parent.onmousedown= (ev) =>{
-    if (ev.which===1){
+    if (ev.which === 1) {
       openSearchbox(ev);
       }
     }
