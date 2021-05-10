@@ -99,7 +99,7 @@ export const searchBox = (parent,tags) => {
     searchbox.style.display = 'none';
     searchbox.style.position = 'absolute';    
     searchbox.addEventListener('click',(e) => e.stopPropagation());
-    let header = DOM.div('.header.search',[DOM.h('p','Searchbox'),DOM.a('.close','X')]);
+    let header = DOM.div('.header.search',[DOM.h('p','Searchbox'),DOM.a('.close',[DOM.h('i.fa.fa-times')])]);
     let body = DOM.div('.body');
     let wrapper=DOM.input('#searchbar',
         {

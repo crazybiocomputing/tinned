@@ -42,6 +42,7 @@ export class Graph {
     this.adjacencyList = {};
     this.context; // svg or canvas/webgl?
     this.root; // HTML Parent node for all the vertices??
+    this.disposals = [];
   }
 
   build(json) {
@@ -282,6 +283,10 @@ export class Graph {
 
   }
 
+  dispose() {
+    this.disposals.forEach(disposeFunc => disposeFunc());
+  }
+  
   removeNode(_id) {
     const index = this.vertices.findIndex( n => n.id === _id);
     const vertex = this.vertices[index];
@@ -294,8 +299,14 @@ export class Graph {
     console.log(this);
     // Step #4 - Remove vertex in adjacencyList
     delete this.adjacencyList[_id];
+    Object.keys(this.adjacencyList).forEach( key => 
+      this.adjacencyList[key] = this.adjacencyList[key].filter( (ident) => ident !== _id)
+    );
     // Object.keys(this.adjacencyList).forEach( key => this.adjacencyList[key]);
     //this.updateAllEdges();
+    // Stop the stream
+    this.dispose();
+    console.log(this);
   }
 
   removeEdgesAt(_id) {
@@ -310,8 +321,7 @@ export class Graph {
         if (sname === e.target) {
           // Remove in svg
           document.querySelector(`svg #e_${e.eid}`).remove();
-          // Remove in targets
-          vertex.targets.push(e.target);
+          // Remove edge
           this.edges.splice(i,1);
         }
       });
@@ -323,24 +333,46 @@ export class Graph {
       this.edges.forEach( (e,i) => {
         console.log(i);
         if (sname === e.source) {
-          console.log('REMOVE EDGE@SOCK',sock.name,sname,i);
           // Remove in svg
           document.querySelector(`svg #e_${e.eid}`).remove();
-          // Remove in targets
-          vertex.sources.push(e.source);
+          // Remove edge
           this.edges.splice(i,1);
         }
       });
     });
   }
 
+  // TODO
+  removeEdge(edge) {
+    // Remove in svg
+    document.querySelector(`svg #e_${edge.eid}`).remove();
+    // Update connected vertices via input and output sockets
+    //this.getNode(edge.sourceID).targets
+    //this.getNode(edge.targetID).sources
+    // Update adjacencyList
+    delete this.adjacencyList[edge.sourceID];
+    Object.keys(this.adjacencyList).forEach( key => 
+      this.adjacencyList[key] = this.adjacencyList[key].filter( (ident) => ident !== edge.sourceID)
+    );
+    // Remove Edge from DB
+    let eindex = this.edges.findIndex(e => e.eid === edge.eid);
+    this.edges.splice(eindex,1);
+    // Stop and Re-run stream
+    this.dispose();
+    this.run();
+  }
+
+
   removeDuplicate(e){
     let dupl = this.edges.findIndex(edge => edge.target === e.target);
     if (dupl !== -1 && dupl !== this.edges.length -1){
+      this.removeEdge(this.edges[dupl]);
+      /*
       console.log(dupl);
       //Update SVG
       document.querySelector(`main svg #e_${this.edges[dupl].eid}`).remove();
       this.edges.splice(dupl,1);
+      */
     }
   }
 

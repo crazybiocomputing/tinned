@@ -181,7 +181,7 @@ export class Node extends Draggable {
         let type = this.data.types[i] || '';
         // Create a new title in the banner including arguments of main widgets
         if (['checkbox','numerical','select','text','textarea'].includes(type)) {
-          msg = (typeof msg === 'string' && [...msg].filter(ch => ch === '\n').length > 1) ? '..' : msg;
+          msg = (typeof msg === 'string' && (msg.length > 40 ||  [...msg].filter(ch => ch === '\n').length > 1)) ? '..' : msg;
           txt = (count === 0) ? txt + msg : txt + ',' + msg; 
           count++;
         }

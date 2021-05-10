@@ -24,10 +24,11 @@
 
 'use strict';
 
+import {filter as cbag_filter} from '../../callbags/callbag-filter.js';
 // Filter operator
 const filter = (node) => (stream) => {
   // Get params + source.s
-  let sourceObservable = stream[node.sources[0]];
+  let source$ = stream[node.sources[0]];
   if (node.data.state.save) {
     // Update code from textarea
     node.data.state.code = document.querySelector(`#code__AT__${node.id}`).value;
@@ -36,7 +37,7 @@ const filter = (node) => (stream) => {
   const code = node.data.state.code;
   const predicate = new Function('x','const foo = ' + code + '\nreturn foo(x);');
   // Create Observable
-  const obs = sourceObservable.filter(predicate)();
+  const obs = cbag_filter(predicate)(source$);
   // Store observable in stream
   node.targets.forEach( key => {
     stream[key] = obs;  

@@ -27,6 +27,7 @@
 import {pipe} from '../../callbags/callbag-pipe.js';
 import {map} from '../../callbags/callbag-map.js';
 import {subscribe} from '../../callbags/callbag-subscribe.js';
+import { TINNED } from '../../src/tinned.js';
 
 const monitor = (node) => (stream) => {
   // Get source
@@ -43,7 +44,7 @@ const monitor = (node) => (stream) => {
   }
 
 
-  pipe(
+  const dispose = pipe(
     source$,
     subscribe({
       next: val => {
@@ -64,6 +65,7 @@ const monitor = (node) => (stream) => {
     })
   );
  
+  TINNED.graph.disposals.push(dispose);
   return stream;
 }
 
