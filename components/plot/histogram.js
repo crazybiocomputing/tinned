@@ -25,8 +25,7 @@
 'use strict';
 
 
-import {Observable} from '../../src/core/observable.js';
-import {_barchart} from './_barchart.js';
+import {_barchart} from './charts/_barchart.js';
 
 /**
  * Simple barchart
