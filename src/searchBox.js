@@ -20,6 +20,9 @@
  *
  * Authors:
  * Jean-Christophe Taveau
+ * Quentin Blechet
+ * Marc Meynadier
+ * Arnaud Simon
  */
 
 'use strict';
@@ -28,8 +31,8 @@ import {TINNED} from './tinned.js';
 import * as DOM from './dom/dom.js';
 
 /**
- * @param {dom} element - HTML parent element
- * @param {array} titles - [{id:<string>,description: <string>,tags: [<string>, ...]},...]
+ * @param {dom} element
+ * @param {array} titles
  */
 export const searchBox = (parent,tags) => {
 
@@ -40,19 +43,17 @@ export const searchBox = (parent,tags) => {
 
   const displayNode = (id,_tags) => {
 
-    // New node
     const newNode = (e) => {
+<<<<<<< HEAD
       // Step #1 - Add new node
+=======
+>>>>>>> 78048120190bb37ac79b571c0eab99471f12bdd1
       document.querySelector("#searchbar").value = "";
       id.innerHTML = "";
       TINNED.graph.appendNode(e.target.attributes[1].nodeValue,-1,{meta: {pos:[posX,posY]},state: {}});
-      // Step #2 - Add new eventlistener for drawing edge between sockets
-      // Step #3 - Close searchbox
       searchbox.style.display = 'none';
     };
 
-
-    // MAIN
     id.innerHTML = '';
     _tags.forEach((t) => {
       let el = DOM.h('li.filtered', {},
@@ -69,7 +70,7 @@ export const searchBox = (parent,tags) => {
             nodeid: t.id
           }
         },
-        t.description),
+        `${t.description} : ${t.class}`),
         DOM.h('p',t.tags.join(", "))
       ]);
       id.appendChild(el);
@@ -142,12 +143,6 @@ export const searchBox = (parent,tags) => {
   }
 
   board_id.appendChild(displaySearchbox());
-  /*document.onkeydown= (ev) =>{
-  if (ev.keyCode===32){
-    parent.addEventListener('mousedown',openSearchbox);
-    }
-    ev.preventDefault();
-  }*/
   parent.onmousedown= (ev) =>{
     if (ev.which===1){
       openSearchbox(ev);
@@ -157,7 +152,4 @@ export const searchBox = (parent,tags) => {
   if (document.querySelector(".close")){
     document.querySelector(".close").addEventListener('click',closeSearchbox);
   }
-  /*if (document.querySelector(".movable")){
-    document.querySelector(".movable").addEventListener('click',closeSearchbox);
-  }*/
 };
