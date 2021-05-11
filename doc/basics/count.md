@@ -2,7 +2,7 @@
 
 _Count the number of elements passing via the stream_
 
-| Screenshot of the node |
+| ![node Count](img/count.png) |
 |------------------------|
 |Legend|
 
