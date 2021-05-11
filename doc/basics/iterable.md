@@ -32,7 +32,9 @@ _Description_
 
 ### Other Data Structures
 
-This is only for expert programmer because we have to wrap the data into a IIFE function.
+You may define Map, Set.
+
+> **Note**: This is only for expert programmer because we have to wrap the data into a IIFE function.
 
 For example, a Map object may be defined as follows.
 
