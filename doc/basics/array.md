@@ -26,4 +26,4 @@ _The output is an Array. The behavior is different of the node [Iterable](./iter
 ## Example
 ## Related Nodes
 
-_[Iterable](./iterable.md)_: Most of the time, the Node _[Iterable](./iterable.md)_ is preferred because we want to _pull_ each item in the stream rather than the whole array.
+_[Iterable](./iterable.md)_: Most of the time, the Node _[Iterable](./iterable.md)_ is preferred because we want to _pull_ each item in the stream rather than the whole array in one single _pull_.
