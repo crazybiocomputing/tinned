@@ -1,6 +1,6 @@
 # Count
 
-_Count the number of elements passing via the stream _
+_Count the number of elements passing via the stream_
 
 | Screenshot of the node |
 |------------------------|
