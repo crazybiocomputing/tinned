@@ -20,6 +20,7 @@ _Description_
 ## Outputs
 
 ### Output Name
-    _The output is an Array. The behavior is different of the node [Iterable](./iterable.md)_
+
+_The output is an Array. The behavior is different of the node [Iterable](./iterable.md)_
 
 ## Example
