@@ -72,6 +72,24 @@ _A number corresponding to the number of elements passing through the stream_.
 
 ## Example
 
+### Visual code
+
 | ![count.png](img/count_example.png) |
 |-------------------------------------|
 |In the upper path, we are counting all the numbers emitted by the node `range(0,100,1)` whereas the lower path only counts the number multiple of 3.|
+
+### JavaScript Code
+
+```javascript
+import * as cbag from './callbags.js';
+
+// Create the series of 100 numbers from 0 to 99
+const source$ = cbag.fromIter(Array.from({length: 100}, (_,i) => i);
+
+// Run the stream
+cbag.pipe(
+  source$,
+  cbag.count( x => true),
+  cbag.subscribe(val => console.log(val))
+);
+```
