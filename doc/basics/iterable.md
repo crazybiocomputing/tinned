@@ -39,9 +39,10 @@ You may define Map, Set.
 For example, a Map object may be defined as follows.
 
 ```javascript
-(()=>{let map = new Map();
-map.set('a',100);
-return map;
+( () => {
+  let map = new Map();
+  map.set('a',100);
+  return map;
 })()
 ```
 
