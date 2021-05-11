@@ -1,6 +1,6 @@
 # Iterable
 
-_Stream an iterable primitive/object (String, Array, etc.)_
+_Pullable Node emitting a stream of an iterable primitive/object (String, Array, etc.)_
 
 | Screenshot of the node |
 |------------------------|
