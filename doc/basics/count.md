@@ -47,7 +47,7 @@ _A number corresponding to the number of elements passing through the stream_.
 
 #### 4.1.1. understanding the predicate... Counting the numbers multiple of 3
 
-_In the lower path, the predicate looks like `(x) => (x % 3 === 0)`. What does it mean?
+_In the lower path, the predicate looks like `(x) => x % 3 === 0`. What does it mean?
 
 _To select multiple, we are using the modulo operation (%) and the basic syntax of the predicate function is..._
 
