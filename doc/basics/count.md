@@ -7,15 +7,15 @@ _Count the number of elements passing via the stream_
 |Legend|
 
 
-## Inputs
+## 1. Inputs
 
 ### Input Name
 
 _Description_
 
-## Properties
+## 2. Properties
 
-### Predicate
+### 2.1. Predicate
 
 _A function filtering the elements that must be counted. This function takes one argument `x` corresponding to the element in the stream and returns a boolean (`true` for the element counted or `false` for the others)._
 _By default, this function always returns `true` meaning that all the elements are counted._
@@ -32,51 +32,55 @@ function (x) {
 }
 ```
 
-### Example : Counting the even numbers
+## 3. Outputs
 
-_The basic syntax..._
+### Output Name
+_A number corresponding to the number of elements passing through the stream_.
+
+## 4. Example
+
+### 4.1. Visual code
+
+| ![count.png](img/count_example.png) |
+|-------------------------------------|
+|In the upper path, we are counting all the numbers emitted by the node `range(0,100,1)` whereas the lower path only counts the number multiple of 3.|
+
+#### 4.1.1. understanding the predicate... Counting the numbers multiple of 3
+
+_In the lower path, the predicate looks like `(x) => (x % 3 === 0)`. What does it mean?
+
+_To select multiple, we are using the modulo operation (%) and the basic syntax of the predicate function is..._
 
 ```javascript
 function (x) {
-  if (x % 2 === 0) {
+  if (x % 3 === 0) {
     return true;
    }
-  return false;
+  else {
+    return false;
+  }
 }
 ```
-_... or a more concise way with the ternary operator_
+_... or a more concise way with the ternary JavaScript operator_
 
 ```javascript
 function (x) {
-  return (x%2 === 0) ? true : false;
+  return (x % 3 === 0) ? true : false;
 }
 ```
 _... or just the condition because it returns true or false and avoids the redundancy of the previous coding..._
 
 ```javascript
 function (x) {
-  return (x%2 === 0);
+  return (x % 3 === 0);
 }
 ```
 
 _... and finally with ES6 syntax. 
 
 ```javascript
-(x) => (x%2 === 0)
+(x) => (x % 3 === 0)
 ```
-
-## Outputs
-
-### Output Name
-_A number corresponding to the number of elements passing through the stream_.
-
-## Example
-
-### Visual code
-
-| ![count.png](img/count_example.png) |
-|-------------------------------------|
-|In the upper path, we are counting all the numbers emitted by the node `range(0,100,1)` whereas the lower path only counts the number multiple of 3.|
 
 ### JavaScript Code
 
