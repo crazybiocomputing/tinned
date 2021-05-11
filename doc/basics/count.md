@@ -23,7 +23,7 @@ _By default, this function always returns `true` meaning that all the elements a
 ## Outputs
 
 ### Output Name
-    _A number corresponding to the number of elements passing through the stream_.
+_A number corresponding to the number of elements passing through the stream_.
 
 ## Example
 
