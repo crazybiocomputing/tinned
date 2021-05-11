@@ -17,13 +17,14 @@ _Description_
 
 ### Predicate
 
-_A function taking one argument `x` filtering the elements that must be counted._
+_A function filtering the elements that must be counted. This function takes one argument `x` corresponding to the element in the stream and returns a boolean (`true` for the element counted or `false` for the others)._
 _By default, this function always returns `true` meaning that all the elements are counted._
 _This function is an anonymous function and must follow the JavaScript syntax below_
 
 ```javascript
 function (x) {
-  // Do something and return true or false
+  // Do something...
+  // Return true for the elements you want to count or false for the others.
 }
 ```
 
