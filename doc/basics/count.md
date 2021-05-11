@@ -27,9 +27,9 @@ function (x) {
 }
 ```
 
-### Example : Counting the odd numbers
+### Example : Counting the even numbers
 
-_The basic syntax_
+_The basic syntax..._
 
 ```javascript
 function (x) {
@@ -39,17 +39,27 @@ function (x) {
   return false;
 }
 ```
-_... or a more concise way with ES6 syntax and the ternary operator_
+_... or a more concise way with the ternary operator_
 
 ```javascript
-(x) => (x%2 === 0) ? true : false
+function (x) {
+  return (x%2 === 0) ? true : false;
+}
 ```
-_or just the condition because it returns true or false and avoids the redundancy of the previous coding..._
+_... or just the condition because it returns true or false and avoids the redundancy of the previous coding..._
+
+```javascript
+function (x) {
+  return (x%2 === 0);
+}
+```
+
+_... and finally with ES6 syntax. 
 
 ```javascript
 (x) => (x%2 === 0)
 ```
-    
+
 ## Outputs
 
 ### Output Name
