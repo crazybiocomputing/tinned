@@ -19,6 +19,10 @@ _Description_
 
 _A function filtering the elements that must be counted. This function takes one argument `x` corresponding to the element in the stream and returns a boolean (`true` for the element counted or `false` for the others)._
 _By default, this function always returns `true` meaning that all the elements are counted._
+
+> **Note**: The code must be saved by clicking on the floppy-disk icon (💾) to take into account the modified code in the stream.
+ 
+
 _This function is an anonymous function and must follow the JavaScript syntax below_
 
 ```javascript
