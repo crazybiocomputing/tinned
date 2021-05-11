@@ -2,7 +2,7 @@
 
 _Pullable node emitting an array &mdash; or list &mdash; of items_
 
-| Screenshot of the node |
+| ![Array](img/array.png) |
 |------------------------|
 |Legend|
 
