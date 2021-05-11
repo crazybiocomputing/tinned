@@ -37,7 +37,6 @@ import {scan} from './callbag-scan.js';
 import {last} from './callbag-last.js';
 import {switchMap} from './callbag-switch-map.js';
 import {fromIter} from './callbag-from-iter.js';
-import {tap} from './callbag-tap.js';
 
 export const groupBy = selector => source => {
   return pipe(

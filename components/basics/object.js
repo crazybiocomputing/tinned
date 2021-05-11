@@ -35,10 +35,8 @@ const objectNew = (node) => (stream) => {
     node.data.state.save = false;
   }
   let obj = new Function( `return ${node.data.state?.data || '{}'}`)();
-  // Create multicast observable
-  const obs = share(of(obj));
-  // Update stream
-  node.targets.forEach( key => stream[key] = obs);
+  // Set multicast source$ in stream
+  stream.setCallbags(`value@${node.id}`,share(of(obj)));
   // Return stream
   return stream;
 }

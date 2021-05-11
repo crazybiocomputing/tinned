@@ -24,25 +24,24 @@
 
 'use strict';
 
-import {map as cbag_map} from '../../callbags/callbag-map.js';
+import {map} from '../../callbags/callbag-map.js';
 
 // MAP operator
-const map = (node) => (stream) => {
-  // Get params + source.s
-  const source$ = stream[node.sources[0]];
+const mapFunc = (node) => (stream) => {
+  // Get source...
+  let source$ = stream.getCallbags(node)[0];
+  // Get params
   if (node.data.state.save) {
     // Update code from textarea
     node.data.state.code = document.querySelector(`#code__AT__${node.id}`).value;
     node.data.state.save = false;
   }
   const code = node.data.state.code;
-  const mapFunc = new Function('x','const foo = ' + code + '\nreturn foo(x);');
+  const mapFun = new Function('x','const foo = ' + code + '\nreturn foo(x);');
   // Create Observable
-  const obs = cbag_map(mapFunc)(source$);
-  // Store observable in stream
-  node.targets.forEach( key => {
-    stream[key] = obs;  
-  });
+  const stream$ = map(mapFun)(source$);
+  // Set stream
+  stream.setCallbags(`result@${node.id}`,stream$);
   // Return stream
   return stream;
 }
@@ -53,7 +52,7 @@ export const map_ui =  {
   description: "Map",
   tags: ["map","forEach"],
   help: ["For each input `x`, calculate f(x)"],
-  func: map,
+  func: mapFunc,
   ui: [
     [
       {widget:"label",title: "Result"}, 
@@ -64,10 +63,10 @@ export const map_ui =  {
       {widget:"label",title: "x"}
     ],
     [
-      {widget:"button", state: "",icon: 'floppy-o',title: 'Save',name: "save:boolean"}
+      {widget:"button", state: true, icon: 'floppy-o',title: 'Save', name: "save:boolean"}
     ],
     [
-      {widget:"textarea", state: "(x) => x;\n",name: "code:string"}
+      {widget:"textarea", state: "(x) => x\n",on: {'change': (ev) => {}},name: "code:string"}
     ]
   ]
 };

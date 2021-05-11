@@ -25,15 +25,16 @@
 'use strict';
 
 import {of} from '../../callbags/callbag-of.js';
-import {scan as cbag_scan} from '../../callbags/callbag-scan.js';
+import {scan} from '../../callbags/callbag-scan.js';
 import {observe} from '../../callbags/callbag-observe.js';
 
 // Filter operator
-const scan = (node) => (stream) => {
-  // Get params + source.s
-  let sourceObservable = stream[node.sources[0]];
+const scanFunc = (node) => (stream) => {
+  // Get sources...
+  let source$ = stream.getCallbags(node)[0];
+  let initSource$ = stream.getCallbags(node)[1]  || of(0);
   let init;
-  observe((x) => init = x)(stream[node.sources[1]]  || of(0));
+  observe((x) => init = x)(initSource$);
   if (node.data.state.save) {
     // Update code from textarea
     node.data.state.code = document.querySelector(`#code__AT__${node.id}`).value;
@@ -42,11 +43,9 @@ const scan = (node) => (stream) => {
   const code = node.data.state.code;
   const redux = new Function('accu','x','const foo = ' + code + '\nreturn foo(accu,x);');
   // Create Observable
-  const obs = cbag_scan(redux,init)(sourceObservable);
-  // Store observable in stream
-  node.targets.forEach( key => {
-    stream[key] = obs;  
-  });
+  const stream$ = scan(redux,init)(source$);
+  // Set stream
+  stream.setCallbags(`result@${node.id}`,stream$);
   // Return stream
   return stream;
 }
@@ -57,7 +56,7 @@ export const scan_ui =  {
   description: "Scan",
   tags: ["fold","accumulate","reduce"],
   help: ["For each input `x`, calculate f(x) and accumulate result"],
-  func: scan,
+  func: scanFunc,
   ui: [
     [
       {widget:"label",title: "Result"}, 

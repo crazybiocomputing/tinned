@@ -18,7 +18,7 @@
   'use strict';
 
   import {TINNED} from '../src/tinned.js';
-  import {Board} from '../src/core/board.js';
+  import {Board} from '../src/board.js';
   import {components} from '../components/basics/components.js';
 
   ////// MAIN //////
@@ -68,13 +68,13 @@
       },
       {
         id: 5,
-        template:"BASX_CHARS",
+        template:"BASX_ITERABLE",
         data: {
           meta: {
             pos: [509,170],
           },
           state: {
-            value: 'Hello World!'
+            code: '"Hello World!"'
           }
         }
       },

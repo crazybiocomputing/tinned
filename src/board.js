@@ -24,11 +24,11 @@
 
 'use strict';
 
-import {TINNED} from '../tinned.js';
-import {Draggable} from './draggable.js';
-import {translStart,translOver,translEnd} from './dragBoard.js';
+import {TINNED} from './tinned.js';
+import {Draggable} from './core/draggable.js';
+import {translStart,translOver,translEnd} from './core/dragBoard.js';
 import {Graph} from './graph.js';
-import {xmlns} from './common.js';
+import {xmlns} from './core/common.js';
 
 
 export class Board extends Draggable {

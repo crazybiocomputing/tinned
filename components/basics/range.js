@@ -36,9 +36,10 @@ const range = (node) => (stream) => {
   let array = Array.from({length: len}, (_,i) => start + i*step);
 
   // Create multicast observable
-  const obs = share(fromIter(array));
+  const source$ = share(fromIter(array));
 
-  node.targets.forEach( key => stream[key] = obs);
+  stream.setCallbags(`stream@${node.id}`,source$);
+
   // Return stream
   return stream;
 }
@@ -52,7 +53,7 @@ export const range_ui =   {
   ui: [
     [
       {widget:"label",title: "Data"}, 
-      {widget: "output",name:"stream:stream"}
+      {widget: "output",name:"stream:number"}
     ],
     [
       {widget: "label", title: "Start"},

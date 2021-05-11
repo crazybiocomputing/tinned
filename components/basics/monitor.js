@@ -30,8 +30,9 @@ import {subscribe} from '../../callbags/callbag-subscribe.js';
 import { TINNED } from '../../src/tinned.js';
 
 const monitor = (node) => (stream) => {
-  // Get source
-  let source$ = stream[node.sources[0]];
+  // Get source...
+  let source$ = stream.getCallbags(node)[0];
+  console.log(stream.getCallbags(node),source$);
   const textarea = document.querySelector(`#node_${node.id} textarea`);
   const button = document.querySelector(`#refresh__AT__${node.id}`);
 
@@ -65,7 +66,8 @@ const monitor = (node) => (stream) => {
     })
   );
  
-  TINNED.graph.disposals.push(dispose);
+  stream.disposals.push(dispose);
+
   return stream;
 }
 

@@ -24,50 +24,44 @@
 
 'use strict';
 
-import {count} from '../../callbags/callbag-count.js';
+import {fromIter} from '../../callbags/callbag-from-iter.js';
+import {share} from '../../callbags/callbag-share.js';
 
-// Count operator
-const count_items = (node) => (stream) => {
+const iterFunc = (node) => (stream) => {
 
-  // Get source...
-  let source$ = stream.getCallbags(node)[0];
-  // Get params
+  // Params
   if (node.data.state.save) {
     // Update code from textarea
     node.data.state.code = document.querySelector(`#code__AT__${node.id}`).value;
     node.data.state.save = false;
   }
-  const code = node.data.state.code;
-  const predicate = new Function('x','const foo = ' + code + '\nreturn foo(x);');
-  // Create Observable
-  const obs$ = count(predicate)(source$);
+  let arr = new Function( `return ${node.data.state?.code || '[]'}`)();
+  // Check types
+  console.log('TYPE:',Object.prototype.toString.call(arr));
   // Set multicast source$ in stream
-  stream.setCallbags(`result@${node.id}`,obs$);
+  stream.setCallbags(`value@${node.id}`,share(fromIter(arr)));
   // Return stream
   return stream;
 }
 
-export const count_ui =  {
-  id: "PROG_COUNT",
-  class: "tool",
-  description: "Count",
-  tags: ["length","size"],
-  help: ["Count the number of values in the stream depending of the predicate"],
-  func: count_items,
+export const iterable_ui =   {
+  id: "BASX_ITERABLE",
+  class: "primitive",
+  description: "Iterable",
+  help: ["Stream of items"],
+  tags: ["character","list","string","array","item"],
+  func: iterFunc,
   ui: [
     [
-      {widget:"label",title: "Result"}, 
-      {widget: "output",name:"result:any"}
-    ],
-    [
-      {widget: "input",name: "x:any"},
-      {widget:"label",title: "x"}
+      {widget:"label",title: "Data"}, 
+      {widget: "output", title: "Stream",name: "value:any"}
     ],
     [
       {widget:"button", state: "",icon: 'floppy-o',title: 'Save',name: "save:boolean"}
     ],
     [
-      {widget:"textarea", state: "(x) => true\n",name: "code:string"}
+      {widget:"textarea", state: "[0,1]",name: "code:[any]"}
     ]
+
   ]
 };

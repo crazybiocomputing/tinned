@@ -24,21 +24,20 @@
 
 'use strict';
 
-import {take as cbag_take} from '../../callbags/callbag-take.js';
+import {take} from '../../callbags/callbag-take.js';
 
 const takeFunc = (node) => (stream) => {
 
-  // Get source
-  let sourceObservable = stream[node.sources[0]];
-  // Params
+  // Get source...
+  let source$ = stream.getCallbags(node)[0];
+  // Get Params
   const howMany = node.data.state.value;
 
-  const obs = cbag_take(howMany)(sourceObservable);
+  const stream$ = take(howMany)(source$);
 
   // Set stream
-  node.targets.forEach( key => {
-    stream[key] = obs;  
-  });
+  stream.setCallbags(`dataout@${node.id}`,stream$);
+
   // Return stream
   return stream;
 }

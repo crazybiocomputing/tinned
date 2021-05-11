@@ -25,9 +25,9 @@
 'use strict';
 
 
-import {Node} from './node.js';
-import {Edge} from './edge.js';
-import {DataFlow} from '../workflow/dataflow.js';
+import {Node} from './core/node.js';
+import {Edge} from './core/edge.js';
+import { StreamBag } from './streamBag.js';
 
 export class Graph {
 
@@ -39,10 +39,9 @@ export class Graph {
     this.templates = templates;
     this.vertices = [];
     this.edges = [];
-    this.adjacencyList = {};
+    this.stream = new StreamBag(this);
     this.context; // svg or canvas/webgl?
     this.root; // HTML Parent node for all the vertices??
-    this.disposals = [];
   }
 
   build(json) {
@@ -62,12 +61,8 @@ export class Graph {
     let node =  new Node(newid,template,data);
     this.vertices.push(node);
     this.root.appendChild(node.element);
-    // Add the engine in the queue waiting for execution (the `Consumer`).
-    //this.flow.add(node);
     // Step #3 - Create graph
-    if (!this.adjacencyList[newid]) {
-      this.adjacencyList[newid] = [];
-    }
+    this.stream.add(node);
     return node;
   }
 
@@ -96,9 +91,9 @@ export class Graph {
     this.edges.push(e);
     this.getNode(+e.sourceID).targets.push(e.target);
     this.getNode(+e.targetID).sources.push(e.target);
-    this.adjacencyList[start_id.split("@")[1]].push(+end_id.split("@")[1]);
+    this.stream.addFromEdge(start_id,end_id);
     ctx.append(e.line);
-    this.update();
+    this.stream.update();
     return e;
   }
 
@@ -124,23 +119,7 @@ export class Graph {
         component.node.setState(node.data.state);
       }
       // Step #3 - Create graph
-      if (!this.adjacencyList[node.id]) {
-        this.adjacencyList[node.id] = [];
-      }
-
-
-      // Add the engine in the queue waiting for execution (the `Consumer`).
-      // TODO this.flow.add(component);
-      // this.appendNode(component);
-      // this.appendNode(NodeFactory.node.template,node.id,node.data);
-      /*
-      // Attach node to <root>
-      console.log(node.template,node.id,node.data);
-      console.log(this.components.find( n => n.id === node.template));
-      let n = new Node(node.id,this.components.find( n => n.id === node.template),node.data);
-      this.vertices.push(n);
-      root.appendChild(n.element);
-      */
+      this.stream.add(node);
     });
   }
 
@@ -154,13 +133,12 @@ export class Graph {
     edges.forEach( (edge) => {
       let e = new Edge(edge.eid,...edge.sockets);
       this.edges.push(e);
-      this.adjacencyList[e.sourceID].push(e.targetID);
+      this.stream.addFromEdge(edge.sockets[0],edge.sockets[1]);
       this.getNode(+e.sourceID).targets.push(e.target);
       this.getNode(+e.targetID).sources.push(e.target);
       ctx.append(e.line);
     });
-    console.log(this.adjacencyList);
-    this.run();
+    this.stream.run();
   }
 
   /**
@@ -192,74 +170,6 @@ export class Graph {
   show() {
   }
 
-  /*
-   * Topological Sort - DFS Algorithm
-   * From https://adelachao.medium.com/graph-topological-sort-javascript-implementation-1cc04e10f181
-   */
-  topSortDFS(_adjacencyList) {
-
-    function topSortDFSHelper(v, n, visited, topNums) {
-      visited[v] = true;
-      const neighbors = _adjacencyList[v];
-      for (const neighbor of neighbors) {
-        if (!visited[neighbor]) {
-            n = topSortDFSHelper(neighbor, n, visited, topNums);
-        }
-      }
-      topNums[n] = v;
-      return n - 1;
-    }
-
-    const vertices = Object.keys(_adjacencyList);
-    const visited = {};
-    const topNums = new Array(vertices.length).fill(0);
-    let n = vertices.length - 1;
-    for (const v of vertices) {
-        if (!visited[v]) {
-            n = topSortDFSHelper(v, n, visited, topNums);
-        }
-    }
-    return topNums;
-  }
-
-  getConnected(_adjacencyList) {
-    let adj = {..._adjacencyList}; // Clone
-    let sinks = this.vertices.filter( v => v.isSink());
-    let sources = this.vertices.filter( v => v.isSource());
-    // Remove unconnected sources
-    sources.forEach( source => {
-      if (adj[source.id].length === 0) {
-        delete adj[source.id];
-      }
-    });
-    // Remove unconnected sinks from source(s)
-    sinks.forEach( sink => {
-      if (!Object.keys(adj).some(i => adj[i].includes(sink.id))) {
-        delete adj[sink.id];
-      }
-    });
-    // Find a source connected to a sink
-    return adj;
-  }
-
-  /**
-   * Executes the active vertices in this graph
-   *
-   * @author Jean-Christophe Taveau
-   */
-  async run() {
-    // HACK Clean adjacencyList
-    let adj = this.getConnected(this.adjacencyList);
-    console.log(adj);
-    const pipeline = this.topSortDFS(adj);
-    console.log('Pipe',pipeline);
-    pipeline.reduce( (stream,vtx) => {
-      const nod = this.vertices.find(n => n.id === +vtx);
-      stream = nod.template.func(nod)(stream);
-      console.log(stream);
-      return stream;
-    },{}); // use of class Map()?
-  }
 
   /**
    * Update the node `id` and following
@@ -269,24 +179,10 @@ export class Graph {
    * @author Jean-Christophe Taveau
    */
   async update(node=-1) {
-    if (node === -1) {
-      // Update all the nodes
-      // TODO
-    }
-    else {
-      // Only update from this node
-    }
-    this.run();
-    // Flatten the graph
-    //const pipeline = this.topSortDFS();
-    // console.log(pipeline);
-
+    this.stream.update();
   }
 
-  dispose() {
-    this.disposals.forEach(disposeFunc => disposeFunc());
-  }
-  
+
   removeNode(_id) {
     const index = this.vertices.findIndex( n => n.id === _id);
     const vertex = this.vertices[index];
@@ -297,15 +193,8 @@ export class Graph {
     // Step #3 - Remove node from DB
     this.vertices.splice(index,1);
     console.log(this);
-    // Step #4 - Remove vertex in adjacencyList
-    delete this.adjacencyList[_id];
-    Object.keys(this.adjacencyList).forEach( key => 
-      this.adjacencyList[key] = this.adjacencyList[key].filter( (ident) => ident !== _id)
-    );
-    // Object.keys(this.adjacencyList).forEach( key => this.adjacencyList[key]);
-    //this.updateAllEdges();
-    // Stop the stream
-    this.dispose();
+    // Step #4 - Remove vertex/node in stream
+    this.stream.removeNode(_id);
     console.log(this);
   }
 
@@ -358,8 +247,8 @@ export class Graph {
     let eindex = this.edges.findIndex(e => e.eid === edge.eid);
     this.edges.splice(eindex,1);
     // Stop and Re-run stream
-    this.dispose();
-    this.run();
+    this.stream.dispose();
+    this.stream.run();
   }
 
 

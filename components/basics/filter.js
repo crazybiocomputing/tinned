@@ -24,11 +24,13 @@
 
 'use strict';
 
-import {filter as cbag_filter} from '../../callbags/callbag-filter.js';
+import {filter} from '../../callbags/callbag-filter.js';
+
 // Filter operator
-const filter = (node) => (stream) => {
-  // Get params + source.s
-  let source$ = stream[node.sources[0]];
+const filterFunc = (node) => (stream) => {
+  // Get Source...
+  let source$ = stream.getCallbags(node)[0];
+  // Get Params
   if (node.data.state.save) {
     // Update code from textarea
     node.data.state.code = document.querySelector(`#code__AT__${node.id}`).value;
@@ -37,11 +39,9 @@ const filter = (node) => (stream) => {
   const code = node.data.state.code;
   const predicate = new Function('x','const foo = ' + code + '\nreturn foo(x);');
   // Create Observable
-  const obs = cbag_filter(predicate)(source$);
-  // Store observable in stream
-  node.targets.forEach( key => {
-    stream[key] = obs;  
-  });
+  const stream$ = filter(predicate)(source$);
+  // Set stream
+  stream.setCallbags(`result@${node.id}`,stream$);
   // Return stream
   return stream;
 }
@@ -52,7 +52,7 @@ export const filter_ui =  {
   description: "Filter",
   tags: ["filter"],
   help: ["Filter input data according to predicate"],
-  func: filter,
+  func: filterFunc,
   ui: [
     [
       {widget:"label",title: "Result"}, 

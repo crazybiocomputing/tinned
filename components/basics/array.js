@@ -24,23 +24,20 @@
 
 'use strict';
 
-import {fromIter} from '../../callbags/callbag-from-iter.js';
+import {of} from '../../callbags/callbag-of.js';
 import {share} from '../../callbags/callbag-share.js';
 
 const iterate = (node) => (stream) => {
   // Params
-  console.log(node.data.state?.list);
   if (node.data.state.save) {
     // Update code from textarea
     node.data.state.list = document.querySelector(`#list__AT__${node.id}`).value;
     node.data.state.save = false;
   }
   let arr = new Function( `return ${node.data.state?.list || '[]'}`)();
-console.log(arr);
-  // Create multicast observable
-  const obs = share(fromIter(arr));
-  // Update stream
-  node.targets.forEach( key => stream[key] = obs);
+  console.log(arr);
+  // Set multicast source$ in stream
+  stream.setCallbags(`value@${node.id}`,share(of(arr)));
   // Return stream
   return stream;
 }

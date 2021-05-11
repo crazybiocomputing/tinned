@@ -33,10 +33,11 @@ import {observe} from '../../callbags/callbag-observe.js';
 
 // Filter operator
 const reduce = (node) => (stream) => {
-  // Get params + source.s
-  let source$ = stream[node.sources[0]];
+  // Get source...
+  let source$ = stream.getCallbags(node)[0];
+  let initSource$ = stream.getCallbags(node)[1]  || of(0);
   let init;
-  observe((x) => init = x)(stream[node.sources[1]] || of(0));
+  observe((x) => init = x)(initSource$);
   // Update code if required
   if (node.data.state.save) {
     // Update code from textarea
@@ -46,11 +47,9 @@ const reduce = (node) => (stream) => {
   const code = node.data.state.code;
   const redux = new Function('accu','x','const foo = ' + code + '\nreturn foo(accu,x);');
   // Create Observable
-  const obs = pipe(source$,scan(redux,init),last());
-  // Store observable in stream
-  node.targets.forEach( key => {
-    stream[key] = obs;  
-  });
+  const stream$ = pipe(source$,scan(redux,init),last());
+  // Set stream
+  stream.setCallbags(`result@${node.id}`,stream$);
   // Return stream
   return stream;
 }

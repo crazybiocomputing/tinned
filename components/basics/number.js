@@ -29,10 +29,8 @@ import {of} from '../../callbags/callbag-of.js';
 const numberPub = (node) => (stream) => {
   // Get param
   let val = node.data.state.value;
-  // Set observable in stream
-  node.targets.forEach( key => {
-    stream[key] = of(val);
-  });
+  // Set source$ in stream
+  stream.setCallbags(`value@${node.id}`,of(val));
   // Return stream
   return stream;
 }

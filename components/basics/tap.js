@@ -24,29 +24,26 @@
 
 'use strict';
 
-import {tap as cbag_tap} from '../../callbags/callbag-tap.js';
+import {tap} from '../../callbags/callbag-tap.js';
 
-const tap = (node) => (stream) => {
-  // Get source
-  let sourceObservable = stream[node.sources[0]];
+const tapFunc = (node) => (stream) => {
+  // Get source...
+  let source$ = stream.getCallbags(node)[0];
+  // Get param
   const textarea = document.querySelector(`#node_${node.id} textarea`);
 
-  console.log(sourceObservable);
-
   // Create observable
-  const obs = cbag_tap( (val) => {
+  const stream$ = tap( (val) => {
     // Update node
     if (typeof val === 'object') {
       val = JSON.stringify(val);
     }
     node.data.state.log += val + '\n';
     textarea.innerHTML = node.data.state?.log;
-  })(sourceObservable);
+  })(source$);
 
-  // Dispatch observable
-  node.targets.forEach( key => {
-    stream[key] = obs;
-  });
+  // Set stream
+  stream.setCallbags(`dataout@${node.id}`,stream$);
   
   // Return stream
   return stream;
@@ -59,7 +56,7 @@ export const tap_ui = {
   tags: ["console","display","log","print","show"],
   help: ["Look at data through the pipeline"],
   comment: ["Network tap https://en.wikipedia.org/wiki/Network_tap"],
-  func: tap,
+  func: tapFunc,
   ui: [
     [
       {widget:"label",title: "Data"}, 

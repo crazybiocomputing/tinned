@@ -25,10 +25,10 @@
 'use strict';
 
 import {array_ui} from './array.js';
-import {chars_ui} from './chars.js';
 import {count_ui} from './count.js';
 import {filter_ui} from './filter.js';
 import {interval_ui} from './interval.js';
+import {iterable_ui} from './iterable.js';
 import {map_ui} from './map.js';
 import {math_ui} from './math.js';
 import {number_ui} from './number.js';
@@ -50,10 +50,10 @@ const action = (node) => (obs) => {
 
 const _basics = [
   array_ui,
-  chars_ui,
   count_ui,
   filter_ui,
   interval_ui,
+  iterable_ui,
   map_ui, 
   math_ui, 
   monitor_ui,

@@ -31,18 +31,19 @@ import {share} from '../../callbags/callbag-share.js';
 import {pipe} from '../../callbags/callbag-pipe.js';
 
 const interval = (node) => (stream) => {
+
+  // Get param
   const numericalChanged$ = document.querySelector(`#node_${node.id} input`);
-  let period = node.data.state.period;
+  let period = node.data.state.period
+
   // Create multicast callbag
-  const obs = pipe(
+  const source$ = pipe(
     cbag_interval(period),
     takeUntil(fromEvent(numericalChanged$,'focus')),
     share);
   
   // Set in stream
-  node.targets.forEach( key => {
-    stream[key] = obs;
-  });
+  stream.setCallbags(`stream@${node.id}`,source$);
   // Return stream
   return stream;
 }
@@ -56,7 +57,7 @@ export const interval_ui =   {
   ui: [
     [
       {widget:"label",title: "Data"}, 
-      {widget: "output",name:"stream:stream"}
+      {widget: "output",name:"stream:number"}
     ],
     [
       {widget: "label", title: "Interval(ms)"},
