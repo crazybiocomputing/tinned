@@ -19,7 +19,7 @@ _Description_
 
 _A function taking one argument `x` filtering the elements that must be counted._
 _By default, this function always returns `true` meaning that all the elements are counted._
-_This function is an anonymous function and must follow the JavaScript syntax as below_
+_This function is an anonymous function and must follow the JavaScript syntax below_
 
 ```javascript
 function (x) {
