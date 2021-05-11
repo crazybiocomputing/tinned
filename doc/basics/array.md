@@ -4,7 +4,7 @@ _Pullable node emitting an array &mdash; or list &mdash; of items_
 
 | ![Array](img/array.png) |
 |------------------------|
-|Legend|
+|Example of an array (or list) containing 3 items: a Number, a String and an Object|
 
 
 ## Inputs
