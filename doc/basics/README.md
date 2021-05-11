@@ -1,26 +1,34 @@
 
-### Producers
+### 1. Producers
 
 - [Array](array.md)
+- [Interval](interval.md)
 - [Iterable](iterable.md)
 - [Number](number.md)
-- []()
-- [Interval](interval.md)
 - [Object](object.md)
 - [Range](range.md)
 - [String](string.md)
 
-### Subscribers (or sinks)
+### 2. Subscribers (or sinks)
 
 - [Monitor](monitor.md)
 
-### Operators
+### 3. Operators
 
-#### Transformations
+#### 3.1. Transformations
 
-- [Filter](filter.md)
 - [Map](map.md)
+- [Pluck](pluck.md)
 - [Reduce](reduce.md)
 - [Scan](scan.md)
 
+#### 3.2. Filtering
+
 - [Count](count.md)
+- [Filter](filter.md)
+- [Take](take.md)
+
+### 4. Utilities
+
+- [Tap](tap.md)
+
