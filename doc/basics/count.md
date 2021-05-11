@@ -81,7 +81,7 @@ _A number corresponding to the number of elements passing through the stream_.
 ### JavaScript Code
 
 ```javascript
-import * as cbag from './callbags.js';
+import * as cbag from './callbags/index.js';
 
 // Create the series of 100 numbers from 0 to 99
 const source$ = cbag.fromIter(Array.from({length: 100}, (_,i) => i);
