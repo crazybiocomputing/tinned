@@ -9,7 +9,7 @@ _Count the number of elements passing via the stream_
 
 ## 1. Inputs
 
-### Input Name
+### Input _x_
 
 _Description_
 
@@ -34,7 +34,8 @@ function (x) {
 
 ## 3. Outputs
 
-### Output Name
+### Output _Result_
+
 _A number corresponding to the number of elements passing through the stream_.
 
 ## 4. Example
