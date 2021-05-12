@@ -39,7 +39,8 @@ import * as DOM from '../../dom/dom.js';
         type: 'text',
         name: _var || 'unknown',
         href: '#',
-        title: row.title || 'No Tooltip'
+        title: row.title || 'No Tooltip',
+        spellcheck: false 
       },
       style: {
         display: row.display
@@ -51,16 +52,6 @@ import * as DOM from '../../dom/dom.js';
     row.state || ''
   );
 
-  /*
-  const [_var,_type] = row.name.split(':');
-  let input = document.createElement('textArea');
-  input.id = `${_var}__AT__${id}`;
-  input.className = "textarea";
-  input.setAttribute("type", "text");
-  input.setAttribute('name',_var || 'unknown');
-  input.textContent = row.state || '';
- */
-  
   // Set other attributes if any
   if (row.attrs) {
     Object.keys(row.attrs).forEach( key => _area.setAttribute(key,row.attrs[key]));

@@ -24,13 +24,13 @@
 
 'use strict';
 
-import {interval as cbag_interval} from '../../callbags/callbag-interval.js';
+import {interval} from '../../callbags/callbag-interval.js';
 import {fromEvent} from '../../callbags/callbag-from-event.js';
 import {takeUntil} from '../../callbags/callbag-take-until.js';
 import {share} from '../../callbags/callbag-share.js';
 import {pipe} from '../../callbags/callbag-pipe.js';
 
-const interval = (node) => (stream) => {
+const intervalFunc = (node) => (stream) => {
 
   // Get param
   const numericalChanged$ = document.querySelector(`#node_${node.id} input`);
@@ -38,7 +38,7 @@ const interval = (node) => (stream) => {
 
   // Create multicast callbag
   const source$ = pipe(
-    cbag_interval(period),
+    interval(period),
     takeUntil(fromEvent(numericalChanged$,'focus')),
     share);
   
@@ -53,7 +53,7 @@ export const interval_ui =   {
   class: "producer",
   description: "Interval",
   tags: ["periodic","time","timeout","asynchronous"],
-  func: interval,
+  func: intervalFunc,
   ui: [
     [
       {widget:"label",title: "Data"}, 
@@ -61,7 +61,7 @@ export const interval_ui =   {
     ],
     [
       {widget: "label", title: "Interval(ms)"},
-      {widget: "numerical", state: 500,name: "period:number"}
+      {widget: "numerical", state: 1000,name: "period:number"}
     ]
   ]
 };
