@@ -47,11 +47,23 @@ _A value of any type._
 
 ## 4. Example
 
-From a collection of emails (below), we want to extract their names and domains using `map`.
+From a collection of emails defined as an Array of String (below), ...
+
+```javascript
+['james@hello.com',
+'oliver@mail.fr',
+'chris@send.eu',
+'barbara@msg.fr'
+]
+```
+
+... we want to extract their names and domains using `map`.
 
 | ![Marble of map](img/map_example.png) | 
 |------------------------------------------|
-| **Fig. 2**: Extraction of names and domains from a series of emails.  |
+| **Fig. 2**: Extraction of names and domains from a series of emails. The node `iterable` allows to emit the various emails in the stream. |
+
+#### JavaScript code
 
 ```javascript
 const source$ = cbag.fromIter(['james@hello.com',
