@@ -61,7 +61,7 @@ From a collection of emails defined as an Array of String (below), ...
 
 | ![Marble of map](img/map_example.png) | 
 |------------------------------------------|
-| **Fig. 2**: Extraction of names and domains from a series of emails. The node `iterable` allows to emit the various emails in the stream. |
+| **Fig. 2**: Extraction of names and domains from a series of emails. The node `iterable` allows to emit successively the emails in the stream. |
 
 #### JavaScript code
 
