@@ -4,7 +4,7 @@ _Apply a function to all the elements passing via the node_
 
 | ![node Map](img/map.png) |
 |------------------------|
-|Node Map with the default &mdash; identity &mdash; function|
+|Node Map with the default _identity_ function|
 
 This node is equivalent to the Rx map.
 
