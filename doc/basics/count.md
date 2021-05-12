@@ -4,7 +4,7 @@ _Count the number of elements passing via the stream_
 
 | ![node Count](img/count.png) |
 |------------------------|
-|Legend|
+|Node Count|
 
 This node is equivalent to the Rx count.
 
@@ -12,7 +12,7 @@ This node is equivalent to the Rx count.
 
 | ![Marble of count](img/count_marble.png) | 
 |------------------------------------------|
-
+| Marble Diagram counting of even numbers  |
 
 ## 1. Inputs
 
