@@ -36,7 +36,6 @@ import {input_socket} from './input_socket.js';
 import {label} from './label.js';
 import {numerical} from './numerical.js';
 import {output_socket} from './output_socket.js';
-import {readonly} from './readonly.js';
 import {select} from './select.js';
 import {selectlayer} from './selectlayer.js';
 import {text} from './text.js';
@@ -54,7 +53,6 @@ export {
   label,
   numerical,
   output_socket,
-  readonly,
   select,
   selectlayer,
   text,

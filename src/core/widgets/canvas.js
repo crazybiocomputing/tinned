@@ -29,9 +29,22 @@
    * @author Jean-Christophe Taveau
    */
 export const canvas = (id,row,metadata,action_func) => {
-  // <div class="graphics"><canvas></canvas></div>
-  // Check if canvas is already created TODO
-  let container = document.createElement('figure');
-  container.className = 'graphics';
+  let [_var,_type] = row.name.split(':');
+  let container = DOM.h(
+    `figure#${_var}__AT__${id}.graphics`,
+    {
+      attrs: { 
+        name: _var || 'unknown',
+        href: '#',
+        title: template_row.title || 'No Tooltip'
+      },
+      style: {
+        display: row.display
+      },
+      dataset: {
+        type: _type
+      }
+    }
+  );
   return container;
 }

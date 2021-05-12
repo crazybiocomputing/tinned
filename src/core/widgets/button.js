@@ -47,38 +47,24 @@ export const button = (id,template_row,metadata,action_func) => {
       },
       dataset: {
         type: _type
+      },
+      on: {
+        'click': (ev) => {
+          let [key,nid] = ev.target.id.split('__AT__');
+          TINNED.graph.getNode(parseInt(nid)).data.state[key] = !clicked;
+          // Update 
+          TINNED.graph.update(id);
+        }
       }
     },
-    (template_row.icon) ? [DOM.h(`i.fa.fa-${template_row.icon}`)] : template_row.button);
+    (template_row.icon) ? [DOM.h(`i.fa.fa-${template_row.icon}`)] : template_row.button
+  );
     
-/*
-  let e = document.createElement('a');
-  e.id = `${template_row.name || 'unknown'}__AT__${id}`;
-  e.className = 'button';
-  if (template_row.icon) {
-    let i = document.createElement('i');
-    i.className = `fa fa-${template_row.icon}`;
-    i.ariaHidden = true;
-    e.appendChild(i);
-  }
-  else {
-    e.innerHTML = template_row.button;
-  }
-  e.setAttribute('href','#');
-  e.title = template_row.title || 'No Tooltip';
-
-  if ( template_row.display) {
-    e.style.display = template_row.display;
-  }
-*/
   let clicked = false;
 
-  _button.addEventListener('click',(ev) => {
-    const element = ev.target;
-    let [key,nid] = element.id.split('__AT__');
-    TINNED.graph.getNode(parseInt(nid)).data.state[key] = !clicked;
-    // Update 
-    TINNED.graph.update(id);
-  });
+  // Add other event(s) if any
+  if (template_row.on) {
+    Object.keys(template_row.on).forEach( eventType => _button.addEventListener(eventType,template_row.on[eventType]) );
+  }
   return _button;
 }

@@ -24,11 +24,34 @@
 
 'use strict';
 
+import * as DOM from '../../dom/dom.js';
+
 /**
    * Widget 
    * @author Jean-Christophe Taveau
    */
  export const textarea = (id,row,metadata,action_func) => {
+  const [_var,_type] = row.name.split(':');
+  let _area = DOM.h(
+    `textarea#${_var}__AT__${id}.textarea`,
+    {
+      attrs: { 
+        type: 'text',
+        name: _var || 'unknown',
+        href: '#',
+        title: row.title || 'No Tooltip'
+      },
+      style: {
+        display: row.display
+      },
+      dataset: {
+        type: _type
+      }
+    },
+    row.state || ''
+  );
+
+  /*
   const [_var,_type] = row.name.split(':');
   let input = document.createElement('textArea');
   input.id = `${_var}__AT__${id}`;
@@ -36,12 +59,17 @@
   input.setAttribute("type", "text");
   input.setAttribute('name',_var || 'unknown');
   input.textContent = row.state || '';
-
-  console.log('META');
-  console.log(row);
+ */
   
+  // Set other attributes if any
   if (row.attrs) {
-    Object.keys(row.attrs).forEach( key => input.setAttribute(key,row.attrs[key]));
+    Object.keys(row.attrs).forEach( key => _area.setAttribute(key,row.attrs[key]));
   }
-  return input;
+
+  // Set other EventListener if any
+  if (row.on) {
+    Object.keys(row.on).forEach( eventType => _area.addEventListener(eventType,row.on[eventType]) );
+  }
+
+  return _area;
 }

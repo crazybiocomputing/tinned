@@ -51,7 +51,7 @@ const interval = (node) => (stream) => {
 export const interval_ui =   {
   id: "PROG_INTERVAL",
   class: "producer",
-  description: "interval",
+  description: "Interval",
   tags: ["periodic","time","timeout","asynchronous"],
   func: interval,
   ui: [

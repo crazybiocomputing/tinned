@@ -63,6 +63,7 @@ export class StreamBag {
   }
  
   setCallbags(sock_source_name,stream$) {
+    console.log(sock_source_name);
     this.sources[sock_source_name].targets.forEach( key => this.callbags[key] = stream$);
   }
 
@@ -72,6 +73,10 @@ export class StreamBag {
       const sockname = `${socket.name.split(':')[0]}@${node.id}`;
       return this.callbags[sockname];
     });
+  }
+
+  getCallbag(socket_name) {
+    return this.callbags[socket_name];
   }
 
   /*

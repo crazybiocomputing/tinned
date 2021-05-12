@@ -26,10 +26,29 @@
 
 import {map} from '../../callbags/callbag-map.js';
 
+let default_style;
+
+const textChanged = (ev) => {
+  const node_id = ev.target.id.split('__AT__')[1];
+  const button = document.querySelector(`#save__AT__${node_id}`);
+  if (default_style === undefined) {
+    console.log(button.style.backgroundColor,button.style.color);
+    default_style = [button.style.backgroundColor,button.style.color];
+  }
+  button.style.backgroundColor = '#b11';
+  button.style.color = 'white';
+}
+
+const resetStyle = (ev) => {
+  console.log('Reset style',ev.target);
+  ev.target.style.backgroundColor = default_style[0];
+  ev.target.style.color = default_style[1];
+}
+
 // MAP operator
 const mapFunc = (node) => (stream) => {
   // Get source...
-  let source$ = stream.getCallbags(node)[0];
+  let source$ = stream.getCallbag(`x@${node.id}`);
   // Get params
   if (node.data.state.save) {
     // Update code from textarea
@@ -63,10 +82,10 @@ export const map_ui =  {
       {widget:"label",title: "x"}
     ],
     [
-      {widget:"button", state: true, icon: 'floppy-o',title: 'Save', name: "save:boolean"}
+      {widget:"button", state: true, icon: 'floppy-o',on: {'mouseup': resetStyle},title: 'Save', name: "save:boolean"}
     ],
     [
-      {widget:"textarea", state: "(x) => x\n",on: {'change': (ev) => {}},name: "code:string"}
+      {widget:"textarea", state: "(x) => x\n",on: {'input': textChanged},name: "code:string"}
     ]
   ]
 };

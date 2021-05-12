@@ -33,9 +33,9 @@ import {observe} from '../../callbags/callbag-observe.js';
 
 // Filter operator
 const reduce = (node) => (stream) => {
-  // Get source...
-  let source$ = stream.getCallbags(node)[0];
-  let initSource$ = stream.getCallbags(node)[1]  || of(0);
+  // Get sources...
+  let source$ = stream.getCallbags(`x@${node.id}`);
+  let initSource$ = stream.getCallbag(`init@${node.id}`)  || of(0);
   let init;
   observe((x) => init = x)(initSource$);
   // Update code if required
