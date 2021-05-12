@@ -1,5 +1,5 @@
 
-### 1. Producers
+### 1. Producers (or sources)
 
 - [Array](array.md)
 - [Interval](interval.md)
@@ -27,6 +27,11 @@
 - [Count](count.md)
 - [Filter](filter.md)
 - [Take](take.md)
+
+#### 3.3. Mathematical
+
+- [Arithmetic](artithmetic.md)
+- [Count](count.md)
 
 ### 4. Utilities
 
