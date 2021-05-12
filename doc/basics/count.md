@@ -6,6 +6,21 @@ _Count the number of elements passing via the stream_
 |------------------------|
 |Legend|
 
+This node is equivalent to the Rx count.
+
+**Marble Diagram**
+
+| ![Marble of count](img/count_marble.png) | 
+|------------------------------------------|
+
+In text format...
+```
+marble count_example
+{
+    source a:     +--1-2--3-4-5--|
+    operator count((x)=>(x%2)===0): +-------------2|
+}
+```
 
 ## 1. Inputs
 
