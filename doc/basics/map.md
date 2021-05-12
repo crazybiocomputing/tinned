@@ -6,7 +6,7 @@ _Apply a function to all the elements passing via the node_
 |------------------------|
 |Node Map with the default _identity_ function|
 
-This node is equivalent to the Rx map.
+This node is equivalent to the [Rx map](http://reactivex.io/documentation/operators/map.html).
 
 **Marble Diagram[<sup name="f1">[1]</sup>](#1)**
 
