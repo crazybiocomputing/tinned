@@ -1,6 +1,6 @@
 # Map
 
-_Aply a function to all the elements passing in the stream_
+_Apply a function to all the elements passing via the node_
 
 | ![node Map](img/map.png) |
 |------------------------|
