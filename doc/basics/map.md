@@ -1,10 +1,10 @@
 # Map
 
-_Aply a function to all the elements passing in the stream_
+_Apply a function to all the elements passing via the node_
 
 | ![node Map](img/map.png) |
 |------------------------|
-|Node Map|
+|Node Map with the default &mdash; identity &mdash; function|
 
 This node is equivalent to the Rx map.
 
@@ -12,7 +12,7 @@ This node is equivalent to the Rx map.
 
 | ![Marble of map](img/map_marble.png) | 
 |------------------------------------------|
-| Marble Diagram multiplying all the elements by 10  |
+| **Fig. 1**: Marble Diagram multiplying all the elements by 10  |
 
 ## 1. Inputs
 
