@@ -25,7 +25,7 @@ _Any element in the stream_
 ### 2.1. Function
 
 _A function applying some computation to the input. This function takes one argument `x` corresponding to the element in the stream and returns a value._
-_By default, this function always returns `true` meaning that all the elements are counted._
+_By default, this function is the Identity function returning the same value `x`._
 
 > **Note**: The code must be saved by clicking on the floppy-disk icon (💾) to send the modified code in the stream.
  
