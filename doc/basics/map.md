@@ -12,7 +12,7 @@ This node is equivalent to the Rx map.
 
 | ![Marble of map](img/map_marble.png) | 
 |------------------------------------------|
-| **Fig. 1**: Marble Diagram multiplying all the elements by 10  |
+| **Fig. 1**: Marble Diagram multiplying all the elements by 10.  |
 
 ## 1. Inputs
 
