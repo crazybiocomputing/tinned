@@ -26,6 +26,8 @@
 
 - [Count](count.md)
 - [Filter](filter.md)
+- [First](first.md)
+- [Last](last.md)
 - [Take](take.md)
 
 #### 3.3. Mathematical
