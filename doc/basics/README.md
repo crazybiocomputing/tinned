@@ -2,6 +2,7 @@
 ### 1. Producers (or sources)
 
 - [Array](array.md)
+- [Fetch](fetch.md)
 - [Interval](interval.md)
 - [Iterable](iterable.md)
 - [Number](number.md)
