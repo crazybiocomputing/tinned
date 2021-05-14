@@ -54,8 +54,8 @@ From a collection defined as an Array of objects containing two properties `widg
   {widget:'div',color:'#f00'},
   {widget: 'p', color: '#0f0'},
   {widget: 'p', color: '#ff0'},
-  {widget: 'section'},
-  {widget: 'figure',color: '#00f'}
+  {widget: 'div'},
+  {widget: 'li',color: '#00f'}
 ]
 ```
 
@@ -72,9 +72,9 @@ The function for `map` is the following...
 | **Fig. 2**: Extraction of colors from a series of objects.|
 | The node `iterable` allows to emit successively the objects in the stream. |
 
-## See Also
+## 5. See Also
 
-- Map 
+- Map [[Link]](map.md)
 
 ---
 
@@ -82,7 +82,7 @@ The function for `map` is the following...
 ```
 marble pluck_example
 {
-    source a:     +--{div,f00}-{p,0f0}--{p,ff0}--{section,}-{figure,00f}-||
-    operator map((x)=>x?.color): +--(f00)-(0f0)--(ff0)-|
+    source a:     +--{div,f00}-{p,0f0}--{p,ff0}--{div,none}-{li,00f}-|
+    operator map((x)=>x?.color): +--(f00)-(0f0)--(ff0)--(undefined)-(00f)-|
 }
 ```
