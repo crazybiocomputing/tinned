@@ -47,7 +47,7 @@ _A value of any type._
 
 ## 4. Example
 
-From a collection of objects defined as an Array of objects containing two properties `widget` and `color` (below), ...
+From a collection defined as an Array of objects containing two properties `widget` and `color` (below), ...
 
 ```javascript
 [
@@ -67,9 +67,10 @@ The function for `map` is the following...
 (x) => x?.color
 ```
 
-| ![Marble of map](img/pluck_example.png) | 
+| ![Marble of pluck](img/pluck_example.png) | 
 |------------------------------------------|
-| **Fig. 2**: Extraction of names and domains from a series of emails. The node `iterable` allows to emit successively the emails in the stream. |
+| **Fig. 2**: Extraction of colors from a series of objects.|
+| The node `iterable` allows to emit successively the objects in the stream. |
 
 ## See Also
 
