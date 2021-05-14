@@ -6,6 +6,7 @@
 - [Iterable](iterable.md)
 - [Number](number.md)
 - [Object](object.md)
+- [Random](random.md)
 - [Range](range.md)
 - [String](string.md)
 
@@ -32,8 +33,13 @@
 
 #### 3.3. Mathematical
 
+- [Average](average.md)
 - [Arithmetic](artithmetic.md)
 - [Count](count.md)
+- [Max](max.md)
+- [Min](min.md)
+- [Stats](stats.md)
+- [Sum](sum.md)
 
 ### 4. Utilities
 
