@@ -40,7 +40,8 @@ const intervalFunc = (node) => (stream) => {
   const source$ = pipe(
     interval(period),
     takeUntil(fromEvent(numericalChanged$,'focus')),
-    share);
+    share
+  );
   
   // Set in stream
   stream.setCallbags(`stream@${node.id}`,source$);

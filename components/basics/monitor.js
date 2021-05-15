@@ -25,14 +25,14 @@
 'use strict';
 
 import {pipe} from '../../callbags/callbag-pipe.js';
-import {map} from '../../callbags/callbag-map.js';
+import {fromEvent} from '../../callbags/callbag-from-event.js';
+import {filter} from '../../callbags/callbag-filter.js';
+import {merge} from '../../callbags/callbag-merge.js';
 import {subscribe} from '../../callbags/callbag-subscribe.js';
-import { TINNED } from '../../src/tinned.js';
 
 const monitor = (node) => (stream) => {
   // Get source...
   let source$ = stream.getCallbags(node)[0];
-  console.log(stream.getCallbags(node),source$);
   const textarea = document.querySelector(`#node_${node.id} textarea`);
   const button = document.querySelector(`#refresh__AT__${node.id}`);
 
@@ -41,16 +41,26 @@ const monitor = (node) => (stream) => {
       // Update code from textarea
       node.data.state.log = ''; // Reset
       node.data.state.refresh = false;
+      textarea.innerHTML = '';
     }
   }
 
+  const mergeWith = (...newSources) => current => merge(current, ...newSources);
 
   const dispose = pipe(
     source$,
+    mergeWith(fromEvent(button,'click')),
+    filter( val => {
+      if (val.target && val.target.id.includes('refresh')) {
+        // Stop
+        // stream.dispose();
+        refreshLog();
+        return false;
+      }
+      return true;
+    }),
     subscribe({
       next: val => {
-        // Refresh if required
-        // TODO refreshLog();
         // Update node
         if (typeof val === 'object') {
           val = JSON.stringify(val,null,2);
@@ -58,6 +68,7 @@ const monitor = (node) => (stream) => {
         node.data.state.log += val + '\n';
         textarea.innerHTML = node.data.state?.log;
       },
+      // Never reached because of merge with `click` button that never stops...
       complete: () => {
         node.data.state.log += 'Completed!\n';
         textarea.innerHTML = node.data.state?.log;
@@ -66,6 +77,7 @@ const monitor = (node) => (stream) => {
     })
   );
  
+  // Store unsubscribe...
   stream.disposals.push(dispose);
 
   return stream;
