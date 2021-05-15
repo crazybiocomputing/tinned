@@ -53,7 +53,7 @@ const monitor = (node) => (stream) => {
         // TODO refreshLog();
         // Update node
         if (typeof val === 'object') {
-          val = JSON.stringify(val);
+          val = JSON.stringify(val,null,2);
         }
         node.data.state.log += val + '\n';
         textarea.innerHTML = node.data.state?.log;

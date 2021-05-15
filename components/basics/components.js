@@ -39,6 +39,7 @@ import {monitor_ui} from './monitor.js';
 import {range_ui} from './range.js';
 import {reduce_ui} from './reduce.js';
 import {scan_ui} from './scan.js';
+import {stats_ui} from './stats.js';
 import {string_ui} from './string.js';
 import {take_ui} from './take.js';
 import {tap_ui} from './tap.js';
@@ -66,6 +67,7 @@ const _basics = [
   range_ui,
   reduce_ui,
   scan_ui,
+  stats_ui,
   string_ui,
   take_ui,
   tap_ui,

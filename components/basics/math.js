@@ -40,18 +40,16 @@ const operators = {None: none,Add: add,Subtract: sub,Multiply: mul,Divide: div,M
 
 const math = (node) => (stream) => {
   // Get source(s)
-  const sourceX$ = stream[node.sources[0]];
-  const sourceY$ = stream[node.sources[1]] || ((node.data.state.op === 'Divide') ? fromIter([1]) : fromIter([0]) );
+  const sourceX$ = stream.getCallbag(`x@${node.id}`);
+  const sourceY$ = stream.getCallbag(`y@${node.id}`) || ((node.data.state.op === 'Divide') ? fromIter([1]) : fromIter([0]) );
   // Create a new Observable
   const source$ =  pipe(
     sourceX$,
-    switchMap(y => sourceY$,(x,y) => {console.log(x,y); return operators[node.data.state?.op || 'None'](x,y) }),
+    switchMap(y => sourceY$,(x,y) => operators[node.data.state?.op || 'None'](x,y)),
   );
 
-  // Create observable
-  node.targets.forEach( key => {
-    stream[key] = source$;  
-  });
+  // Set stream
+  stream.setCallbags(`value@${node.id}`,source$);
   // Return stream
   return stream;
 }
