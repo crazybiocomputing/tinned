@@ -26,7 +26,7 @@ _Any element in the stream_
 ### 2.1. Function
 
 _A function applying some computation to the input. This function takes one argument `x` corresponding to the element in the stream and returns a value._
-_For `pluck`, the function looks like:
+_For `pluck`, the function looks like:_
 
 ```javascript
 (x) => x?.property
