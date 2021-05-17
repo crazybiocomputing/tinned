@@ -30,13 +30,13 @@ import {TINNED} from '../../tinned.js';
    * Widget 
    * @author Jean-Christophe Taveau
    */
- export const text = (id,template_row,metadata,action_func) => {
+ export const password = (id,template_row,metadata,action_func) => {
 
   // Create Text
   let input = document.createElement('input');
   input.id = `${template_row.name.split(':')[0] || 'unknown'}__AT__${id}`;
   input.className = "text";
-  input.setAttribute("type", "text");
+  input.setAttribute("type", "password");
   input.setAttribute('name',template_row.name || 'unknown');
   //input.setAttribute('minlength',4);
   //input.setAttribute('maxlength',40);

@@ -688,7 +688,7 @@ input:readonly {
 }
 */
 
-input[type="text"] {
+input[type="text"],input[type="password"] {
   width: 90%;
   border: solid 1px #ccc;
   border-radius: 10px;

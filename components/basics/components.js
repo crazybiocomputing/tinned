@@ -25,7 +25,9 @@
 'use strict';
 
 import {array_ui} from './array.js';
+import {buffer_ui} from './buffer.js';
 import {count_ui} from './count.js';
+import {fetch_ui} from './fetch.js';
 import {filter_ui} from './filter.js';
 import {first_ui} from './first.js';
 import {interval_ui} from './interval.js';
@@ -53,7 +55,9 @@ const action = (node) => (obs) => {
 
 const _basics = [
   array_ui,
+  buffer_ui,
   count_ui,
+  fetch_ui,
   filter_ui,
   first_ui,
   interval_ui,

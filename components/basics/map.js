@@ -32,7 +32,6 @@ const textChanged = (ev) => {
   const node_id = ev.target.id.split('__AT__')[1];
   const button = document.querySelector(`#save__AT__${node_id}`);
   if (default_style === undefined) {
-    console.log(button.style.backgroundColor,button.style.color);
     default_style = [button.style.backgroundColor,button.style.color];
   }
   button.style.backgroundColor = '#b11';
@@ -40,7 +39,6 @@ const textChanged = (ev) => {
 }
 
 const resetStyle = (ev) => {
-  console.log('Reset style',ev.target);
   ev.target.style.backgroundColor = default_style[0];
   ev.target.style.color = default_style[1];
 }

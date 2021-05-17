@@ -81,6 +81,7 @@ export class WidgetFactory {
       case 'input': element = WL.input_socket(id,row,data,action_func); break;
       case 'label': element = WL.label(id,row,data,action_func); break;
       case 'numerical': element = WL.numerical(id,row,data,action_func); break;
+      case 'password': element = WL.password(id,row,data,action_func); break;
       case 'selectlayer': element = WL.selectlayer(id,row,data,action_func); break;
       case 'select': element = WL.select(id,row,data,action_func); break;
       case 'output': element = WL.output_socket(id,row,data,action_func); break;

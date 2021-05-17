@@ -28,23 +28,22 @@ import {scan} from '../../callbags/callbag-scan.js';
 import {map} from '../../callbags/callbag-map.js';
 import {last} from '../../callbags/callbag-last.js';
 import {pipe} from '../../callbags/callbag-pipe.js';
-import {flatMap} from '../../callbags/callbag-flat-map.js';
 import {forEach} from '../../callbags/callbag-for-each.js';
 import {fromIter} from '../../callbags/callbag-from-iter.js';
 
+
 const redux = (accu,x) => {
-    console.log(accu);
-    if (accu.count === 0) {
-      accu.K = x;
-    }
-    accu.sum += x;
-    accu.sum2 += x * x;
-    accu.count++;
-    accu.diff +=  x - accu.K;
-    accu.diff2 += (x - accu.K) * (x - accu.K); 
-    accu.min = Math.min(accu.min,x);
-    accu.max = Math.max(accu.max,x);
-    return accu;
+  if (accu.count === 0) {
+    accu.K = x;
+  }
+  accu.sum += x;
+  accu.sum2 += x * x;
+  accu.count++;
+  accu.diff +=  x - accu.K;
+  accu.diff2 += (x - accu.K) * (x - accu.K); 
+  accu.min = Math.min(accu.min,x);
+  accu.max = Math.max(accu.max,x);
+  return accu;
 }
 
 /*
@@ -83,12 +82,12 @@ const stats = (node) => (stream) => {
   let source$ = stream.getCallbag(`x@${node.id}`);
   // Create a new Observable
   let data;
+  let isArray = false;
   const stream$ = pipe(
     source$,
     scan(redux,{sum:0,sum2:0,diff:0,diff2:0,K:0,count:0,min:Number.POSITIVE_INFINITY,max:Number.NEGATIVE_INFINITY}),
     last(val => val),
     map(operators[node.data.state?.op || 'None']),
-    //flatMap(data => fromIter([data]))
     forEach(val => data = val)
   );
 

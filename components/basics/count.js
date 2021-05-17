@@ -25,12 +25,15 @@
 'use strict';
 
 import {count} from '../../callbags/callbag-count.js';
+import {pipe} from '../../callbags/callbag-pipe.js';
+import {forEach} from '../../callbags/callbag-for-each.js';
+import {fromIter} from '../../callbags/callbag-from-iter.js';
 
 // Count operator
 const count_items = (node) => (stream) => {
 
   // Get source...
-  let source$ = stream.getCallbags(node)[0];
+  let source$ = stream.getCallbag(`x@${node.id}`);
   // Get params
   if (node.data.state.save) {
     // Update code from textarea
@@ -39,10 +42,16 @@ const count_items = (node) => (stream) => {
   }
   const code = node.data.state.code;
   const predicate = new Function('x','const foo = ' + code + '\nreturn foo(x);');
-  // Create Observable
-  const obs$ = count(predicate)(source$);
-  // Set multicast source$ in stream
-  stream.setCallbags(`result@${node.id}`,obs$);
+  let data;
+  // Create Stream$
+  const obs$ = pipe(
+    source$,
+    count(predicate),
+    forEach(val => data = val)
+  );
+
+  // Create a new stream from count data and inject into the pipeline
+  stream.setCallbags(`result@${node.id}`,fromIter([data]));
   // Return stream
   return stream;
 }
