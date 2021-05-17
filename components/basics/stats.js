@@ -28,6 +28,7 @@ import {scan} from '../../callbags/callbag-scan.js';
 import {map} from '../../callbags/callbag-map.js';
 import {last} from '../../callbags/callbag-last.js';
 import {pipe} from '../../callbags/callbag-pipe.js';
+import {flatMap} from '../../callbags/callbag-flat-map.js';
 import {forEach} from '../../callbags/callbag-for-each.js';
 import {fromIter} from '../../callbags/callbag-from-iter.js';
 
@@ -87,6 +88,7 @@ const stats = (node) => (stream) => {
     scan(redux,{sum:0,sum2:0,diff:0,diff2:0,K:0,count:0,min:Number.POSITIVE_INFINITY,max:Number.NEGATIVE_INFINITY}),
     last(val => val),
     map(operators[node.data.state?.op || 'None']),
+    //flatMap(data => fromIter([data]))
     forEach(val => data = val)
   );
 
