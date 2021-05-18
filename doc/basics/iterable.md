@@ -19,18 +19,7 @@ _None_
 
 _The text area allows to define iterable objects like String or Array (see below for description)._
 
-## 3. Outputs
-
-### Output Name
-    _A stream of items_
-
-## 4. Example
-
-| ![Iterable](./img/first_example.png) |
-|------------------------|
-|The _Iterable_ is composed of an Array of numbers|
-
-### String
+### 2.1. String
 
 For defining a String, you must enclose your text by single (or double quotes). For example,
 
@@ -51,13 +40,13 @@ world
 ```
 > **Note**: In multiline String, the end of each line will appear as a special character in the stream. That is why, it is convenient to filter all the special characters by a _Filter_ node.
 
-### Array
+### 2.2. Array
 
 For defining an Array, you must enclose your series of items by square brackets <kbd>[</kbd> and <kbd>]</kbd>.
 
-### Other Data Structures
+### 2.3. Other Data Structures
 
-You may define Map, Set.
+You may define `Map`, `Set`.
 
 For example, you can use the collection `Set` allowing the storage of non redundant items.
 
@@ -77,4 +66,17 @@ For example, a Map object may be defined as follows.
   return map;
 })()
 ```
+
+
+## 3. Outputs
+
+### Output Name
+    _A stream of items_
+
+## 4. Example
+
+| ![Iterable](./img/first_example.png) |
+|------------------------|
+|The _Iterable_ is composed of an Array of numbers|
+
 
