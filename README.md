@@ -3,4 +3,4 @@
 
 `Tinned` is a visual programming language written in vanilla JavaScript, HTML and CSS. 
 
-![Example](doc/basics/img/map_example.html)
+![Example](./doc/basics/img/map_example.html)
