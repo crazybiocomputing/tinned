@@ -44,11 +44,12 @@ For defining a String, you must enclose your series of items by single (or doubl
 For multiline String, use the back quotes <kbd>`</kbd>...
 ```javascript
 // A multi-line String
-`H
-i
+`Hello
+world
 `
 ```
 
+The Iterable will emit the characters of the String. If the input String is 'Hello', the iterable will emit <kbd>H</kbd>, <kbd>e</kbd>, <kbd>l</kbd>, <kbd>l</kbd>, and <kbd>o</kbd>.
 ### Array
 
 For defining an Array, you must enclose your series of items by square brackets <kbd>[</kbd> and <kbd>]</kbd>.
