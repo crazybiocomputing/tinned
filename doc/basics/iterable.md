@@ -32,7 +32,7 @@ _Description_
 
 ### String
 
-For defining a String, you must enclose your series of items by single (or double quotes). For example,
+For defining a String, you must enclose your text by single (or double quotes). For example,
 
 ```javascript
 // This is a String
