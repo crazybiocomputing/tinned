@@ -20,7 +20,7 @@ Clone this project by typing in a terminal:
 git clone https://github.com/crazybiocomputing/tinned.git
 ```
 
-Move in the folder `tinned` 
+Move in the newly created folder `tinned` 
 
 ```bash
 cd tinned
