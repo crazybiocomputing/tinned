@@ -1,6 +1,6 @@
 # Tinned - [Tin]y [N]ode [Ed]itor
 
-`Tinned` is a visual programming language written in JavaScript, HTML and CSS. It is based on the **functional programming** paradigm and is fully reactive based on the callbags design pattern.
+`Tinned` is a visual programming language written in JavaScript, HTML and CSS. It is based on the **functional programming** paradigm and is fully reactive thanks to the _callbags_ design pattern.
 
 ![Example](./doc/basics/img/map_example.png)
 
