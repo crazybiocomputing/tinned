@@ -26,9 +26,32 @@ _Description_
 
 ## Example
 
+| ![Iterable](./img/first_example.png) |
+|------------------------|
+|The _Iterable_ is composed of an Array of numbers|
+
 ### String
 
+For defining a String, you must enclose your series of items by single (or double quotes). For example,
+
+```javascript
+// This is a String
+'Hello'
+'1234'
+"Yes,I'm a String!"
+```
+
+For multiline String, use the back quotes <kbd>`</kbd>...
+```javascript
+// A multi-line String
+`H
+i
+`
+```
+
 ### Array
+
+For defining an Array, you must enclose your series of items by square brackets <kbd>[</kbd> and <kbd>]</kbd>.
 
 ### Other Data Structures
 
