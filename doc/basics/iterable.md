@@ -79,7 +79,8 @@ For example, a Map object may be defined as follows.
 ## 3. Outputs
 
 ### Output Name
-    _A stream of items_
+
+_A stream of items_
 
 ## 4. Example
 
