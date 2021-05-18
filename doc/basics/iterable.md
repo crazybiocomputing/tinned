@@ -7,24 +7,24 @@ _Pullable Node emitting a stream of an iterable primitive/object (String, Array,
 |Legend|
 
 
-## Inputs
+## 1. Inputs
 
-### None
+This node is a Producer of data and thus has no input socket.
 
 _None_
 
-## Properties
+## 2. Properties
    
 ### Property Name
 
-_Description_
+_The text area allows to define iterable objects like String or Array (see below for description)._
 
-## Outputs
+## 3. Outputs
 
 ### Output Name
     _A stream of items_
 
-## Example
+## 4. Example
 
 | ![Iterable](./img/first_example.png) |
 |------------------------|
@@ -40,16 +40,17 @@ For defining a String, you must enclose your text by single (or double quotes). 
 '1234'
 "Yes,I'm a String!"
 ```
+The Iterable will emit the characters of the String. If the input String is 'Hello', the iterable will emit <kbd>H</kbd>, <kbd>e</kbd>, <kbd>l</kbd>, <kbd>l</kbd>, and <kbd>o</kbd>.
 
-For multiline String, use the back quotes <kbd>`</kbd>...
+For multiline String, use the back quotes <kbd>`</kbd> instead of single or double quotes...
 ```javascript
 // A multi-line String
 `Hello
 world
 `
 ```
+> **Note**: In multiline String, the end of each line will appear as a special character in the stream. That is why, it is convenient to filter all the special characters by a _Filter_ node.
 
-The Iterable will emit the characters of the String. If the input String is 'Hello', the iterable will emit <kbd>H</kbd>, <kbd>e</kbd>, <kbd>l</kbd>, <kbd>l</kbd>, and <kbd>o</kbd>.
 ### Array
 
 For defining an Array, you must enclose your series of items by square brackets <kbd>[</kbd> and <kbd>]</kbd>.
