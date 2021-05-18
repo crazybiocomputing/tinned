@@ -46,7 +46,7 @@ For defining an Array, you must enclose your series of items by square brackets 
 
 ### 2.3. Other Data Structures
 
-You may define `Map`, `Set`.
+#### Use of `Map`, `Set`, etc.
 
 For example, you can use the collection `Set` allowing the storage of non redundant items.
 
@@ -58,6 +58,10 @@ This _iterable_ will emit the following not redundant numbers <kbd>1</kbd>, <kbd
 | ![Set](./img/iterable_set.png) |
 |------------------------|
 |Use of a `Set` for defining non-redundant numbers|
+
+> **Exercise**: Try to replace the Array of numbers by the String 'Hello'. Try to figure out what will be the result? What happens?
+
+#### Using more sophisticated code to generate the iterable data
 
 > **Note**: This is only for expert programmer because we have to wrap the data into a IIFE function.
 
