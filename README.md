@@ -6,7 +6,13 @@
 
 ## Install
 
-Requirements: nodejs and npm
+### Requirements
+
+You need:
+- `git`
+- `nodejs` and `npm`.
+
+### Download the project
 
 Clone this project by typing in a terminal:
 
@@ -14,7 +20,12 @@ Clone this project by typing in a terminal:
 git clone https://github.com/crazybiocomputing/tinned.git
 ```
 
-Then, for installing all the dependencies, type: 
+Move in the folder `tinned` 
+
+```bash
+cd tinned
+```
+...and for installing all the dependencies, type: 
 
 ```bash
 npm install
@@ -22,11 +33,11 @@ npm install
 
 ## Use
 
-Run the http-server by typing the following command in the `tinned` directory:
+Run the `http-server` by typing the following command in the `tinned` directory:
 
 ```bash
 npm run start
 ```
 
-Then open your favorite browser and type the URL `localhost:8080`.
+Then open your favorite web browser and type the URL `localhost:8080`.
 Try one of the examples located in the folder `examples`.
