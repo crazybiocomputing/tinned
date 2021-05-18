@@ -1,5 +1,4 @@
-# Tinned
-**Tin**y **N**ode **Ed**itor
+# Tinned - **Tin**y **N**ode **Ed**itor
 
 `Tinned` is a visual programming language written in JavaScript, HTML and CSS. 
 
