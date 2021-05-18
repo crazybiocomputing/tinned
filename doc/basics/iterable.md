@@ -59,6 +59,13 @@ For defining an Array, you must enclose your series of items by square brackets 
 
 You may define Map, Set.
 
+For example, you can use the collection `Set` allowing the storage of non redundant items.
+
+```javascript
+new Set([1,2,4,3,4,5,6])
+```
+This _iterable_ will emit the following not redundant numbers <kbd>1</kbd>, <kbd>2</kbd>, <kbd>4</kbd>, <kbd>3</kbd>, <kbd>5</kbd>, and <kbd>6</kbd>.
+
 > **Note**: This is only for expert programmer because we have to wrap the data into a IIFE function.
 
 For example, a Map object may be defined as follows.
