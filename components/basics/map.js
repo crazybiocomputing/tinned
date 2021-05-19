@@ -24,6 +24,10 @@
 
 'use strict';
 
+import {pipe} from '../../callbags/callbag-pipe.js';
+import {merge} from '../../callbags/callbag-merge.js';
+import {fromEvent} from '../../callbags/callbag-from-event.js';
+import {filter} from '../../callbags/callbag-filter.js';
 import {map} from '../../callbags/callbag-map.js';
 
 let default_style;
@@ -47,6 +51,7 @@ const resetStyle = (ev) => {
 const mapFunc = (node) => (stream) => {
   // Get source...
   let source$ = stream.getCallbag(`x@${node.id}`);
+  const button = document.querySelector(`#save__AT__${node.id}`);
   // Get params
   if (node.data.state.save) {
     // Update code from textarea
@@ -56,7 +61,20 @@ const mapFunc = (node) => (stream) => {
   const code = node.data.state.code;
   const mapFun = new Function('x','const foo = ' + code + '\nreturn foo(x);');
   // Create Observable
-  const stream$ = map(mapFun)(source$);
+  const stream$ = pipe(
+    merge(source$,fromEvent(button,'click')),
+    filter(data => {
+      if (data.target && data.target.id.includes('save')) {
+        // Stop...
+        stream.dispose();
+        // and Start
+        stream.run();
+        return false;
+      }
+      return true;
+    }),
+    map(mapFun)
+  );
   // Set stream
   stream.setCallbags(`result@${node.id}`,stream$);
   // Return stream

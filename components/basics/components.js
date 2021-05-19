@@ -38,6 +38,7 @@ import {math_ui} from './math.js';
 import {number_ui} from './number.js';
 import {object_ui} from './object.js';
 import {monitor_ui} from './monitor.js';
+import {random_ui} from './random.js';
 import {range_ui} from './range.js';
 import {reduce_ui} from './reduce.js';
 import {scan_ui} from './scan.js';
@@ -45,6 +46,7 @@ import {stats_ui} from './stats.js';
 import {string_ui} from './string.js';
 import {take_ui} from './take.js';
 import {tap_ui} from './tap.js';
+import {toiterable_ui} from './toiterable.js';
 
 // Test Actions
 const action = (node) => (obs) => {
@@ -68,6 +70,7 @@ const _basics = [
   monitor_ui,
   number_ui,
   object_ui,
+  random_ui,
   range_ui,
   reduce_ui,
   scan_ui,
@@ -75,6 +78,7 @@ const _basics = [
   string_ui,
   take_ui,
   tap_ui,
+  toiterable_ui,
   {
     id: "BASX_EVALUATE",
     class: "programming",

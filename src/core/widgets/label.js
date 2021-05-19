@@ -32,6 +32,9 @@
 export const label = (id,row,metadata,action_func) => {
   let e = document.createElement('label');
   e.innerHTML = row.title;
+  if (row.tooltip) {
+    e.title = row.tooltip;
+  }
   if (row.output === undefined && row.input === undefined) {
     e.innerHTML += '&nbsp;';
   }

@@ -51,9 +51,7 @@ const monitor = (node) => (stream) => {
     source$,
     mergeWith(fromEvent(button,'click')),
     filter( val => {
-      if (val.target && val.target.id.includes('refresh')) {
-        // Stop
-        // stream.dispose();
+      if (val !== undefined && val.target && val.target.id.includes('refresh')) {
         refreshLog();
         return false;
       }

@@ -27,23 +27,18 @@
 import {TINNED} from '../../tinned.js';
 import * as DOM from '../../dom/dom.js';
 
-/**
-   * Widget 
-   * @author Jean-Christophe Taveau
-   */
-export const button = (id,template_row,metadata,action_func) => {
-
-  let [_key,_type] = template_row.name.split(':');
+const newButton = (id,row) => {
+  let [_key,_type] = row.name.split(':');
   let _button = DOM.h(
     `a#${_key}__AT__${id}.button`,
     {
       attrs: { 
         name: _key || 'unknown',
         href: '#',
-        title: template_row.title || 'No Tooltip'
+        title: row.title || 'No Tooltip'
       },
       style: {
-        display: template_row.display
+        display: row.display
       },
       dataset: {
         type: _type
@@ -53,18 +48,33 @@ export const button = (id,template_row,metadata,action_func) => {
           let [key,nid] = ev.target.id.split('__AT__');
           TINNED.graph.getNode(parseInt(nid)).data.state[key] = !clicked;
           // Update 
-          TINNED.graph.update(id);
+          // TINNED.graph.update(id);
         }
       }
     },
-    (template_row.icon) ? [DOM.h(`i.fa.fa-${template_row.icon}`)] : template_row.button
+    (row.icon) ? [DOM.h(`i.fa.fa-${row.icon}`)] : row.button
   );
     
   let clicked = false;
 
   // Add other event(s) if any
-  if (template_row.on) {
-    Object.keys(template_row.on).forEach( eventType => _button.addEventListener(eventType,template_row.on[eventType]) );
+  if (row.on) {
+    Object.keys(row.on).forEach( eventType => _button.addEventListener(eventType,row.on[eventType]) );
   }
   return _button;
+}
+
+/**
+   * Widget 
+   * @author Jean-Christophe Taveau
+   */
+export const button = (id,template_row,metadata,action_func) => {
+
+  if (template_row.group) {
+    console.log('GROUP');
+    return template_row.group.map( b => newButton(id,b));
+  }
+  else {
+    return newButton(id,template_row);
+  }
 }

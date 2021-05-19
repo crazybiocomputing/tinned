@@ -105,7 +105,12 @@ export class WidgetFactory {
     
     let container = document.createElement('div');
     container.className = 'flex-cell';
-    container.appendChild(element);
+    if (Array.isArray(element)) {
+      element.forEach( el => container.appendChild(el) );
+    }
+    else {
+      container.appendChild(element);
+    }
     return container;
   }
   

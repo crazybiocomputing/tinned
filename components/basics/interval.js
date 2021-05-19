@@ -61,6 +61,10 @@ export const interval_ui =   {
       {widget: "output",name:"stream:number"}
     ],
     [
+      {widget:'button', group:'toolbar', state: false, icon:'play',title: 'Play',name: 'play:boolean'},
+      {widget:'button', group:'toolbar', state: false, icon:'stop',title: 'Stop',name: 'stop:boolean'},
+    ],
+    [
       {widget: "label", title: "Interval(ms)"},
       {widget: "numerical", state: 1000,name: "period:number"}
     ]
