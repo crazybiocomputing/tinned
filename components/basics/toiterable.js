@@ -25,19 +25,26 @@
 'use strict';
 
 import {pipe} from '../../callbags/callbag-pipe.js';
+import {tap} from '../../callbags/callbag-tap.js';
 import {merge} from '../../callbags/callbag-merge.js';
 import { fromEvent } from '../../callbags/callbag-from-event.js';
 import {filter} from '../../callbags/callbag-filter.js';
-import {switchMap} from '../../callbags/callbag-switch-map.js';
+import {flatMap} from '../../callbags/callbag-flat-map.js';
+import {forEach} from '../../callbags/callbag-for-each.js';
 import { fromIter } from '../../callbags/callbag-from-iter.js';
+import { count } from '../../callbags/callbag-count.js';
+import { map } from '../../callbags/callbag-map.js';
 
 const toIterFunc = (node) => (stream) => {
   // Get source...
-  let source$ = stream.getCallbag(`x@${node.id}`);
+  let source$ = stream.getCallbag(`datain@${node.id}`);
   // Params
   const checkbox = document.querySelector(`#hasindex__AT__${node.id}`);
   let hasIndex = node.data.state?.hasIndex || false;
   // Buffer stream
+  let buf;
+  let innerStream$;
+
   const stream$ = pipe(
     merge(source$,fromEvent(checkbox,'click')),
     filter(ev_or_val => {
@@ -49,13 +56,19 @@ const toIterFunc = (node) => (stream) => {
       }
       return true;
     }),
-    switchMap(
-      src => fromIter(Array.from({length: src.length}, (_,i) => i)), 
-      (src,splitter) => (hasIndex) ? {i: splitter,  value:src[splitter]} : src[splitter]
-    )
+    map( arr => {
+      let result;
+      // InnerStream$
+      pipe(
+        fromIter(arr),
+        count(x => true),
+        forEach(x => result = `COUNT: ${x}`)
+      );
+      return result;
+    })
   );
 
-  stream.setCallbags(`stream@${node.id}`,stream$);
+  stream.setCallbags(`stream@${node.id}`,stream$); // stream$);
 
   // Return stream
   return stream;
@@ -77,7 +90,7 @@ export const toiterable_ui =   {
       {widget: "checkbox",state: false, name:"hasindex:any"}
     ],
     [
-      {widget: "input",name: "x:any"},
+      {widget: "input",name: "datain:any"},
       {widget:"label",title: "Array"}
     ],
   ]

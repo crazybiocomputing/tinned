@@ -45,7 +45,7 @@ const math = (node) => (stream) => {
   // Create a new Observable
   const source$ =  pipe(
     sourceX$,
-    switchMap(y => sourceY$,(x,y) => operators[node.data.state?.op || 'None'](x,y)),
+    switchMap(x => sourceY$,(x,y) => operators[node.data.state?.op || 'None'](x,y)),
   );
 
   // Set stream

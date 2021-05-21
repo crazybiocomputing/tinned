@@ -26,8 +26,8 @@
 
 import {pipe} from '../../callbags/callbag-pipe.js';
 import {group} from '../../callbags/callbag-group.js';
+import { map } from '../../callbags/callbag-map.js';
 import { fromIter } from '../../callbags/callbag-from-iter.js';
-import { forEach } from '../../callbags/callbag-for-each.js';
 
 const bufferFunc = (node) => (stream) => {
   // Get source...
@@ -38,7 +38,9 @@ const bufferFunc = (node) => (stream) => {
   let buf=[];
   const stream$ = pipe(
     source$,
-    group(size)
+    group(size),
+    // map( group => group.splice(0)) // Copy?
+    //flatMap(grp => fromIter(grp),(arr,i) => arr[i])
   );
 
   stream.setCallbags(`stream@${node.id}`,stream$);

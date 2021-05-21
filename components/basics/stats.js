@@ -28,8 +28,10 @@ import {scan} from '../../callbags/callbag-scan.js';
 import {map} from '../../callbags/callbag-map.js';
 import {last} from '../../callbags/callbag-last.js';
 import {pipe} from '../../callbags/callbag-pipe.js';
-import {forEach} from '../../callbags/callbag-for-each.js';
+import {tap} from '../../callbags/callbag-tap.js';
+import {take} from '../../callbags/callbag-take.js';
 import {fromIter} from '../../callbags/callbag-from-iter.js';
+import {forEach} from '../../callbags/callbag-for-each.js';
 
 
 const redux = (accu,x) => {
@@ -78,21 +80,47 @@ const All = (_stats) => ({
 const operators = {All,Count,Max,Mean,Median,Min,None,SD,Sum,Variance};
 
 const stats = (node) => (stream) => {
-  // Get source...
-  let source$ = stream.getCallbag(`x@${node.id}`);
-  // Create a new Observable
-  let data;
-  let isArray = false;
-  const stream$ = pipe(
+
+  let statistics = [];
+
+  const streamArray = () => pipe(
     source$,
-    scan(redux,{sum:0,sum2:0,diff:0,diff2:0,K:0,count:0,min:Number.POSITIVE_INFINITY,max:Number.NEGATIVE_INFINITY}),
-    last(val => val),
+    map(arr => arr.reduce(
+      redux,
+      {sum:0,sum2:0,diff:0,diff2:0,K:0,count:0,min:Number.POSITIVE_INFINITY,max:Number.NEGATIVE_INFINITY}
+    ) ),
     map(operators[node.data.state?.op || 'None']),
-    forEach(val => data = val)
+    tap(val => console.info('ARRAY',val)),
+    forEach(val => statistics.push(val))
   );
 
+  const streamSingle = () => pipe(
+    source$,
+    scan(redux,{sum:0,sum2:0,diff:0,diff2:0,K:0,count:0,min:Number.POSITIVE_INFINITY,max:Number.NEGATIVE_INFINITY}),
+    last(),
+    map(operators[node.data.state?.op || 'None']),
+    tap(val => console.info('SINGLE',val)),
+    forEach(val => statistics = [val])
+  );
+
+  // Get source...
+  let source$ = stream.getCallbag(`x@${node.id}`);
+  // Check if input is Array or not
+  let isArray = false;
+  pipe(
+    source$,
+    tap(val => console.info('isARRAY???',Array.isArray(val),val)),
+    map(val => Array.isArray(val)),
+    take(1),
+    forEach(flag => isArray = flag)
+  )
+
+  // Run stream
+
+  const stream$ = (isArray) ? streamArray() : streamSingle();
+
   // Create a new stream form statistical data and inject into the pipeline
-  stream.setCallbags(`result@${node.id}`,fromIter([data]));
+  stream.setCallbags(`result@${node.id}`, fromIter(statistics) );
   // Return stream
   return stream;
 }

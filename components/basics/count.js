@@ -28,6 +28,7 @@ import {count} from '../../callbags/callbag-count.js';
 import {pipe} from '../../callbags/callbag-pipe.js';
 import {forEach} from '../../callbags/callbag-for-each.js';
 import {fromIter} from '../../callbags/callbag-from-iter.js';
+import {of} from '../../callbags/callbag-of.js';
 
 // Count operator
 const count_items = (node) => (stream) => {
@@ -43,15 +44,16 @@ const count_items = (node) => (stream) => {
   const code = node.data.state.code;
   const predicate = new Function('x','const foo = ' + code + '\nreturn foo(x);');
   let data;
+  const COUNT_INIT = 0;
   // Create Stream$
-  const obs$ = pipe(
+  const stream$ = pipe(
     source$,
-    count(predicate),
-    forEach(val => data = val)
+    count(predicate,COUNT_INIT),
+  //  forEach(val => data = val)
   );
 
   // Create a new stream from count data and inject into the pipeline
-  stream.setCallbags(`result@${node.id}`,fromIter([data]));
+  stream.setCallbags(`result@${node.id}`,stream$); // fromIter([data]));
   // Return stream
   return stream;
 }
