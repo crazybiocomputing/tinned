@@ -23,6 +23,7 @@
 - [Pluck](pluck.md)
 - [Reduce](reduce.md)
 - [Scan](scan.md)
+- [ToIterable](to_iterable.md)
 
 #### 3.2. Filtering
 
