@@ -24,6 +24,8 @@
 
 'use strict';
 
+import * as DOM from '../../dom/dom.js';
+
 /**
    * Widget 
    * @author Jean-Christophe Taveau
