@@ -38,7 +38,7 @@ export const canvas = (id,row,metadata,action_func) => {
       attrs: { 
         name: _var || 'unknown',
         href: '#',
-        title: template_row.title || 'No Tooltip'
+        title: row.title || 'No Tooltip'
       },
       style: {
         display: row.display
