@@ -104,7 +104,7 @@ const stats = (node) => (stream) => {
   );
 
   // Get source...
-  let source$ = stream.getCallbag(`x@${node.id}`);
+  let source$ = stream.current.getCallbag(`x@${node.id}`);
   // Check if input is Array or not
   let isArray = false;
   pipe(
@@ -120,13 +120,13 @@ const stats = (node) => (stream) => {
   const stream$ = (isArray) ? streamArray() : streamSingle();
 
   // Create a new stream form statistical data and inject into the pipeline
-  stream.setCallbags(`result@${node.id}`, fromIter(statistics) );
+  stream.current.setCallbags(`result@${node.id}`, fromIter(statistics) );
   // Return stream
   return stream;
 }
 
 export const stats_ui =  {
-  id: "PROG_STATS",
+  id: "BASX_STATS",
   class: "programming",
   description: "Stats",
   tags: ["average","count","sum","mean","SD","median","min","max"],

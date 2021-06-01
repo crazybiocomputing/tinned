@@ -27,6 +27,7 @@
 import {pipe} from '../../callbags/callbag-pipe.js';
 import {fromEvent} from '../../callbags/callbag-from-event.js';
 import {filter} from '../../callbags/callbag-filter.js';
+import {forEach} from '../../callbags/callbag-for-each.js';
 import {merge} from '../../callbags/callbag-merge.js';
 import {subscribe} from '../../callbags/callbag-subscribe.js';
 
@@ -47,16 +48,17 @@ const monitor = (node) => (stream) => {
 
   const mergeWith = (...newSources) => current => merge(current, ...newSources);
 
+  // Add events for the first time
+  if (!node.eventAdded) {
+    const event$ = pipe(
+      fromEvent(button,'click'),
+      forEach(ev => refreshLog())
+    );
+    node.eventAdded = true;
+  }
+
   const dispose = pipe(
     source$,
-    mergeWith(fromEvent(button,'click')),
-    filter( val => {
-      if (val !== undefined && val.target && val.target.id.includes('refresh')) {
-        refreshLog();
-        return false;
-      }
-      return true;
-    }),
     subscribe({
       next: val => {
         // Update node

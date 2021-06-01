@@ -61,6 +61,10 @@ export const interval_ui =   {
       {widget: "output",name:"stream:number"}
     ],
     [
+      {widget:"label",title: "Multicast"}, 
+      {widget: "checkbox", state: false,name: "multicast:boolean"}
+    ],
+    [
       {widget:'button', state: false, icon:'play',title: 'Play',name: 'play:boolean'},
       {widget:'button', state: false, icon:'stop',title: 'Stop',name: 'stop:boolean'},
     ],

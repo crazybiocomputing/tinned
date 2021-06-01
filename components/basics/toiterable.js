@@ -24,6 +24,7 @@
 
 'use strict';
 
+import {StreamBag} from '../../src/streamBag.js';
 import {pipe} from '../../callbags/callbag-pipe.js';
 import {tap} from '../../callbags/callbag-tap.js';
 import {merge} from '../../callbags/callbag-merge.js';
@@ -56,19 +57,29 @@ const toIterFunc = (node) => (stream) => {
       }
       return true;
     }),
+    forEach(arr => {
+      console.info(arr);
+      // InnerStream$
+      let innerStream = StreamBag.from(stream); // Create inner from outer stream
+      // innerStream.setCallbag(fromIter(arr))
+      stream.current = innerStream;
+      innerStream.setCallbags(`stream@${node.id}`,fromIter(arr));
+    })
+    /*
     map( arr => {
       let result;
       // InnerStream$
+      // let innerStream = StreamBag.from(stream); // Create inner from outer stream
+      // innerStream.setCallbag(fromIter(arr))
       pipe(
         fromIter(arr),
-        count(x => true),
+        count(),
         forEach(x => result = `COUNT: ${x}`)
       );
       return result;
     })
+    */
   );
-
-  stream.setCallbags(`stream@${node.id}`,stream$); // stream$);
 
   // Return stream
   return stream;

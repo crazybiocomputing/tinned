@@ -37,7 +37,7 @@ const iterate = (node) => (stream) => {
   let arr = new Function( `return ${node.data.state?.list || '[]'}`)();
   console.log(arr);
   // Set multicast source$ in stream
-  stream.setCallbags(`value@${node.id}`,share(of(arr)));
+  stream.setCallbags(`value@${node.id}`,of(arr));
   // Return stream
   return stream;
 }

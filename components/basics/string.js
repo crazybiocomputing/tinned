@@ -31,7 +31,7 @@ const stringFunc = (node) => (stream) => {
   // Get param
   let val = node.data.state.value;
   // Set multicast source$ in stream
-  stream.setCallbags(`value@${node.id}`,share(of(val)));
+  stream.setCallbags(`value@${node.id}`,of(val)); // share(of(val)));
   // Return stream
   return stream;
 }

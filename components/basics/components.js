@@ -41,6 +41,7 @@ import {monitor_ui} from './monitor.js';
 import {random_ui} from './random.js';
 import {range_ui} from './range.js';
 import {reduce_ui} from './reduce.js';
+import {repeat_ui} from './repeat.js';
 import {scan_ui} from './scan.js';
 import {stats_ui} from './stats.js';
 import {string_ui} from './string.js';
@@ -73,6 +74,7 @@ const _basics = [
   random_ui,
   range_ui,
   reduce_ui,
+  repeat_ui,
   scan_ui,
   stats_ui,
   string_ui,
@@ -116,32 +118,7 @@ const _basics = [
       ]
     ]
   },
-  {
-    id: "BASX_LOGICAL",
-    class: "programming",
-    description: "Logical",
-    help: "Arithmetic operations",
-    tags: ["programming","maths","and", "or"],
-    func: action,
-    ui: [
-      [
-        {widget: "label", title: "Atoms"},
-        {widget: "output", name: "molout:molecule" }
-      ],
-      [
-        {widget: "label", title: "Op."},
-        {widget: "select", state: 0, name: "op:string", "items": ["None","AND","OR","XOR"]}
-      ],
-      [
-        {widget: "input", name: "x:any"},
-        {widget: "label", title: "X"}
-      ],
-      [
-        {widget: "input", name: "y:any"},
-        {widget: "label", title: "Y"}
-      ]
-    ]
-  },
+
 
 
 ];

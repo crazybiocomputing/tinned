@@ -25,21 +25,84 @@
 'use strict';
 
 import {fromIter} from '../../callbags/callbag-from-iter.js';
+import {fromEvent} from '../../callbags/callbag-from-event.js';
+import { pipe } from '../../callbags/callbag-pipe.js';
+import { merge } from '../../callbags/callbag-merge.js';
+import {forEach} from '../../callbags/callbag-for-each.js';
+import {filter} from '../../callbags/callbag-filter.js';
 import {share} from '../../callbags/callbag-share.js';
+
+
+let default_style;
+
+const textChanged = (ev) => {
+  const node_id = ev.target.id.split('__AT__')[1];
+  const button = document.querySelector(`#save__AT__${node_id}`);
+  if (default_style === undefined) {
+    default_style = [button.style.backgroundColor,button.style.color];
+  }
+  button.style.backgroundColor = '#b11';
+  button.style.color = 'white';
+}
+
+const resetStyle = (ev) => {
+  if (default_style !== undefined) {
+    ev.target.style.backgroundColor = default_style[0];
+    ev.target.style.color = default_style[1];
+  }
+}
+
+const iterInit = (node,stream) => {
+  // Event callback Functions
+
+  // Get widget(s)
+  const button = document.querySelector(`#save__AT__${node.id}`);
+
+  // Update node's states when user interaction
+  const event$ = pipe(
+    merge(fromEvent(button,'click'),fromEvent(button,'mouseup')),
+    filter(ev => {
+      if (ev.type === 'mouseup') {
+        resetStyle(ev);
+        return false;
+      }
+      return true;
+    }),
+    forEach(ev => {
+      // Button click
+      if (node.data.state.save) {
+        node.data.state.save = false;
+        // Stop...
+        stream.dispose();
+        // and Start
+        stream.run();
+      }
+    })
+  );
+}
 
 const iterFunc = (node) => (stream) => {
 
-  // Params
-  if (node.data.state.save) {
-    // Update code from textarea
-    node.data.state.code = document.querySelector(`#code__AT__${node.id}`).value;
-    node.data.state.save = false;
+  // Global
+  let arr;
+
+  // Add events for the first time
+  if (!node.eventAdded) {
+    iterInit(node,stream);
+    node.eventAdded = true;
   }
-  let arr = new Function( `return ${node.data.state?.code || '[]'}`)();
-  // Check types
-  console.log('TYPE:',Object.prototype.toString.call(arr));
-  // Set multicast source$ in stream
-  stream.setCallbags(`value@${node.id}`,share(fromIter(arr)));
+
+  // Get/Set params at creation
+  // Update code from textarea
+  node.data.state.code = document.querySelector(`#code__AT__${node.id}`).value;
+  // try ... catch
+  arr = new Function( `return ${node.data.state?.code || '[]'}`)();
+  node.data.state.save = false;
+
+  // Set (multicast) source$ in stream
+  const stream$ = fromIter(arr); // merge(fromIter(arr),fromEvent(button,'click')),
+
+  stream.setCallbags(`value@${node.id}`,stream$); // share());
   // Return stream
   return stream;
 }
@@ -57,10 +120,13 @@ export const iterable_ui =   {
       {widget: "output", title: "Stream",name: "value:any"}
     ],
     [
-      {widget:"button", state: "",icon: 'floppy-o',title: 'Save',name: "save:boolean"}
+      {
+        widget:"button", state: true, icon: 'floppy-o', title: 'Save', name: "save:boolean",
+        on: {'mouseup': resetStyle},
+      }
     ],
     [
-      {widget:"textarea", state: "[0,1]",name: "code:[any]"}
+      {widget:"textarea", state: "[0,1]",on: {'input': textChanged},name: "code:string"}
     ]
 
   ]
