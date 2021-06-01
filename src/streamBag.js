@@ -36,6 +36,13 @@ export class StreamBag {
     this.disposals = [];
     this.callbags = {};
     this.sources = {};
+    this.children = [];
+  }
+
+  static from(parentStream) {
+    let child = new StreamBag(parentStream.graph);
+    parentStream.children.push(child);
+    return child;
   }
 
   addFromEdge(sock_source_name,sock_target_name) {
@@ -117,6 +124,8 @@ export class StreamBag {
    */
   getConnected(_adjacencyList) {
     let adj = {..._adjacencyList}; // Clone
+    // Only keep connected nodes
+    // let cnodes = this.graph.vertices.filter(vtx => vtx.);
     let sinks = this.graph.vertices.filter( v => v.isSink());
     let sources = this.graph.vertices.filter( v => v.isSource());
     // Remove unconnected sources
@@ -147,12 +156,17 @@ export class StreamBag {
     console.log(adj);
     const pipeline = this.topSortDFS(adj);
     console.log('Pipe',pipeline);
-    pipeline.reduce( (stream,vtx) => {
+    // Start the pipeline
+    let _stream = pipeline.reduce( (stream,vtx) => {
       const nod = this.graph.vertices.find(n => n.id === +vtx);
       stream = nod.template.func(nod)(stream);
-      console.log(stream);
       return stream;
     },this); // use of class Map()?
+    console.log(_stream);
+  }
+
+  async start() {
+
   }
 
   /**
@@ -179,6 +193,7 @@ export class StreamBag {
 
   dispose() {
     this.disposals.forEach(disposeFunc => disposeFunc());
+    this.disposals = []; // Reset
   }
   
   removeNode(_id) {

@@ -45,6 +45,7 @@ export class Node extends Draggable {
   constructor(id,template,data) {
     super();
     this.id = id;
+    this.eventAdded = false;
     console.log('NODE',id);
     this.sources = [];
     this.targets = []; // TODO

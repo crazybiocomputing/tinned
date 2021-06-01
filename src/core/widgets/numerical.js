@@ -49,18 +49,6 @@ import * as DOM from '../../dom/dom.js';
       }
     },
     []);
-/*
-  let input = document.createElement('input');
-  input.id = `${template_row.name.split(':')[0] || 'unknown'}__AT__${id}`;
-  input.className = "numerical";
-  input.setAttribute("type", "text");
-  input.setAttribute('name',template_row.name || 'unknown');
-  input.setAttribute('minlength',4);
-  input.setAttribute('maxlength',40);
-  // input.setAttribute('size',10);
-  input.setAttribute('value',metadata[template_row.name] || template_row.state);
-*/
-  // TINNED.args[input.id] = metadata[template_row.name] || template_row.state;
 
   // Restrict alphabet to numbers and several signs/symbols
   input.addEventListener('input',(event)=> {
