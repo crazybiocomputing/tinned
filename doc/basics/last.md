@@ -35,7 +35,7 @@ _A value of any type._
 
 TODO
 
-## 5. ## See Also
+## 5. See Also
 
 - First [[Link]](./first.md)
 - Take [[Link]](./take.md)
