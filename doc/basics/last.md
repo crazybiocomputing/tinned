@@ -7,7 +7,7 @@ _Emit the last element of a stream._
 |------------------------|
 |Node Last|
 
-This node is equivalent to the [Rx map](http://reactivex.io/documentation/operators/map.html).
+This node is equivalent to the [Rx last](http://reactivex.io/documentation/operators/last.html).
 
 **Marble Diagram[<sup name="f1">[1]</sup>](#1)**
 
