@@ -1,6 +1,6 @@
 # Count
 
-_Count the number of elements passing via the stream_
+_Count the number of filtered elements according to the function given as parameter from the input stream_
 
 | ![node Count](img/count.png) |
 |------------------------|
