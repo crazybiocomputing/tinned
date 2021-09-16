@@ -28,6 +28,6 @@
   },
   "homepage": "https://github.com/crazybiocomputing/tinned#readme",
   "dependencies": {
-    "http-server": "^0.12.3"
+    "http-server": "^13.0.2"
   }
 }
