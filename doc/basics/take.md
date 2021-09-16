@@ -34,8 +34,8 @@ _A value of any type._
 
 ## 5. See Also
 
-- First
-- Last
+- [First](first.md)
+- [Last](last.md)
  
 ---
 
